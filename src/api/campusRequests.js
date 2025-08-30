@@ -1,17 +1,16 @@
+const url = "https://10.123.60.229:3333/campus/";
+
 // Função para pegar todos os campus:
 async function listCampus() {
   const options = {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
-
+      "Content-Type": "application/json", 
     },
   };
 
-  const url = "https://10.123.60.229:3333/campus/get";
-
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url + "get", options);
     const data = await response.json();
 
 
@@ -24,7 +23,8 @@ async function listCampus() {
 //Função para registrar um campus
 async function registerCampus(campusData) {
   try {
-    const response = await fetch("https://10.123.60.229:3333/campus/register", {
+
+    const response = await fetch(url + "register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

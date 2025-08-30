@@ -1,10 +1,20 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import { useEffect, useState } from 'react';
-import { registerCampus, listCampus } from './src/api/campusRequests';
+import colors from './src/colors'
 
+//Botões
+import GreenButton from './src/components/buttons/GreenButton';
+import RedButton from './src/components/buttons/RedButton';
+import WhiteButton from './src/components/buttons/WhiteButton';
+
+//Input
+import InputText from './src/components/inputs/InputText';
+import { useState } from 'react';
 
 export default function App() {
+  /*
+  import { useEffect, useState } from 'react'; -- No início
+  import { registerCampus, listCampus } from './src/api/campusRequests'; -- No início
+
   const [campusList, setCampusList] = useState([]);
   const [msg, setMsg] = useState('');
   const [status, setStatus] = useState(false);
@@ -26,16 +36,33 @@ export default function App() {
 
     fetchAPI();
   }, []);
-
-
+*/
 
   return (
     <View style={styles.container}>
-
-      <Text>{msg.length > 0 ? msg : 'Carregando...'}</Text>
-      <Text>{campusList.length > 0 ? campusList[0].name : 'Carregando...'}</Text>
-      <Text>{status === false ? 'Inativo' : 'Ativo'}</Text>
-      
+      <GreenButton
+      text={"Ola"}
+      icon={require('./src/assets/icons/UI/check.png')}
+      onPress={() => alert('Tufo')}
+      disabled={false}
+      />
+      <RedButton
+      text={"Ola"}
+      icon={require('./src/assets/icons/UI/check.png')}
+      onPress={() => alert('Tufo')}
+      disabled={false}
+      />
+      <WhiteButton
+      text={"Ola"}
+      icon={require('./src/assets/icons/UI/check.png')}
+      onPress={() => alert('Tufo')}
+      disabled={true}
+      />
+      <InputText
+      icon={require('./src/assets/icons/UI/email.png')}
+      placeHolder={"Email do usuário"}
+      type={"password"}
+      />
     </View>
   );
 }
@@ -43,8 +70,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.iflab_white,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 20
   },
 });
