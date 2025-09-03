@@ -1,20 +1,10 @@
+import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import colors from './src/colors'
+import { useEffect, useState } from 'react';
+import { registerCampus, listCampus } from './src/api/campusRequests';
 
-//Botões
-import GreenButton from './src/components/buttons/GreenButton';
-import RedButton from './src/components/buttons/RedButton';
-import WhiteButton from './src/components/buttons/WhiteButton';
-
-//Input
-import InputText from './src/components/inputs/InputText';
-import { useState } from 'react';
 
 export default function App() {
-  /*
-  import { useEffect, useState } from 'react'; -- No início
-  import { registerCampus, listCampus } from './src/api/campusRequests'; -- No início
-
   const [campusList, setCampusList] = useState([]);
   const [msg, setMsg] = useState('');
   const [status, setStatus] = useState(false);
@@ -24,6 +14,8 @@ export default function App() {
     const fetchAPI = async () => {
       try {
         const apiGet = await listCampus();
+
+        console.log(apiGet);
         
         setCampusList(apiGet.campusList);
         setMsg(apiGet.msg);
@@ -36,33 +28,17 @@ export default function App() {
 
     fetchAPI();
   }, []);
-*/
+
+
 
   return (
     <View style={styles.container}>
-      <GreenButton
-      text={"Ola"}
-      icon={require('./src/assets/icons/UI/check.png')}
-      onPress={() => alert('Tufo')}
-      disabled={false}
-      />
-      <RedButton
-      text={"Ola"}
-      icon={require('./src/assets/icons/UI/check.png')}
-      onPress={() => alert('Tufo')}
-      disabled={false}
-      />
-      <WhiteButton
-      text={"Ola"}
-      icon={require('./src/assets/icons/UI/check.png')}
-      onPress={() => alert('Tufo')}
-      disabled={true}
-      />
-      <InputText
-      icon={require('./src/assets/icons/UI/email.png')}
-      placeHolder={"Email do usuário"}
-      type={"password"}
-      />
+
+      <Text>ola</Text>
+      <Text>{msg.length > 0 ? msg : 'Carregando...'}</Text>
+      <Text>{console.log(campusList)}</Text>
+      <Text>{status}</Text>
+      
     </View>
   );
 }
@@ -70,9 +46,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.iflab_white,
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 20
-  },
+  }
 });

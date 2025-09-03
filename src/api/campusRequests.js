@@ -1,4 +1,6 @@
-const url = "https://10.123.60.229:3333/campus/";
+import IP from "./settings"
+
+const url = `https://${IP}/campus/`
 
 // Função para pegar todos os campus:
 async function listCampus() {
@@ -10,9 +12,10 @@ async function listCampus() {
   };
 
   try {
-    const response = await fetch(url + "get", options);
+    const response = await fetch(`${url}get`, options);
     const data = await response.json();
 
+    console.log("ola",response);
 
     return data;
   } catch (err) {
@@ -38,5 +41,7 @@ async function registerCampus(campusData) {
     return false;
   }
 }
+
+// Export
 export { registerCampus, listCampus };
 
