@@ -1,11 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import { registerCampus, listCampus } from './src/api/campusRequests';
-
+import { Routes } from './src/pages/routes';
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
-  const [campusList, setCampusList] = useState([]);
+  /*const [campusList, setCampusList] = useState([]);
   const [msg, setMsg] = useState('');
   const [status, setStatus] = useState(false);
 
@@ -27,19 +27,12 @@ export default function App() {
     };
 
     fetchAPI();
-  }, []);
+  }, []);*/
 
 
 
   return (
-    <View style={styles.container}>
-
-      <Text>ola</Text>
-      <Text>{msg.length > 0 ? msg : 'Carregando...'}</Text>
-      <Text>{console.log(campusList)}</Text>
-      <Text>{status}</Text>
-      
-    </View>
+    <Text>ARRUMAR ROUTES.JS</Text>
   );
 }
 

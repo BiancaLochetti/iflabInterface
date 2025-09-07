@@ -43,7 +43,7 @@ const InputText = ({ placeHolder, type, icon, onChange }) => {
             ) : (
 
                 // Se não for senha:
-                <View style={styles.iconWrapper}>
+                <View>
                     <Image 
                     source={icon} 
                     style={styles.iconImage}
