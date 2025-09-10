@@ -15,8 +15,6 @@ async function listCampus() {
     const response = await fetch(`${url}get`, options);
     const data = await response.json();
 
-    console.log("ola",response);
-
     return data;
   } catch (err) {
     return { false: false };

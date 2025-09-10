@@ -4,11 +4,11 @@
     "slug": "iflabInterface",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/assets/icons/iflab/favicon.ico",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./src/assets/icons/iflab/favicon.ico",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./src/assets/icons/iflab/favicon.ico",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
