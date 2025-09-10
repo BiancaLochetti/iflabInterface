@@ -5,7 +5,7 @@ export default {
 
     iflab_gray: "#555555",
     iflab_gray_dark: "#252525",
-    iflab_gray_light: "#989898",
+    iflab_gray_light: "#F2F2F2",
     iflab_gray_medium: "#B3B3B3",
 
     iflab_green: "#224410",
