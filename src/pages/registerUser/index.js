@@ -1,7 +1,9 @@
 import { Text } from "react-native";
 
 export function RegisterUser() {
-    return(
-        <Text>Oiiieeeeee Login</Text>
-    );
-}
+  return (
+    <View>
+        <Text>Oiiieeeeee Register User</Text>
+    </View>
+  );
+};

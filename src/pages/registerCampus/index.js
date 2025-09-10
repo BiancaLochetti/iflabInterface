@@ -1,7 +1,4 @@
-import React from "react";
-import { View, Text } from "react-native";
-import { useState } from "react";
-import { InputText } from "../../components/inputs/InputText";
+import { Text } from "react-native";
 
 export function RegisterCampus() {
   return (

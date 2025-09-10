@@ -1,5 +1,5 @@
 // Importando componentes:
-import { StyleSheet, Image, Text, View } from "react-native";
+import { StyleSheet, Image } from "react-native";
 
 // Importando telas:
 import { Home } from "./pages/home";
@@ -26,7 +26,7 @@ export function Routes() {
             if (focused) {
               return (
                 <Image
-                  source={require("../src/assets/icons/UI/home.png")}
+                  source={require("./assets/icons/UI/home.png")}
                   style={{ width: 30, height: 30, marginTop: 20 }}
                 />
               );
@@ -50,10 +50,9 @@ export function Routes() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+  icon:{
+    width: 30, 
+    height: 30, 
+    marginTop: 20,
+  }
 });
