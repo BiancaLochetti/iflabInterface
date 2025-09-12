@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
     wButton: {
         backgroundColor: colors.iflab_white,
         borderRadius: 6,
-        width: '50%',
+        width: '60%',
         alignItems: 'center',
     },
 
     content: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: 'space-evenly',
         gap: 10,
         width: '100%',
         padding: 18,

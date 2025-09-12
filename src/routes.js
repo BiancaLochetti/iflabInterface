@@ -1,12 +1,11 @@
 // Importando componentes:
 import { StyleSheet, Image } from "react-native";
+import colors from './colors'
 
 // Importando telas:
 import { Home } from "./pages/home";
 import { Calendar } from "./pages/calendar";
-import { Login } from "./pages/login";
-import { RegisterCampus } from "./pages/registerCampus";
-import { RegisterUser } from "./pages/registerUser";
+import { User } from "./pages/user";
 
 // Componentes de navegação:
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -15,7 +14,13 @@ const Tab = createBottomTabNavigator();
 
 export function Routes() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        tabBarStyle:{
+            backgroundColor: colors.iflab_white_dark
+        }
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
@@ -27,32 +32,84 @@ export function Routes() {
               return (
                 <Image
                   source={require("./assets/icons/UI/home.png")}
-                  style={{ width: 30, height: 30, marginTop: 20 }}
+                  style={styles.iconF}
                 />
               );
             }
             return (
               <Image
                 source={require("../src/assets/icons/UI/home.png")}
-                style={{ width: 30, height: 30, marginTop: 20, opacity: 0.75 }}
+                style={styles.iconD}
               />
             );
           },
         }}
       />
 
-      <Tab.Screen name="Calendar" component={Calendar} />
-      <Tab.Screen name="Login" component={Login} />
-      <Tab.Screen name="RegisterCampus" component={RegisterCampus} />
-      <Tab.Screen name="RegisterUser" component={RegisterUser} />
+      <Tab.Screen 
+        name="Calendar" 
+        component={Calendar} 
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            if (focused) {
+              return (
+                <Image
+                  source={require("./assets/icons/UI/schedule.png")}
+                  style={styles.iconF}
+                />
+              );
+            }
+            return (
+              <Image
+                source={require("../src/assets/icons/UI/schedule.png")}
+                style={styles.iconD}
+              />
+            );
+          },
+        }}
+      />
+      <Tab.Screen
+        name="User" 
+        component={User} 
+        options={{
+          headerShown: false,
+          tabBarShowLabel: false,
+          tabBarIcon: ({ focused }) => {
+            if (focused) {
+              return (
+                <Image
+                  source={require("./assets/icons/UI/user.png")}
+                  style={styles.iconF}
+                />
+              );
+            }
+            return (
+              <Image
+                source={require("../src/assets/icons/UI/user.png")}
+                style={styles.iconD}
+              />
+            );
+          },
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
-  icon:{
-    width: 30, 
-    height: 30, 
+  iconF: {
+    width: 30,
+    height: 30,
     marginTop: 20,
-  }
+    tintColor: colors.iflab_gray
+  },
+
+  iconD:{
+    width: 30,
+    height: 30,
+    marginTop: 20,
+    tintColor: colors.iflab_gray_medium
+  },
 });

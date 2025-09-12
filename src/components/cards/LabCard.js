@@ -1,12 +1,12 @@
-import { Text, StyleSheet, View, Image } from 'react-native';
+import { Text, StyleSheet, View, Image, TouchableOpacity } from 'react-native';
 import colors from '../../colors';
 
 //--------------------------------------------------------
 
-const LabCard = ({ lab, status, responsable, hour, lastResp = null, lastHour = null }) => {
+const LabCard = ({ onPress, lab, status, responsable, hour, lastResp = null, lastHour = null }) => {
     const cardStyle = [
         styles.card,
-        { backgroundColor: status ? colors.iflab_green : colors.iflab_gray_light }
+        { backgroundColor: status ? colors.iflab_green : colors.iflab_gray_medium }
     ];
 
     const iconStyle = [
@@ -20,7 +20,11 @@ const LabCard = ({ lab, status, responsable, hour, lastResp = null, lastHour = n
     ];
 
     return (
-        <View style={cardStyle}>
+        <TouchableOpacity 
+            style={cardStyle}
+            disabled={!status}
+            onPress={onPress}
+            >
             <View style={styles.header}>
                 <Text style={textStyle}>
                     Laboratório <Text style={{fontWeight: 'bold'}}>{lab}</Text>
@@ -60,7 +64,7 @@ const LabCard = ({ lab, status, responsable, hour, lastResp = null, lastHour = n
                 </>
                 )}
             </View>
-        </View>
+        </TouchableOpacity>
 
 
     );
