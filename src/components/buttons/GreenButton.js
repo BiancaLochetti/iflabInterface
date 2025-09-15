@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     gButton: {
        backgroundColor: colors.iflab_green,
         borderRadius: 6,
-        width: '50%',
+        width: 'auto',
         alignItems: 'center',
     },
     

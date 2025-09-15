@@ -1,4 +1,4 @@
-import { TextInput, Text, TouchableOpacity, StyleSheet, View, Image } from 'react-native';
+import { TextInput, TouchableOpacity, StyleSheet, View, Image } from 'react-native';
 import React, { useState } from 'react';
 import colors from '../../colors';
 
@@ -18,26 +18,26 @@ const InputText = ({ placeHolder, type, icon, onChange }) => {
             <TextInput
                 style={styles.input}
                 placeholder={placeHolder}
-                placeholderTextColor={colors.iflab_gray_light}
+                placeholderTextColor={colors.iflab_gray}
                 secureTextEntry={type === "password" && !showPassword}
                 value={value}
                 onChangeText={handleOnChange}
                 keyboardType={type}
             />
 
-            //Condição caso o tipo seja senha
+            {/* //Condição caso o tipo seja senha */}
             {type === "password" ? (
 
                 // Se for senha:
                 <TouchableOpacity onPress={() => setShowPassword(!showPassword)} >
                     <Image
-                    source={
-                        showPassword 
-                        ? require('../../assets/icons/UI/show.png') 
-                        : require('../../assets/icons/UI/hide.png')
-                    } 
-                    style={styles.iconImage}
-                    resizeMode='contain'
+                        source={
+                            showPassword 
+                            ? require('../../assets/icons/UI/show.png') 
+                            : require('../../assets/icons/UI/hide.png')
+                        } 
+                        style={styles.iconImage}
+                        resizeMode='contain'
                     />
                 </TouchableOpacity>
             ) : (
@@ -60,13 +60,11 @@ export default InputText;
 
 const styles = StyleSheet.create({
     inputContainer: {
-        width: '90%',
+        width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: colors.iflab_gray_dark,
-        margin: 20,
-        padding: 5
     },
 
     input: {

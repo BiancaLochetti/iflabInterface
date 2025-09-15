@@ -76,6 +76,7 @@ export function Routes() {
         options={{
           headerShown: false,
           tabBarShowLabel: false,
+          tabBarStyle:{ display: 'none' },
           tabBarIcon: ({ focused }) => {
             if (focused) {
               return (

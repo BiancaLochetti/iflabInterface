@@ -40,6 +40,8 @@ export function Home() {
                 <LabCard status={true}/>
                 <LabCard status={true}/>
                 <LabCard status={false}/>
+                <LabCard status={true}/>
+                <LabCard status={false}/>
             </ScrollView>
             
         </SafeAreaView>

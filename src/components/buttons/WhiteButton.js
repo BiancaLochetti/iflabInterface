@@ -7,9 +7,9 @@ import colors from '../../colors';
 const WhiteButton = ({text, icon = null, disabled = false, onPress}) => {
     return(
         <TouchableOpacity 
-        style={[styles.wButton, disabled && {backgroundColor: colors.iflab_gray_medium}]}
-        disabled={disabled}
-        onPress={onPress}
+            style={[styles.wButton, disabled && {backgroundColor: colors.iflab_gray_medium}]}
+            disabled={disabled}
+            onPress={onPress}
         >
 
             <View style={styles.content}>
@@ -34,14 +34,14 @@ const styles = StyleSheet.create({
     wButton: {
         backgroundColor: colors.iflab_white,
         borderRadius: 6,
-        width: '60%',
+        width: 'auto',
         alignItems: 'center',
     },
 
     content: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-evenvly',
         gap: 10,
         width: '100%',
         padding: 18,
