@@ -53,7 +53,6 @@ export function RegisterCampus() {
     >
       <ScrollView contentContainerStyle={styles.content}>
         
-        {/* 🔝 TOPO: Logo */}
         <View style={styles.topSection}>
           <Image
             source={require("../../assets/images/logo.png")}
@@ -88,7 +87,6 @@ export function RegisterCampus() {
           </View>
         </View>
 
-        {/* ⬇️ RODAPÉ: Botões */}
         <View style={styles.bottomSection}>
           <TouchableOpacity
             style={[
