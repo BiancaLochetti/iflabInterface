@@ -12,7 +12,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 40,
   },
 
-  // 🔝 TOPO
   topSection: {
     alignItems: "center",
     marginBottom: 24,
@@ -24,7 +23,6 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  // 📝 FORMULÁRIO
   formSection: {
     flex: 1,
     marginTop: 30,      
@@ -68,7 +66,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
   },
 
-  // ⬇️ RODAPÉ
   bottomSection: {
     marginTop: "auto",
     marginBottom: 32,

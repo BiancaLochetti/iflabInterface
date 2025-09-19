@@ -6,7 +6,7 @@ import colors from './colors'
 import { Home } from "./pages/home";
 import { Calendar } from "./pages/calendar";
 import { User } from "./pages/user";
-import { RegisterCampus } from "./pages/registerCampus"; //-->so pra teste
+import { RegisterCampus } from "./pages/registerCampus";
 
 // Componentes de navegação:
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -24,7 +24,7 @@ export function Routes() {
     >
       <Tab.Screen
         name="Home"
-        component={Home} 
+        component={RegisterCampus} 
         options={{
           headerShown: false,
           tabBarShowLabel: false,
