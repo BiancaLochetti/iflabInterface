@@ -1,38 +1,27 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
+import colors from "../../colors";
 
 const styles = StyleSheet.create({
+  header: {
+    marginTop: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
 
-    header:{
-        height: "10%",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-center",
-        margin: 10,
+  titleFree: {
+    fontSize: 16,
+    fontWeight: "normal",
+    fontFamily: "Inter",
+    flex: 1,
+    textAlign: "center",
+  },
 
-    },
-
-    cabecalho:{
-        marginLeft: 5,
-        width: '10%',
-        height: undefined,
-        aspectRatio: 1,
-        tintColor: 'black',
-    },
-
-    titleFree: {
-        fontSize: 16,
-        fontWeight: 'normal',
-        fontFamily: 'Inter',
-        flex: 1,
-        textAlign: 'center',
-    },
-
-    TextFont: {
-        fontSize: 18,
-        fontWeight: 'normal',
-        fontFamily: 'Inter',
-    }
-    
+  textFont: {
+    fontSize: 18,
+    fontWeight: "normal",
+    fontFamily: "Inter",
+  },
 });
 
 export default styles;

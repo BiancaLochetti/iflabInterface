@@ -1,82 +1,86 @@
-import { TextInput, TouchableOpacity, StyleSheet, View, Image } from 'react-native';
-import React, { useState } from 'react';
-import colors from '../../colors';
+// Imports
+import {
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  Image,
+} from "react-native";
+import { useState } from "react";
+import colors from "../../colors";
 
-//--------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 
+// Componente Principal
 const InputText = ({ placeHolder, type, icon, onChange }) => {
-    const [value, setValue] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
+  const [value, setValue] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
-    function handleOnChange(text) {
-        setValue(text);
-        onChange && onChange(text);
-    }
-    
-    return(
-        <View style={styles.inputContainer}>
-            <TextInput
-                style={styles.input}
-                placeholder={placeHolder}
-                placeholderTextColor={colors.iflab_gray}
-                secureTextEntry={type === "password" && !showPassword}
-                value={value}
-                onChangeText={handleOnChange}
-                keyboardType={type}
-            />
+  function handleOnChange(text) {
+    setValue(text);
+    onChange && onChange(text);
+  }
 
-            {/* //Condição caso o tipo seja senha */}
-            {type === "password" ? (
+  return (
+    <View style={styles.inputContainer}>
+      <TextInput
+        style={styles.input}
+        placeholder={placeHolder}
+        placeholderTextColor={colors.emphasis_gray}
+        secureTextEntry={type === "password" && !showPassword}
+        value={value}
+        onChangeText={handleOnChange}
+        keyboardType={type}
+      />
 
-                // Se for senha:
-                <TouchableOpacity onPress={() => setShowPassword(!showPassword)} >
-                    <Image
-                        source={
-                            showPassword 
-                            ? require('../../assets/icons/UI/show.png') 
-                            : require('../../assets/icons/UI/hide.png')
-                        } 
-                        style={styles.iconImage}
-                        resizeMode='contain'
-                    />
-                </TouchableOpacity>
-            ) : (
-
-                // Se não for senha:
-                <View>
-                    <Image 
-                    source={icon} 
-                    style={styles.iconImage}
-                    resizeMode='contain' />
-                </View>
-            )}
+      {/* //Condição caso o tipo seja senha */}
+      {type === "password" ? (
+        // Se for senha:
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Image
+            source={
+              showPassword
+                ? require("../../assets/icons/UI/show.png")
+                : require("../../assets/icons/UI/hide.png")
+            }
+            style={styles.iconImage}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+      ) : (
+        // Se não for senha:
+        <View>
+          <Image source={icon} style={styles.iconImage} resizeMode="contain" />
         </View>
-    );
-}
+      )}
+    </View>
+  );
+};
 
 export default InputText;
 
-//--------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 
+// Styles
 const styles = StyleSheet.create({
-    inputContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: colors.iflab_gray_dark,
-    },
+  inputContainer: {
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: colors.primary_text_gray,
+  },
 
-    input: {
-        flex: 1,
-        height: 40,
-        color: colors.iflab_gray_dark,
-    },
+  input: {
+    flex: 1,
+    height: 40,
+    color: colors.primary_text_gray,
+  },
 
-    iconImage: {
-        width: 22,
-        height: 22,
-        marginLeft: 10,
-        tintColor: colors.iflab_gray
-    },
+  iconImage: {
+    width: 22,
+    height: 22,
+    marginLeft: 10,
+    tintColor: colors.primary_text_gray,
+  },
 });
