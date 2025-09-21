@@ -3,7 +3,6 @@ import colors from '../../colors';
 
 const styles = StyleSheet.create({
     container:{
-        gap: 35,
         backgroundColor: colors.white_full,
         height: '100%'
     },
@@ -21,20 +20,21 @@ const styles = StyleSheet.create({
     },
 
     userPic:{
-        width: 150,
-        height: 150,
+        width: 170,
+        height: 170,
         borderRadius: 100
     },
     
     content:{
-        marginTop: 25,
-        gap: 30,
-        alignContent: 'center'  
+        marginTop: 50,
+        marginBottom: 50,
+        gap: 50,
+        alignContent: 'center' 
     },
 
     title:{
         fontSize: 16,
-        fontWeight: 'bold'
+        color: colors.primary_text_gray
     },
 
     subContainer:{
@@ -44,18 +44,6 @@ const styles = StyleSheet.create({
         gap: 10
     },
 
-    vPicker:{
-        borderWidth: 4,
-        borderColor: colors.emphasis_gray,
-        borderRadius: 10,
-        maxheight: "90%"
-    },
-
-    picker:{
-        backgroundColor: colors.emphasis_gray,
-        minWidth: '90%',
-        maxheight: "100%"
-    },
 
     button:{
         justifyContent: 'space-around',

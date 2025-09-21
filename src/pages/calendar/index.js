@@ -6,7 +6,6 @@ import styles from "./styles";
 import colors from "../../colors";
 
 import { DataSelection } from "../../components/cards/DataSelection";
-import { Header } from "../../components/header/Header";
 import { Sections } from "../../components/cards/Sections";
 
 //--------------------------------------------------------
@@ -15,7 +14,25 @@ import { Sections } from "../../components/cards/Sections";
 export function Calendar() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white_full }}>
-      <Header text="Ola Mundo" icon={require('../../assets/icons/UI/left.png')}/>
+      <View style={styles.header}>
+        <TouchableOpacity style={{ position: "absolute", left: 20 }}>
+          <Image
+            source={require("../../assets/icons/UI/chevrom.png")}
+            style={{
+              tintColor: colors.contrastant_gray,
+              width: 30,
+              height: 30,
+              transform: [{ rotate: '90deg' }]
+            }}
+            resizeMode="contain"
+          />
+        </TouchableOpacity>
+
+        <Text style={{ textAlign: "center", fontSize: 16 }}>
+          Calendário do laboratório{" "}
+          <Text style={{ fontWeight: "bold" }}>A108</Text>
+        </Text>
+      </View>
 
       <View style={{ zIndex: 1 }}>
         <DataSelection />

@@ -22,11 +22,12 @@ export function User({ navigation }) {
             onPress={() => navigation.goBack()}
           >
             <Image
-              source={require("../../assets/icons/UI/left.png")}
+              source={require("../../assets/icons/UI/chevrom.png")}
               style={{
                 tintColor: colors.contrastant_gray,
                 width: 30,
                 height: 30,
+                transform: [{ rotate: '90deg' }]
               }}
               resizeMode="contain"
             />
@@ -42,7 +43,7 @@ export function User({ navigation }) {
               source={require("../../assets/images/marcio.png")}
               style={styles.userPic}
             />
-            <Text style={{ color: colors.iflab_gray, textAlign: "center" }}>
+            <Text style={{ color: colors.contrastant_gray, textAlign: "center" }}>
               Editar Foto de Perfil
             </Text>
           </TouchableOpacity>
@@ -51,36 +52,30 @@ export function User({ navigation }) {
 
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.subContainer}>
-          <Text style={styles.title}>Nome de Usuário:</Text>
-          <InputText placeHolder="Nome" type="text" />
+          <Text style={styles.title}>Nome de usuário:</Text>
+          <InputText placeHolder="Digite seu novo nome" type="text" border={true}/>
         </View>
 
         <View style={styles.subContainer}>
-          <Text style={styles.title}>Email de Usuário:</Text>
-          <InputText placeHolder="Email" type="email" />
+          <Text style={styles.title}>Email de usuário:</Text>
+          <InputText placeHolder="Digite seu novo email" type="email" border={true}/>
         </View>
 
         <View style={styles.subContainer}>
-          <Text style={styles.title}>Alterar Senha:</Text>
-          <InputText placeHolder="Senha" type="password" />
-        </View>
-
-        <View style={styles.subContainer}>
-          <Text style={styles.title}>Tipo de Usuário:</Text>
-          <View style={styles.vPicker}>
-            <Picker style={styles.picker}>
-              <Picker.Item label="Professor" value="Professor" />
-              <Picker.Item label="Aluno" value="Aluno" />
-              <Picker.Item label="Outro" value="Outro" />
-            </Picker>
-          </View>
+          <Text style={styles.title}>Alterar senha:</Text>
+          <InputText placeHolder="Digite sua nova senha" type="password" border={true}/>
         </View>
       </ScrollView>
 
       <View style={styles.button}>
-        <Button text="Cancelar" type="White" />
+        <Button 
+          text="Cancelar" 
+          type="White" 
+          onPress={() => navigation.goBack()}/>
 
-        <Button text="Salvar Edições" type="Green" />
+        <Button 
+          text="Salvar Edições" 
+          type="Green" />
       </View>
     </SafeAreaView>
   );

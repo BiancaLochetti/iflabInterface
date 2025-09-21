@@ -12,7 +12,7 @@ import colors from "../../colors";
 //----------------------------------------------------------------------------------------------
 
 // Componente Principal
-const InputText = ({ placeHolder, type, icon, onChange }) => {
+const InputText = ({ placeHolder, type, icon, onChange, border = false }) => {
   const [value, setValue] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -22,7 +22,7 @@ const InputText = ({ placeHolder, type, icon, onChange }) => {
   }
 
   return (
-    <View style={styles.inputContainer}>
+    <View style={[styles.inputContainer, border && styles.inputBorder]}>
       <TextInput
         style={styles.input}
         placeholder={placeHolder}
@@ -69,6 +69,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: colors.primary_text_gray,
+    paddingLeft: 5
+  },
+
+  inputBorder:{
+    width: "100%",
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: colors.primary_text_gray,
+    paddingLeft: 5,
+    borderRadius: 8
   },
 
   input: {
@@ -78,9 +89,10 @@ const styles = StyleSheet.create({
   },
 
   iconImage: {
-    width: 22,
-    height: 22,
+    width: 25,
+    height: 25,
     marginLeft: 10,
     tintColor: colors.primary_text_gray,
+    paddingRight: 5
   },
 });
