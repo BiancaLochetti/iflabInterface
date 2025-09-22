@@ -8,46 +8,61 @@ export const styles = StyleSheet.create({
 
   content: {
     flexGrow: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: 32, // ← mais preenchido
     paddingVertical: 40,
   },
 
+  // 🔝 TOPO
   topSection: {
     alignItems: "center",
     marginBottom: 24,
   },
   logo: {
-    width: 160,  
+    width: 160,
     height: 64,
     resizeMode: "contain",
     marginBottom: 16,
   },
 
+  // 📝 FORMULÁRIO
   formSection: {
     flex: 1,
-    marginTop: 30,      
-    marginBottom: 50,    
+    marginTop: 30,
+    marginBottom: 50,
   },
   subtitle: {
-    textAlign: "center",
+    alignSelf: "center",
+    maxWidth: 360,
+    textAlign: "left",
     fontSize: 14,
     color: "#4A4A4A",
     fontWeight: "400",
     lineHeight: 20,
-    marginBottom: 28,
+    marginBottom: 16,
   },
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
+    maxWidth: 360,
+    alignSelf: "center",
     marginBottom: 36,
+  },
+  inputWithIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomWidth: 1,
+    borderBottomColor: "#D0D0D0",
+    marginRight: 12,
+    flex: 1,
+  },
+  icon: {
+    marginRight: 8,
   },
   input: {
     flex: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: "#D0D0D0",
     fontSize: 15,
     paddingVertical: 8,
-    marginRight: 12,
     color: "#333",
     fontWeight: "300",
   },
@@ -66,8 +81,10 @@ export const styles = StyleSheet.create({
     fontSize: 14,
   },
 
+  // ⬇️ RODAPÉ
   bottomSection: {
-    marginTop: "auto",
+    marginTop: 20,
+    alignItems: "center",
     marginBottom: 32,
   },
   registerButton: {
@@ -75,7 +92,9 @@ export const styles = StyleSheet.create({
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 24,
+    width: "100%",
+    maxWidth: 360,
   },
   disabledButton: {
     backgroundColor: "#E0E0E0",
@@ -83,10 +102,10 @@ export const styles = StyleSheet.create({
   registerText: {
     color: "#FFFFFF",
     fontSize: 15,
-    fontWeight: "400",
+    fontWeight: "400", // ← mais leve
   },
   cancelButton: {
-    alignItems: "center",
+    marginBottom: 8,
   },
   cancelText: {
     color: "#2E5D2F",

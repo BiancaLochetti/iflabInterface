@@ -7,6 +7,7 @@ import { Home } from "./pages/home";
 import { Calendar } from "./pages/calendar";
 import { User } from "./pages/user";
 import { RegisterCampus } from "./pages/registerCampus";
+import { RegisterUser } from "./pages/registerUser";
 
 // Componentes de navegação:
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -24,7 +25,7 @@ export function Routes() {
     >
       <Tab.Screen
         name="Home"
-        component={Home} 
+        component={RegisterUser} 
         options={{
           headerShown: false,
           tabBarShowLabel: false,
