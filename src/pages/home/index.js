@@ -1,4 +1,4 @@
-import React from "react";
+// Imports
 import { View, Image, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native"; // ⬅ Importa o hook de navegação
@@ -6,15 +6,17 @@ import { useNavigation } from "@react-navigation/native"; // ⬅ Importa o hook 
 import styles from "./styles";
 
 import LabCard from "../../components/cards/LabCard";
-import WhiteButton from "../../components/buttons/WhiteButton";
+import Button from "../../components/buttons/Button"
 
 //--------------------------------------------------------
 
+// Página Principal
 export function Home() {
   const navigation = useNavigation(); // ⬅ Inicializa o hook
 
   return (
     <SafeAreaView style={styles.container}>
+
       {/* Cabeçalho com logo e botão de perfil */}
       <View style={styles.header}>
         <Image
@@ -22,7 +24,7 @@ export function Home() {
           style={styles.logo}
           resizeMode="contain"
         />
-        <TouchableOpacity onPress={() => navigation.navigate("RegisterCampus")}>
+        <TouchableOpacity onPress={() => navigation.navigate('RegisterCampus')}>
           <Image
             source={require("../../assets/icons/UI/user.png")}
             style={styles.profile}
@@ -32,11 +34,11 @@ export function Home() {
 
       {/* Botão para adicionar laboratório */}
       <View style={styles.addLab}>
-        <WhiteButton
-          text="Adicionar Laboratório"
-          icon={require("../../assets/icons/UI/more.png")}
+        <Button
+          text=" + Adicionar Laboratório"
           onPress={() => alert("AddLab!")}
           disabled={false}
+          type="White"
         />
       </View>
 
