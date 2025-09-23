@@ -25,7 +25,7 @@ export function Routes() {
     >
       <Tab.Screen
         name="Home"
-        component={RegisterUser} 
+        component={RegisterCampus} 
         options={{
           headerShown: false,
           tabBarShowLabel: false,
