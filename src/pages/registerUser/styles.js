@@ -3,37 +3,29 @@ import { StyleSheet } from "react-native";
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F9F9F9",
+    backgroundColor: "#FFFFFF",
   },
 
   content: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 32,
-    paddingTop: 64,
-    paddingBottom: 64,
+    paddingTop: 48,
+    alignItems: "center",
   },
 
   logo: {
-    width: 160,
-    height: 160,
+    width: 140,
+    height: 140,
+    marginBottom: 32,
     alignSelf: "center",
-    marginBottom: 40,
-    marginTop: 24,
   },
 
   title: {
     fontSize: 20,
     fontWeight: "500",
-    color: "#2E5D2F",
+    color: "#000000", // preto, como na imagem
     textAlign: "center",
-    marginBottom: 32,
-  },
-
-  subtext: {
-    fontSize: 14,
-    color: "#555",
-    textAlign: "center",
-    marginBottom: 32,
+    marginBottom: 24,
   },
 
   inputGroup: {
@@ -45,7 +37,8 @@ export const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     paddingHorizontal: 12,
     paddingVertical: 10,
-    marginBottom: 24,
+    marginBottom: 16,
+    width: "100%",
   },
 
   icon: {
@@ -60,17 +53,24 @@ export const styles = StyleSheet.create({
     color: "#333",
   },
 
+  subtext: {
+    fontSize: 14,
+    color: "#999999", // cinza claro
+    textAlign: "center",
+    marginBottom: 24,
+  },
+
   button: {
-    backgroundColor: "#2E5D2F",
+    backgroundColor: "#2E5D2F", // verde ativo
     paddingVertical: 16,
     borderRadius: 10,
     alignItems: "center",
-    marginTop: 24,
-    marginBottom: 32,
+    marginBottom: 24,
+    width: "100%",
   },
 
   buttonDisabled: {
-    backgroundColor: "#A5C3A5",
+    backgroundColor: "#D0D0D0", // cinza inativo
   },
 
   buttonText: {
@@ -79,37 +79,18 @@ export const styles = StyleSheet.create({
     fontWeight: "400",
   },
 
+  terms: {
+    fontSize: 12,
+    color: "#666666",
+    textAlign: "center",
+    marginBottom: 16,
+  },
+
   link: {
     color: "#2E5D2F",
     fontSize: 14,
     fontWeight: "400",
     textAlign: "center",
-    marginTop: 16,
-  },
-
-  terms: {
-    fontSize: 12,
-    color: "#666",
-    textAlign: "center",
-    marginBottom: 24,
-  },
-
-  codeContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 40,
-    marginTop: 16,
-  },
-
-  codeInput: {
-    width: 48,
-    height: 56,
-    borderWidth: 1,
-    borderColor: "#D0D0D0",
-    borderRadius: 10,
-    textAlign: "center",
-    fontSize: 20,
-    backgroundColor: "#FFF",
-    marginHorizontal: 6,
+    marginTop: 8,
   },
 });
