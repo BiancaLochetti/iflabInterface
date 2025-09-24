@@ -64,7 +64,7 @@ export default InputText;
 // Styles
 const styles = StyleSheet.create({
   inputContainer: {
-    width: "100%",
+    width: "auto",
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 1,
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
 
   inputBorder:{
-    width: "100%",
+    width: "auto",
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
@@ -84,13 +84,14 @@ const styles = StyleSheet.create({
 
   input: {
     flex: 1,
-    height: 40,
+    paddingTop: 18,
+    paddingBottom: 18,
     color: colors.primary_text_gray,
   },
 
   iconImage: {
-    width: 25,
-    height: 25,
+    width: 30,
+    height: 30,
     marginLeft: 10,
     tintColor: colors.primary_text_gray,
     paddingRight: 5

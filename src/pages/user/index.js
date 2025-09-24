@@ -1,20 +1,37 @@
 // Imports
-import { Text, View, Image, TouchableOpacity, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Picker } from "@react-native-picker/picker";
 
 import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
+import EmailModal from "../../components/modals/EmailModal";
 
 import styles from "./styles";
 import colors from "../../colors";
+
+import { useState } from "react";
 
 //--------------------------------------------------------
 
 // Página Principal
 export function User({ navigation }) {
+  const [modalActive, setModalActive] = useState(false)
+
   return (
     <SafeAreaView style={styles.container}>
+      <EmailModal
+        modalActive={modalActive}
+        backPage={() => setModalActive(false)}
+        notCode={() => alert('Código reenviado!')}
+        emailVerify={() => alert('Email verificado!')}
+      />
+
       <View style={{ alignContent: "flex-start", gap: 30 }}>
         <View style={styles.header}>
           <TouchableOpacity
@@ -27,7 +44,7 @@ export function User({ navigation }) {
                 tintColor: colors.contrastant_gray,
                 width: 30,
                 height: 30,
-                transform: [{ rotate: '90deg' }]
+                transform: [{ rotate: "90deg" }],
               }}
               resizeMode="contain"
             />
@@ -43,7 +60,9 @@ export function User({ navigation }) {
               source={require("../../assets/images/marcio.png")}
               style={styles.userPic}
             />
-            <Text style={{ color: colors.contrastant_gray, textAlign: "center" }}>
+            <Text
+              style={{ color: colors.contrastant_gray, textAlign: "center" }}
+            >
               Editar Foto de Perfil
             </Text>
           </TouchableOpacity>
@@ -53,29 +72,45 @@ export function User({ navigation }) {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.subContainer}>
           <Text style={styles.title}>Nome de usuário:</Text>
-          <InputText placeHolder="Digite seu novo nome" type="text" border={true}/>
+          <InputText
+            placeHolder="Digite seu novo nome"
+            type="text"
+            border={true}
+          />
         </View>
 
         <View style={styles.subContainer}>
           <Text style={styles.title}>Email de usuário:</Text>
-          <InputText placeHolder="Digite seu novo email" type="email" border={true}/>
+          <View style={styles.emailContainer}>
+            <View style={{ width: "70%" }}>
+              <InputText
+                placeHolder="Digite seu novo email"
+                type="email"
+                border={true}
+              />
+            </View>
+            <Button text="Validar" type="Green" onPress={() => setModalActive(true)} />
+          </View>
         </View>
 
         <View style={styles.subContainer}>
           <Text style={styles.title}>Alterar senha:</Text>
-          <InputText placeHolder="Digite sua nova senha" type="password" border={true}/>
+          <InputText
+            placeHolder="Digite sua nova senha"
+            type="password"
+            border={true}
+          />
         </View>
       </ScrollView>
 
       <View style={styles.button}>
-        <Button 
-          text="Cancelar" 
-          type="White" 
-          onPress={() => navigation.goBack()}/>
+        <Button
+          text="Cancelar"
+          type="White"
+          onPress={() => navigation.goBack()}
+        />
 
-        <Button 
-          text="Salvar Edições" 
-          type="Green" />
+        <Button text="Salvar Edições" type="Green" />
       </View>
     </SafeAreaView>
   );

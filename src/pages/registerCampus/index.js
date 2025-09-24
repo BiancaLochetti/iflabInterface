@@ -59,14 +59,15 @@ export function RegisterCampus() {
           <Image
             source={require("../../assets/images/logo.png")}
             style={styles.logo}
+            resizeMode="contain"
           />
         </View>
 
-        <View style={styles.formSection}>
-          <Text style={styles.subtitle}>
-            Insira o nome e a unidade federativa do campus
-          </Text>
+        <Text style={styles.subtitle}>
+          Insira o nome e a unidade federativa do campus
+        </Text>
 
+        <View style={styles.formSection}>
           <View style={styles.inputRow}>
             <View style={styles.inputWithIcon}>
               <Ionicons name="school-outline" size={20} color="#4A4A4A" style={styles.icon} />

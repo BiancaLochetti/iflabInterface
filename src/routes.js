@@ -19,13 +19,13 @@ export function Routes() {
     <Tab.Navigator
       screenOptions={{
         tabBarStyle:{
-            backgroundColor: colors.iflab_white_dark
+            backgroundColor: colors.primary_green_dark
         }
       }}
     >
       <Tab.Screen
         name="Home"
-        component={RegisterUser} 
+        component={Home} 
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -50,7 +50,7 @@ export function Routes() {
 
       <Tab.Screen 
         name="Calendar" 
-        component={Calendar} 
+        component={RegisterUser} 
         options={{
           headerShown: false,
           tabBarShowLabel: false,
@@ -106,13 +106,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginTop: 20,
-    tintColor: colors.iflab_gray
+    tintColor: colors.white_dark
   },
 
   iconD:{
     width: 30,
     height: 30,
     marginTop: 20,
-    tintColor: colors.iflab_gray_medium
+    tintColor: colors.white_full
   },
 });

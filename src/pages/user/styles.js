@@ -3,6 +3,7 @@ import colors from '../../colors';
 
 const styles = StyleSheet.create({
     container:{
+        flex: 1,
         backgroundColor: colors.white_full,
         height: '100%'
     },
@@ -34,16 +35,20 @@ const styles = StyleSheet.create({
 
     title:{
         fontSize: 16,
-        color: colors.primary_text_gray
+        color: colors.primary_text_gray,
     },
 
     subContainer:{
-        flexDirection: 'column',
         marginLeft: 20,
         marginRight: 20,
         gap: 10
     },
 
+    emailContainer:{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
 
     button:{
         justifyContent: 'space-around',
@@ -51,7 +56,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingBottom: 20,
         alignContent: 'flex-end'
-    }
+    },
+
 });
 
 export default styles;

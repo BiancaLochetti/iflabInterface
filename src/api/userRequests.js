@@ -1,6 +1,6 @@
 import IP from "./settings";
 
-const url = `https://${IP}/users/`;
+const url = `https://${IP}/user/`;
 
 //Registra um novo usuário
 async function registerUser(userData) {
@@ -51,22 +51,15 @@ async function logoutUser(token) {
 
 //Valida email enviando código
 async function sendEmailValidation(user_email, reason_for_code) {
-  console.log(user_email, reason_for_code)
-
-  const options = {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'User-Agent': 'insomnia/11.1.0'},
-    body: JSON.stringify({user_email, reason_for_code })
-  };
-
   try {
-    const response = await fetch(url +"email/getcode", options);
-
-    const data = await (response.json());
-
-    console.log(data)
+    const response = await fetch(url + "email-validation", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ user_email, reason_for_code }),
+    });
+    return await response.json();
   } catch (err) {
-    console.log(err);
+    return { status: false };
   }
 }
 
