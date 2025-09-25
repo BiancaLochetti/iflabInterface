@@ -31,10 +31,10 @@ export function RegisterCampus() {
     if (!campusName || !campusUF) return;
 
     setLoading(true);
-    const result = await registerCampus({
-      campus_name: campusName,
-      campus_uf: campusUF,
-    });
+    const result = await registerCampus(
+      campusName,
+      campusUF,
+    );
     setLoading(false);
 
     if (result && result.status) {
