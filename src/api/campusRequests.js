@@ -13,7 +13,7 @@
 // Imports:
 
 // Endereço IP da API (pode variar):
-import IP from "./settings"
+import IP from "./settings";
 
 // O=========================================================================================================O //
 
@@ -47,6 +47,7 @@ async function registerCampus(campus_name, campus_uf) {
 // Função para listar todos os campus:
 async function listCampus() {
   const url = `https://${IP}/campus/get`;
+  console.log(url)
 
   const options = {
     method: "GET",
@@ -64,70 +65,14 @@ async function listCampus() {
 
     return data;
   } catch (err) {
+
     return { status: false, msg: "Erro ao conectar com o servidor: " + err };
   }
 }
 
 // O=========================================================================================================O //
 
-// Exportação das funções:
+// Exportando requisições:
 export { registerCampus, listCampus };
 
 // O=========================================================================================================O //
-
-
-
-
-
-/* 
-const url = `https://${IP}/campus/`
-
-// Função para pegar todos os campus:
-async function listCampus() {
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Content-Type": "application/json",
-    },
-  };
-
-  try {
-    const response = await fetch(`${url}get`, options);
-    const data = await response.json();
-
-    return data;
-  } catch (err) {
-   return {
-      status: false,
-      msg: "Não foi possível listar campus. Tente novamente mais tarde.",
-    };
-  }
-}
-
-//Função para registrar um campus
-async function registerCampus(campusData) {
-  try {
-    const response = await fetch(url + "register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(campusData),
-    });
-
-    const data = await response.json();
-    console.log(data);
-    return data;
-  } catch (err) {
-    return {
-      status: false,
-      msg: "Não foi possível registrar o campus. Tente novamente mais tarde.",
-    };
-  }
-}
-
-// Export
-export { registerCampus, listCampus };
-
- */
