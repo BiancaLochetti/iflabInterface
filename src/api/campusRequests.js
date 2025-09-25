@@ -88,6 +88,7 @@ async function listCampus() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
+      "Content-Type": "application/json",
     },
   };
 
@@ -97,14 +98,16 @@ async function listCampus() {
 
     return data;
   } catch (err) {
-    return { false: false };
+   return {
+      status: false,
+      msg: "Não foi possível listar campus. Tente novamente mais tarde.",
+    };
   }
 }
 
 //Função para registrar um campus
 async function registerCampus(campusData) {
   try {
-
     const response = await fetch(url + "register", {
       method: "POST",
       headers: {
@@ -114,9 +117,13 @@ async function registerCampus(campusData) {
     });
 
     const data = await response.json();
+    console.log(data);
     return data;
   } catch (err) {
-    return false;
+    return {
+      status: false,
+      msg: "Não foi possível registrar o campus. Tente novamente mais tarde.",
+    };
   }
 }
 

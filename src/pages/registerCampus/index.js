@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import { registerCampus } from "../../api/campusRequests";
 import { styles } from "./styles";
 
@@ -53,25 +54,31 @@ export function RegisterCampus() {
     >
       <ScrollView contentContainerStyle={styles.content}>
         
+        {/* 🔝 TOPO: Logo */}
         <View style={styles.topSection}>
           <Image
             source={require("../../assets/images/logo.png")}
             style={styles.logo}
+            resizeMode="contain"
           />
         </View>
 
-        <View style={styles.formSection}>
-          <Text style={styles.subtitle}>
-            Insira o nome e a unidade federativa do campus
-          </Text>
+        <Text style={styles.subtitle}>
+          Insira o nome e a unidade federativa do campus
+        </Text>
 
+        <View style={styles.formSection}>
           <View style={styles.inputRow}>
-            <TextInput
-              style={styles.input}
-              placeholder="Nome do campus"
-              value={campusName}
-              onChangeText={setCampusName}
-            />
+            <View style={styles.inputWithIcon}>
+              <Ionicons name="school-outline" size={20} color="#4A4A4A" style={styles.icon} />
+              <TextInput
+                style={styles.input}
+                placeholder="Nome do campus"
+                value={campusName}
+                onChangeText={setCampusName}
+              />
+            </View>
+
             <View style={styles.pickerContainer}>
               <Picker
                 selectedValue={campusUF}
@@ -86,7 +93,7 @@ export function RegisterCampus() {
             </View>
           </View>
         </View>
-
+        
         <View style={styles.bottomSection}>
           <TouchableOpacity
             style={[

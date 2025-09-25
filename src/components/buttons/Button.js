@@ -40,7 +40,10 @@ const Button = ({ text, onPress, disabled = false, icon = null, type }) => {
       onPress={onPress}
       disabled={disabled}
     >
-      <View style={styles.content}>
+      <View style={[
+        styles.contentW,
+        icon && styles.content
+      ]}>
         {icon && (
           <Image
             source={icon}
@@ -76,7 +79,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     gap: 10,
-    width: "100%",
+    width: "auto",
+    padding: 18,
+  },
+
+  contentW:{
+    justifyContent: 'center',
+    alignItems: "center",
+    width: "auto",
     padding: 18,
   },
 
