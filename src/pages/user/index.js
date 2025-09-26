@@ -1,4 +1,4 @@
-// Imports
+//Import nativo
 import {
   Text,
   View,
@@ -7,15 +7,16 @@ import {
   ScrollView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 
+//Import components
 import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
 import EmailModal from "../../components/modals/EmailModal";
 
+//importe estilização
 import styles from "./styles";
 import colors from "../../colors";
-
-import { useState } from "react";
 
 //--------------------------------------------------------
 

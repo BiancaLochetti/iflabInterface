@@ -43,3 +43,5 @@ async function listSections() {
     return { status: false, msg: "Erro ao conectar com o servidor: " + err };
   }
 } 
+
+export {listSections};

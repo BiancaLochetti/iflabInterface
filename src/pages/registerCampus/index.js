@@ -1,3 +1,4 @@
+//Import nativo
 import React, { useState } from "react";
 import {
   View,
@@ -14,7 +15,11 @@ import {
 import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+
+//Import API
 import { registerCampus } from "../../api/campusRequests";
+
+//Import estilização
 import { styles } from "./styles";
 
 export function RegisterCampus() {
@@ -54,7 +59,6 @@ export function RegisterCampus() {
     >
       <ScrollView contentContainerStyle={styles.content}>
         
-        {/* 🔝 TOPO: Logo */}
         <View style={styles.topSection}>
           <Image
             source={require("../../assets/images/logo.png")}

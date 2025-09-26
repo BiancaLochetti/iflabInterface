@@ -1,6 +1,4 @@
-// BIA, ESTOU APENAS SUBSTITUINDO OS INPUTS E BOTÕES PARA OS COMPONENTES JÁ PRONTOS
-
-// Imports
+//Import nativo
 import React, { useState } from "react";
 import {
   View,
@@ -13,12 +11,16 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
+//Import estilização
+import { styles } from "./styles";
+
+//Import API
 import { registerUser } from "../../api/userRequests";
 
+//Import components
 import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
-
-import { styles } from "./styles";
 import EmailModal from "../../components/modals/EmailModal";
 
 // ================================================================

@@ -25,13 +25,13 @@ const Dropdown = ({ items, placeholder, value, setValue }) => {
         minWidth: 115,
         height: "auto",
         minHeight: 40,
-        backgroundColor: colors.emphasis_gray,
+        backgroundColor: colors.white_medium,
         borderWidth: 0,
       }}
       dropDownContainerStyle={{
         width: "auto",
         minWidth: 115,
-        backgroundColor: colors.emphasis_gray,
+        backgroundColor: colors.white_medium,
         borderWidth: 0,
       }}
     />

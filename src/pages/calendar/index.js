@@ -1,13 +1,17 @@
-// Imports
+//Import nativo
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useEffect, useState } from "react";
 
+//Import estilização
 import styles from "./styles";
 import colors from "../../colors";
 
-import { useEffect, useState } from "react";
+//Import components
 import { DataSelection } from "../../components/cards/DataSelection";
 import { Sections } from "../../components/cards/Sections";
+
+//Import API
 import { listSections } from "../../api/SectionsRequests";
 
 //--------------------------------------------------------
@@ -67,7 +71,7 @@ export function Calendar() {
             zIndex: -1,
           }}
         >
-          <Text style={[styles.textFont, { marginBottom: 10 }]}> 
+          <Text style={[styles.textFont, { marginBottom: 10 }]}>
             Sessões em andamento:
           </Text>
           {loading ? (
