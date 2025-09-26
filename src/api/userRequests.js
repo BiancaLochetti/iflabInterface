@@ -20,7 +20,7 @@
   - [] get_user_info
 
 // O=========================================================================================================O //
-
+*/
 // Imports:
 
 // Endereço IP da API (pode variar):
@@ -105,6 +105,7 @@ async function email_validation(user_email, reason_for_code) {
     return { status: false, msg: "Erro ao conectar com o servidor: " + err };
   }
 }
+email_validation("rodrigues.mateus1@aluno.ifsp.edu.br",1);
 
 // O=========================================================================================================O //
 
@@ -346,14 +347,6 @@ export {
 };
 
 // O=========================================================================================================O //
-
-
-
-Apagar para ativar --------------> */
-
-
-
-import IP from "./settings";
 
 const url = `https://${IP}/user/`;
 

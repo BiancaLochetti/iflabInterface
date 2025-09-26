@@ -13,7 +13,7 @@
     "@react-native-picker/picker": "^2.11.2",
     "@react-navigation/bottom-tabs": "^7.4.7",
     "@react-navigation/native": "^7.1.17",
-    "expo": "^54.0.3",
+    "expo": "^54.0.10",
     "expo-status-bar": "~3.0.8",
     "react": "19.1.0",
     "react-dom": "19.1.0",

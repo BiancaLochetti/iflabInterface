@@ -1,7 +1,8 @@
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useState } from 'react';
+import colors from '../../colors';
 
-export function Sections() {
+export function Sections({ inicio, fim, materiaisReservados, elementosReservados, labName, formDone }) {
     const [showBox, setShowBox] = useState(false);
 
     const handleArrowPress = () => {
@@ -16,7 +17,7 @@ export function Sections() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.titleFree}>11:30 até 14:40</Text>
+                <Text style={styles.titleFree}>{inicio} até {fim}</Text>
                 <TouchableOpacity onPress={handleArrowPress}>
                     <Image
                         source={require('../../assets/icons/UI/down.png')}
@@ -25,16 +26,20 @@ export function Sections() {
                     />
                 </TouchableOpacity>   
             </View>
+
             {showBox && (
                 <TouchableOpacity style={styles.finishBox} onPress={handleFinish}>
                     <Text style={styles.finishText}>Finalizar seção</Text>
                 </TouchableOpacity>
             )}
             <View>
-                <Text style={styles.TextFont}>3 elementos reservados</Text>
-                <Text style={styles.TextFont}>6 equipamentos reservados</Text>
+                <Text style={styles.TextFont}>{elementosReservados} elementos reservados</Text>
+                <Text style={styles.TextFont}>{materiaisReservados} equipamentos reservados</Text>
+                {labName && <Text style={styles.TextFont}>Laboratório: {labName}</Text>}
+                {formDone !== undefined && (
+                  <Text style={styles.TextFont}>Formulário: {formDone ? 'Preenchido' : 'Pendente'}</Text>
+                )}
             </View>
-            
         </View>
     );
 }
@@ -77,15 +82,23 @@ const styles = StyleSheet.create({
     },
 
     finishBox: {
+        position: 'absolute',
+        top: 50,
+        right: 20,
         backgroundColor: '#ffffff',
         paddingVertical: 10,
         paddingHorizontal: 16,
         borderRadius: 8,
-        alignSelf: 'flex-end',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 5,
+        zIndex: 10,
     },
 
     finishText: {
-        color: 'black',
+        color: colors.primary_text_gray,
         fontWeight: 'bold',
         fontSize: 16,
         textAlign: 'center',

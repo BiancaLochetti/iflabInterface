@@ -5,13 +5,32 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import styles from "./styles";
 import colors from "../../colors";
 
+import { useEffect, useState } from "react";
 import { DataSelection } from "../../components/cards/DataSelection";
 import { Sections } from "../../components/cards/Sections";
+import { listSections } from "../../api/SectionsRequests";
 
 //--------------------------------------------------------
 
 // Página Principal
 export function Calendar() {
+  const [sessions, setSessions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchSessions() {
+      setLoading(true);
+      const result = await listSections();
+      if (result && result.sessionsList) {
+        setSessions(result.sessionsList);
+      } else {
+        setSessions([]);
+      }
+      setLoading(false);
+    }
+    fetchSessions();
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white_full }}>
       <View style={styles.header}>
@@ -38,8 +57,7 @@ export function Calendar() {
         <DataSelection />
       </View>
 
-      {/* Mateusão, deixei comentário pq tava dando buxa kkkk so arruma isso ai pode tirar */}
-      {/* <View>
+      <View>
         <View
           style={{
             marginBottom: 5,
@@ -49,12 +67,30 @@ export function Calendar() {
             zIndex: -1,
           }}
         >
-          <Text style={[styles.textFont, { marginBottom: 10 }]}>
+          <Text style={[styles.textFont, { marginBottom: 10 }]}> 
             Sessões em andamento:
           </Text>
-          <Sections />
+          {loading ? (
+            <Text style={{ textAlign: 'center', color: '#555' }}>Carregando...</Text>
+          ) : sessions.length === 0 ? (
+            <View style={{ justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+              <Text style={{ textAlign: 'center', color: '#555' }}>Nenhuma sessão reservada</Text>
+            </View>
+          ) : (
+            sessions.map((session, idx) => (
+              <Sections
+                key={session.sessionId || idx}
+                inicio={session.date}
+                fim={session.date}
+                materiaisReservados={session.equipmentsQtd}
+                elementosReservados={session.elementsQtd}
+                labName={session.labName}
+                formDone={session.formDone}
+              />
+            ))
+          )}
         </View>
-      </View> */}
+      </View>
 
     </SafeAreaView>
   );
