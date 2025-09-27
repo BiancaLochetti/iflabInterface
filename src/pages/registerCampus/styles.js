@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
 
   content: {
     flexGrow: 1,
-    paddingHorizontal: 32, // ← mais preenchido
+    paddingHorizontal: 32,
     paddingTop: 64,
     paddingBottom: 64,
   },
@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
   // 📝 FORMULÁRIO
   formSection: {
     flex: 1,
-    marginTop: 30,
+    marginTop: 24,   // <-- ajustado (distância do texto até o input)
     marginBottom: 50,
   },
 
@@ -43,51 +43,57 @@ export const styles = StyleSheet.create({
     color: colors.input_text_gray,
     fontWeight: "400",
     lineHeight: 20,
-    marginBottom: 16,
+    marginBottom: 0, // tiramos aqui pq usamos marginTop no formSection
   },
 
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
     maxWidth: 360,
     alignSelf: "center",
     marginBottom: 36,
-  },
-
-  inputWithIcon: {
-    flexDirection: "row",
-    alignItems: "center",
     borderBottomWidth: 1,
     borderBottomColor: colors.emphasis_gray,
-    marginRight: 12,
-    flex: 1,
-  },
-
-  icon: {
-    marginRight: 8,
+    zIndex: 1000, // necessário pro dropdown não ficar escondido
   },
 
   input: {
     flex: 1,
     fontSize: 14,
     paddingVertical: 8,
-    color: colors.primary_text_gray,
+    color: "#333",
     fontWeight: "300",
   },
 
-  pickerContainer: {
-    width: 80,
-    height: 40,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: colors.emphasis_gray,
-    backgroundColor: colors.white_full,
-    justifyContent: "center",
+  iconRight: {
+    marginHorizontal: 8,
   },
 
-  picker: {
+  // 🔽 DROPDOWN CUSTOM
+  dropdown: {
+    width: 80,
     height: 40,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.emphasis_gray,
+    backgroundColor: "#E0E0E0",
+  },
+
+  dropdownContainer: {
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: colors.emphasis_gray,
+    backgroundColor: "#fff",
+    zIndex: 1000,
+  },
+
+  dropdownText: {
+    fontSize: 14,
+    color: "#000",
+  },
+
+  dropdownPlaceholder: {
     color: "#333",
     fontSize: 14,
   },
@@ -102,7 +108,7 @@ export const styles = StyleSheet.create({
   registerButton: {
     backgroundColor: colors.primary_green_dark,
     paddingVertical: 14,
-    borderRadius: 8,
+    borderRadius: 6,
     alignItems: "center",
     marginBottom: 24,
     width: "100%",
@@ -116,7 +122,7 @@ export const styles = StyleSheet.create({
   registerText: {
     color: "#FFFFFF",
     fontSize: 14,
-    fontWeight: "400", // ← mais leve
+    fontWeight: "400",
   },
 
   cancelButton: {

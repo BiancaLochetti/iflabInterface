@@ -12,9 +12,9 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import DropDownPicker from "react-native-dropdown-picker";
 
 //Import API
 import { registerCampus } from "../../api/campusRequests";
@@ -28,19 +28,44 @@ export function RegisterCampus() {
   const [campusUF, setCampusUF] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const ufs = [
-    "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG",
-    "PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"
-  ];
+  // Dropdown
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { label: "UF", value: "" },
+    { label: "AC", value: "AC" },
+    { label: "AL", value: "AL" },
+    { label: "AP", value: "AP" },
+    { label: "AM", value: "AM" },
+    { label: "BA", value: "BA" },
+    { label: "CE", value: "CE" },
+    { label: "DF", value: "DF" },
+    { label: "ES", value: "ES" },
+    { label: "GO", value: "GO" },
+    { label: "MA", value: "MA" },
+    { label: "MT", value: "MT" },
+    { label: "MS", value: "MS" },
+    { label: "MG", value: "MG" },
+    { label: "PA", value: "PA" },
+    { label: "PB", value: "PB" },
+    { label: "PR", value: "PR" },
+    { label: "PE", value: "PE" },
+    { label: "PI", value: "PI" },
+    { label: "RJ", value: "RJ" },
+    { label: "RN", value: "RN" },
+    { label: "RS", value: "RS" },
+    { label: "RO", value: "RO" },
+    { label: "RR", value: "RR" },
+    { label: "SC", value: "SC" },
+    { label: "SP", value: "SP" },
+    { label: "SE", value: "SE" },
+    { label: "TO", value: "TO" },
+  ]);
 
   async function handleRegister() {
     if (!campusName || !campusUF) return;
 
     setLoading(true);
-    const result = await registerCampus(
-      campusName,
-      campusUF,
-    );
+    const result = await registerCampus(campusName, campusUF);
     setLoading(false);
 
     if (result && result.status) {
@@ -59,6 +84,7 @@ export function RegisterCampus() {
     >
       <ScrollView contentContainerStyle={styles.content}>
         
+        {/* TOPO */}
         <View style={styles.topSection}>
           <Image
             source={require("../../assets/images/logo.png")}
@@ -71,33 +97,44 @@ export function RegisterCampus() {
           Insira o nome e a unidade federativa do campus
         </Text>
 
+        {/* FORM */}
         <View style={styles.formSection}>
           <View style={styles.inputRow}>
-            <View style={styles.inputWithIcon}>
-              <Ionicons name="school-outline" size={20} color="#4A4A4A" style={styles.icon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Nome do campus"
-                value={campusName}
-                onChangeText={setCampusName}
-              />
-            </View>
+            <TextInput
+              style={styles.input}
+              placeholder="Nome do campus"
+              value={campusName}
+              onChangeText={setCampusName}
+            />
 
-            <View style={styles.pickerContainer}>
-              <Picker
-                selectedValue={campusUF}
-                onValueChange={(value) => setCampusUF(value)}
-                style={styles.picker}
-              >
-                <Picker.Item label="UF" value="" />
-                {ufs.map((uf) => (
-                  <Picker.Item key={uf} label={uf} value={uf} />
-                ))}
-              </Picker>
+            <Ionicons
+              name="school-outline" 
+              size={20}
+              color="#4A4A4A"
+              style={styles.iconRight}
+            />
+
+            {/* Dropdown UF */}
+            <View style={{ zIndex: 1000 }}>
+              <DropDownPicker
+                open={open}
+                value={campusUF}
+                items={items}
+                setOpen={setOpen}
+                setValue={setCampusUF}
+                setItems={setItems}
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownContainer}
+                placeholder="UF"
+                listMode="SCROLLVIEW"
+                textStyle={styles.dropdownText}
+                placeholderStyle={styles.dropdownPlaceholder}
+              />
             </View>
           </View>
         </View>
         
+        {/* BOTÕES */}
         <View style={styles.bottomSection}>
           <TouchableOpacity
             style={[
