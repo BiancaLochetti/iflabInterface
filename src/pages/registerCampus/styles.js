@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 64,
   },
 
-  // 🔝 TOPO
   topSection: {
     alignItems: "center",
     marginBottom: 24,
@@ -28,10 +27,9 @@ export const styles = StyleSheet.create({
     marginTop: 24,
   },
 
-  // 📝 FORMULÁRIO
   formSection: {
     flex: 1,
-    marginTop: 24,   // <-- ajustado (distância do texto até o input)
+    marginTop: 24,  
     marginBottom: 50,
   },
 
@@ -43,7 +41,7 @@ export const styles = StyleSheet.create({
     color: colors.input_text_gray,
     fontWeight: "400",
     lineHeight: 20,
-    marginBottom: 0, // tiramos aqui pq usamos marginTop no formSection
+    marginBottom: 0, 
   },
 
   inputRow: {
@@ -55,7 +53,7 @@ export const styles = StyleSheet.create({
     marginBottom: 36,
     borderBottomWidth: 1,
     borderBottomColor: colors.emphasis_gray,
-    zIndex: 1000, // necessário pro dropdown não ficar escondido
+    zIndex: 1000, 
   },
 
   input: {
@@ -70,7 +68,6 @@ export const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
 
-  // 🔽 DROPDOWN CUSTOM
   dropdown: {
     width: 80,
     height: 40,
@@ -98,7 +95,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
   },
 
-  // ⬇️ RODAPÉ
   bottomSection: {
     marginTop: 20,
     alignItems: "center",
