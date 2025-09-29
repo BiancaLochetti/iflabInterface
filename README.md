@@ -1,35 +1,37 @@
 # IFLab - Aplicativo de gestão de laboratório de química do Instituto Federal Campus Campinas
 
-### Descrição do projeto
+![Static Badge](https://img.shields.io/badge/API-%20Node%2FExpress-red?style=flat-square)
+![Static Badge](https://img.shields.io/badge/Interface-%20React%20Native-blue?style=flat-square)
+![Static Badge](https://img.shields.io/badge/Status-Em%20desenvolvimento-orange?style=flat-square)
 
-> O IFLab é uma plataforma de gerenciamento dos laboratórios do Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP) - Campus Campinas. Este software oferece uma ampla gama de funcionalidades, incluindo a administração segura dos elementos e equipamentos presentes nos laboratórios de química do instituto. Além disso, dispõe de recursos para a reserva desses espaços, prevenindo conflitos de horários entre os usuários.
-> A primeira versão do projeto, concluída em 2024, teve como principal objetivo a implementação de uma interface gráfica voltada para computadores desktops. Já a segunda versão, prevista para 2025, trará aprimoramentos significativos, como um sistema de back-end mais robusto e seguro, uma versão mobile do aplicativo e melhorias na interface gráfica para desktops.
 
-### Desenvolvedores
+O IFLab é uma plataforma de gerenciamento dos laboratórios do Instituto Federal de Educação, Ciência e Tecnologia de São Paulo (IFSP) - Campus Campinas. Este software oferece uma ampla gama de funcionalidades, incluindo a administração segura dos elementos e equipamentos presentes nos laboratórios de química do instituto. Além disso, dispõe de recursos para a reserva desses espaços, prevenindo conflitos de horários entre os usuários.
+
+### 🧑‍💻 Desenvolvedores
 
 > [Bianca Ferreira de Santana Lochetti](https://github.com/BiancaLochetti)\
 >  [Lucas Haiter Leoni](https://github.com/lucashaiter)\
 >  [Mateus Rodrigues Martins](https://github.com/shimetsu3)\
 >  [Matheus Camargo Ginebro](https://github.com/MatheusCamargoGinebro)
 
-### Repositórios
+### 📂 Repositórios
 
 > [API](https://github.com/MatheusCamargoGinebro/APIFlab_v2.0)\
 >  [Interface](https://github.com/BiancaLochetti/iflabInterface)
 
-## Iniciando o sistema
+## 🚀 Iniciando o sistema
 
 > [!NOTE]
 > O sistema ainda está em desenvolvimento, e qualquer erro poderá ser notificado para que possamos resolver. Para o funcionamento correto e satisfatório, é necessário que tanto a API quanto a interface estejam rodando ao mesmo tempo.
 
-### 1. Requisitos para a API
+### ⚙️ 1. Requisitos para a API
 
 Para o funcionamento correto da API, alguns requisitos devem ser cumpridos:
 
 > 1.1 A biblioteca open source [OpenSSL](https://openssl-library.org/source/) precisa estar instalada e configurada no seu ambiente;\
 >  1.2 o arquivo .env precisa ser criado e configurado. Para mais detalhes sobre o que colocar nesse arquivo, entrar em contato com qualquer um dos desenvolvedores.
 
-### 2. Iniciando a API
+### 🔄 2. Iniciando a API
 
 Após clonar o [repositório da API](https://github.com/MatheusCamargoGinebro/APIFlab_v2.0), faça os seguintes passos:
 
@@ -56,7 +58,7 @@ HTTPS server running at https://192.168.0.51:3333
 > [!warning]
 > O endereço IP exibido na mensagem do terminal será o mesmo endereço IP da máquina que você estiver utilzando para rodar a API. Para o melhor funcionamento do sistema, a porta :3333 precisa obrigaróriamente estar aberta.
 
-### 3. Requisitos para a interface
+### ⚙️ 3. Requisitos para a interface
 
 Para o funcionamento da interface do IFLab, é necessário que:
 
@@ -67,7 +69,7 @@ Para o funcionamento da interface do IFLab, é necessário que:
 >  3.4.1 Se no android, deve-se instalar o aplicativo **Expo Go** e ler o QRCode;\
 >  3.4.2 Se no IOS, utilizar a câmera do celular para ler o QRCode.
 
-### 4. Iniciando a interface
+### 🔄 4. Iniciando a interface
 
 Após clonar o [repositório da interface](https://github.com/BiancaLochetti/iflabInterface), utilize os comandos a seguir para iniciar o app:
 
@@ -78,7 +80,7 @@ npm run start
 
 Será gerado um `QRCode` que deve ser lido pelo celular. Alternativamente, também é possível pressionar a tecla `w`, para abrir o sistema na web.
 
-## Diagramas
+## 🗺️ Diagramas
 
 ### Diagrama de entidade e relacionamento (DER)
 
@@ -104,7 +106,7 @@ Será gerado um `QRCode` que deve ser lido pelo celular. Alternativamente, tamb�
 
 <hr>
 
-## Rotas disponíveis
+## 🔗 Rotas disponíveis
 
 ### Campus
 
@@ -704,13 +706,14 @@ Entrada:
 {
      element_name,
      element_image,
-     element_molar__ass,
+     element_molar_mass,
      element_quantity,
      element_cas_number,
      element_ec_number,
      element_admin_level,
      element_validity,
-     element_physical_state
+     element_physical_state,
+     lab_id
 }
 ```
 
