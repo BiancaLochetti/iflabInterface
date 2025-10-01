@@ -28,78 +28,79 @@ export function Home() {
     // Carregando informações do usuário e lista de laboratórios:
     async function getUser() {
       const userData = await get_user_info();
-
       if (userData.status) {
         setUser(userData.data)
       }
     }
-
     getUser();
 
     async function getLab() {
       const labData = await get_laboratories();
-
       if (labData.status) {
-        setLab(labData)
+        const sortedLabs = labData.labsList.sort((a, b) =>
+          a.labName.localeCompare(b.labName) // ordena alfabeticamente
+        );
+        setLab({
+          ...labData,
+          labsList: sortedLabs
+        });
       }
     }
-
     getLab();
+
   }, []);
 
 
-  console.log(user)
-  /*   localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTg5MDU4OTQsImV4cCI6MTc1ODk5MjI5NH0.zolMmLC5HeqVM335tEvomMp9LoUmj7fR2WUE9yMutmQ")
-    const teste = localStorage.getItem("token") */
-
+  localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTkzMzczMzcsImV4cCI6MTc1OTQyMzczN30.VfMt3tO9nD5In2SeLc_xj1ylb05ZAPHE-Ny3TiTgP5M")
+  const teste = localStorage.getItem("token")
 
   return (
     !!user && !!lab
       ? (
-
         <SafeAreaView style={styles.container}>
-          <Text>{user.user_name}</Text>
-          <Text>{lab.labsList[0].lab_name}</Text>
-
-          
           {/* Cabeçalho com logo e botão de perfil */}
-          {/*       <View style={styles.header}>
-        <Image
-          source={require("../../assets/images/logo.png")}
-          style={styles.logo}
-          resizeMode="contain"
-        />
-        <TouchableOpacity onPress={() => navigation.navigate('RegisterCampus')}>
-          <Image
-            source={require("../../assets/icons/UI/user.png")}
-            style={styles.profile}
-          />
-        </TouchableOpacity>
-      </View> */}
+          <View style={styles.header}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+            <TouchableOpacity onPress={() => navigation.navigate('RegisterCampus')}>
+              <Image
+                source={user.user_image}
+                style={styles.profile}
+              />
+            </TouchableOpacity>
+          </View>
 
           {/* Botão para adicionar laboratório */}
-          {/*       <View style={styles.addLab}>
-        <Button
-          text=" + Adicionar Laboratório"
-          onPress={() => alert("AddLab!")}
-          disabled={false}
-          type="White"
-        />
-      </View> */}
+          <View style={styles.addLab}>
+            <Button
+              text=" + Adicionar Laboratório"
+              onPress={() => alert("AddLab!")}
+              disabled={false}
+              type="White"
+            />
+          </View>
 
           {/* Lista de cards de laboratório */}
-          {/*       <ScrollView contentContainerStyle={styles.content}>
-        <LabCard status={false} />
-        <LabCard status={true} />
-        <LabCard status={true} />
-        <LabCard status={false} />
-        <LabCard status={true} />
-        <LabCard status={false} />
-      </ScrollView> */}
-
-
+          <ScrollView contentContainerStyle={styles.content}>
+            {lab.labsList.map((lab, idx) => (
+              <LabCard
+                key={idx}
+                lab={lab.labName}
+                status={lab.status}
+                responsable={lab.userName}
+                lastResp={lab.userName}
+                hour={lab.startAt + " - " + lab.endsAt}
+                lastHour={lab.startAt + " - " + lab.endsAt}
+              />
+            ))}
+          </ScrollView>
         </SafeAreaView>
       ) : (
-        <SafeAreaView style={styles.container}>carregando</SafeAreaView>)
+        <SafeAreaView style={styles.container}>
+          
+        </SafeAreaView>)
   );
 }

@@ -40,14 +40,14 @@ const LabCard = ({
           Laboratório <Text style={{ fontWeight: "bold" }}>{lab}</Text>
         </Text>
         <View style={{ flexDirection: "row", gap: 8 }}>
-          {status ? (
+          {status === 0 ? (
             <>
               <Image
                 style={iconStyle}
                 resizeMode="contain"
                 source={require("../../assets/icons/UI/check.png")}
               />
-              <Text style={textStyle}>Livre para reservar</Text>
+              <Text style={textStyle}>Em uso no momento</Text>
             </>
           ) : (
             <>
@@ -56,13 +56,13 @@ const LabCard = ({
                 resizeMode="contain"
                 source={require("../../assets/icons/UI/alert.png")}
               />
-              <Text style={textStyle}>Em uso no momento</Text>
+              <Text style={textStyle}>Livre para reservar</Text>
             </>
           )}
         </View>
       </View>
       <View style={styles.content}>
-        {status ? (
+        {status === 0 ? (
           <>
             <Text style={textStyle}>Informações da última sessão:</Text>
             <Text style={textStyle}>Responsável: {lastResp}</Text>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white_full,
     fontSize: 16,
-    flexDirection: "row",
+    flexDirection: "row"
   },
 
   icon: {

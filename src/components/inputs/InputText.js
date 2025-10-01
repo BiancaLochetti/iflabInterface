@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5
   },
 
-  inputBorder:{
+  inputBorder: {
     width: "auto",
     flexDirection: "row",
     alignItems: "center",
@@ -87,11 +87,12 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     paddingBottom: 18,
     color: colors.primary_text_gray,
+    outlineStyle: 'none'
   },
 
   iconImage: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
     marginLeft: 10,
     tintColor: colors.primary_text_gray,
     paddingRight: 5

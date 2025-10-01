@@ -29,7 +29,7 @@ import IP from "./settings";
 // O=========================================================================================================O //
 
 async function login_user(user_email, user_password) {
-  const url = `https://${IP}/user/login`;
+  const url = `https://${IP}/users/login`;
 
   const options = {
     method: "POST",
@@ -326,6 +326,7 @@ async function get_user_info() {
 
     return data;
   } catch (err) {
+    console.log("IP:", IP)
     return { status: false, msg: "Erro ao conectar com o servidor: " + err };
   }
 }

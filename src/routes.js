@@ -8,6 +8,7 @@ import { Calendar } from "./pages/calendar";
 import { User } from "./pages/user";
 import { RegisterCampus } from "./pages/registerCampus";
 import { RegisterUser } from "./pages/registerUser";
+import { Login } from "./pages/login";
 
 // Componentes de navegação:
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -28,7 +29,8 @@ export function Routes() {
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: colors.primary_text_gray
+            backgroundColor: colors.primary_green_dark,
+            paddingBottom: 20
           }
         }}
       >
@@ -59,7 +61,7 @@ export function Routes() {
 
         <Tab.Screen
           name="Calendar"
-          component={Calendar}
+          component={Login}
           options={{
             headerShown: false,
             tabBarShowLabel: false,
@@ -118,7 +120,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     marginTop: 20,
-    tintColor: colors.alert_red_btns
+    tintColor: colors.secundary_green
   },
 
   iconD: {
