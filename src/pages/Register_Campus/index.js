@@ -22,7 +22,7 @@ import { registerCampus } from "../../api/campusRequests";
 //Import estilização
 import { styles } from "./styles";
 
-export function RegisterCampus() {
+export function Register_Campus() {
   const navigation = useNavigation();
   const [campusName, setCampusName] = useState("");
   const [campusUF, setCampusUF] = useState("");
@@ -83,7 +83,7 @@ export function RegisterCampus() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView contentContainerStyle={styles.content}>
-        
+
         {/* TOPO */}
         <View style={styles.topSection}>
           <Image
@@ -108,7 +108,7 @@ export function RegisterCampus() {
             />
 
             <Ionicons
-              name="school-outline" 
+              name="school-outline"
               size={20}
               color="#4A4A4A"
               style={styles.iconRight}
@@ -133,7 +133,7 @@ export function RegisterCampus() {
             </View>
           </View>
         </View>
-        
+
         {/* BOTÕES */}
         <View style={styles.bottomSection}>
           <TouchableOpacity

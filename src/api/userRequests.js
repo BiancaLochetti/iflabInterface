@@ -326,7 +326,6 @@ async function get_user_info() {
 
     return data;
   } catch (err) {
-    console.log("IP:", IP)
     return { status: false, msg: "Erro ao conectar com o servidor: " + err };
   }
 }

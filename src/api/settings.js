@@ -1,2 +1,2 @@
-const IP = "10.123.60.229:3333"; // IP API
+const IP = "192.168.0.69:3333"; // IP API
 export default IP;

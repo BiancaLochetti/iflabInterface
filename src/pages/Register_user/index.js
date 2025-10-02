@@ -26,7 +26,7 @@ import EmailModal from "../../components/modals/EmailModal";
 // ================================================================
 
 // Página Principal
-export function RegisterUser() {
+export function Register_user() {
   const navigation = useNavigation();
   const [step, setStep] = useState(1);
 

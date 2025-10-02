@@ -12,32 +12,32 @@ import { DataSelection } from "../../components/cards/DataSelection";
 import { Sections } from "../../components/cards/Sections";
 
 //Import API
-import { listSections } from "../../api/SectionsRequests";
+//import { listSections } from "../../api/SectionsRequests";
 
 //--------------------------------------------------------
 
 // Página Principal
 export function Calendar() {
-  const [sessions, setSessions] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchSessions() {
-      setLoading(true);
-      const result = await listSections();
-      if (result && result.sessionsList) {
-        setSessions(result.sessionsList);
-      } else {
-        setSessions([]);
+  /*   const [sessions, setSessions] = useState([]);
+    const [loading, setLoading] = useState(true);
+  
+    useEffect(() => {
+      async function fetchSessions() {
+        setLoading(true);
+        const result = await listSections();
+        if (result && result.sessionsList) {
+          setSessions(result.sessionsList);
+        } else {
+          setSessions([]);
+        }
+        setLoading(false);
       }
-      setLoading(false);
-    }
-    fetchSessions();
-  }, []);
+      fetchSessions();
+    }, []); */
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colors.white_full }}>
-      <View style={styles.header}>
+      {/*       <View style={styles.header}>
         <TouchableOpacity style={{ position: "absolute", left: 20 }}>
           <Image
             source={require("../../assets/icons/UI/chevrom.png")}
@@ -95,7 +95,7 @@ export function Calendar() {
           )}
         </View>
       </View>
-
+ */}
     </SafeAreaView>
   );
 }

@@ -50,7 +50,6 @@ export function Home() {
 
   }, []);
 
-
   localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTkzMzczMzcsImV4cCI6MTc1OTQyMzczN30.VfMt3tO9nD5In2SeLc_xj1ylb05ZAPHE-Ny3TiTgP5M")
   const teste = localStorage.getItem("token")
 
@@ -100,7 +99,7 @@ export function Home() {
         </SafeAreaView>
       ) : (
         <SafeAreaView style={styles.container}>
-          
+
         </SafeAreaView>)
   );
 }
