@@ -37,13 +37,13 @@ export const loginStyles = EStyleSheet.create({
   },
 
   inputs: {
-    gap: '4rem', 
+    gap: '1rem', 
   },
 
   buttonView: {
     justifyContent: 'center',
     flex: 1,
-    paddingHorizontal: '1rem'
+    paddingHorizontal: '1rem',
   },
 
   buttonContainer: {

@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 //Import estilização
 import { styles } from "./styles";
@@ -61,11 +62,8 @@ export function RegisterUser() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <ScrollView contentContainerStyle={styles.content}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView>
         <View style={step === 2 ? styles.logoViewStep2 : styles.logoView}>
           <Image
             source={require("../../assets/images/logo.png")}
@@ -96,21 +94,23 @@ export function RegisterUser() {
             </TouchableOpacity> */}
             {/* ===================================================== */}
             <View style={styles.buttonView}>
-              <Button
-                text="Receber código"
-                onPress={handleNextStep}
-                type="Green"
-              />
-              <Text style={styles.terms}>
-                Ao prosseguir, você confirma que leu e concorda com os termos de
-                uso e política de privacidade.
-              </Text>
+              <View style={{ gap: '1rem' }}>
+                <Button
+                  text="Receber código"
+                  onPress={handleNextStep}
+                  type="Green"
+                />
+                <Text style={styles.terms}>
+                  Ao prosseguir, você confirma que leu e concorda com os termos de
+                  uso e política de privacidade.
+                </Text>
 
-              <Button
-                text="Já tem uma conta? Logar"
-                onPress={() => navigation.navigate("Login")}
-                type="White"
-              />
+                <Button
+                  text="Já tem uma conta? Logar"
+                  onPress={() => navigation.navigate("Login")}
+                  type="White"
+                />
+              </View>
             </View>
           </>
         )}
@@ -190,6 +190,6 @@ export function RegisterUser() {
           </>
         )}
       </ScrollView>
-    </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }

@@ -62,6 +62,7 @@ const styles = EStyleSheet.create({
     borderBottomWidth: "0.0625rem",
     borderBottomColor: colors.primary_text_gray,
     paddingLeft: "0.3125rem",
+    justifyContent: 'space-evenly'
   },
 
   inputBorder: {

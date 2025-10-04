@@ -99,74 +99,39 @@ export function RegisterCampus() {
           </Text>
 
           <View style={styles.inputRow}>
-            <InputText
-              placeHolder="Nome do Campus"
-              type="campus"
-              onChange={setCampusName}
-              icon={require('../../assets/icons/UI/school.png')}
-            />
-
-            {/* <TextInput
-              style={styles.input}
-              placeholder="Nome do campus"
-              value={campusName}
-              onChangeText={setCampusName}
-            />
-
-            <Ionicons
-              name="school-outline"
-              size={20}
-              color="#4A4A4A"
-              style={styles.iconRight}
-            /> */}
-            <DropDownPicker
-              open={open}
-              value={campusUF}
-              items={items}
-              setOpen={setOpen}
-              setValue={setCampusUF}
-              setItems={setItems}
-              style={styles.dropdown}
-              dropDownContainerStyle={styles.dropdownContainer}
-              placeholder="UF"
-              listMode="SCROLLVIEW"
-              textStyle={styles.dropdownText}
-              placeholderStyle={styles.dropdownPlaceholder}
-            />
+            <View style={{ width: '70%' }}>
+              <InputText
+                placeHolder="Nome do Campus"
+                type="campus"
+                onChange={setCampusName}
+              />
+            </View>
+            <View style={{ width: '25%' }}>
+              <DropDownPicker
+                open={open}
+                value={campusUF}
+                items={items}
+                setOpen={setOpen}
+                setValue={setCampusUF}
+                setItems={setItems}
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownContainer}
+                placeholder="UF"
+                listMode="SCROLLVIEW"
+                textStyle={styles.dropdownText}
+                placeholderStyle={styles.dropdownPlaceholder}
+              />
+            </View>
           </View>
         </View>
 
-        <View style={styles.bottomSection}>
-          {/* <TouchableOpacity
-            style={[
-              styles.registerButton,
-              !(campusName && campusUF) && styles.disabledButton,
-            ]}
-            disabled={!(campusName && campusUF) || loading}
-            onPress={handleRegister}
-            activeOpacity={0.8}
-          >
-            {loading ? (
-              <ActivityIndicator size="small" color="#fff" />
-            ) : (
-              <Text style={styles.registerText}>Registrar campus</Text>
-            )}
-          </TouchableOpacity> */}
-
+        <View style={styles.buttonView}>
           <Button
             disabled={!(campusName && campusUF)}
             type="Green"
             onPress={handleRegister}
             text="Registrar Campus"
           />
-
-          {/* <TouchableOpacity
-            style={styles.cancelButton}
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.cancelText}>Cancelar</Text>
-          </TouchableOpacity> */}
-
           <Button
             type="White"
             onPress={() => navigation.goBack()}

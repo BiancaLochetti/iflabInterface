@@ -6,12 +6,7 @@ export const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white_full,
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-
-  content: {
-    flexGrow: 1,
+    justifyContent: "space-around",
     padding: "2rem",
   },
 
@@ -33,7 +28,7 @@ export const styles = EStyleSheet.create({
   formView: {
     flex: 1,
     justifyContent: 'center',
-    gap: '1rem'
+    gap: '0.5rem',
   },
 
   title: {
@@ -55,7 +50,8 @@ export const styles = EStyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: '1.5rem',
-    gap: '1rem',
+    gap: '0.25rem',
+    marginTop: '1.5rem'
   },
 
   terms: {

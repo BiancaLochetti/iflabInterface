@@ -103,6 +103,7 @@ const styles = EStyleSheet.create({
 
   gText: {
     color: colors.white_full,
+    textAlign: 'center',
     fontSize: "1rem",
   },
 
@@ -115,6 +116,7 @@ const styles = EStyleSheet.create({
 
   rText: {
     color: colors.white_full,
+    textAlign: 'center',
     fontSize: "1rem",
   },
 
@@ -127,6 +129,7 @@ const styles = EStyleSheet.create({
 
   wText: {
     color: colors.secundary_green,
+    textAlign: 'center', 
     fontSize: "1rem",
   },
 });

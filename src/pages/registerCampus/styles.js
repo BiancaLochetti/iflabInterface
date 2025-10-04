@@ -1,8 +1,5 @@
 import EStyleSheet from "react-native-extended-stylesheet";
-import { Dimensions } from "react-native";
 import colors from "../../colors";
-
-const { width } = Dimensions.get('window')
 
 export const styles = EStyleSheet.create({
   container: {
@@ -18,6 +15,7 @@ export const styles = EStyleSheet.create({
   },
 
   logoView: {
+    flex: 1,
     justifyContent: 'center'
   },
 
@@ -29,7 +27,8 @@ export const styles = EStyleSheet.create({
 
   formView: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    gap: '1rem'
   },
 
   subtitle: {
@@ -37,7 +36,7 @@ export const styles = EStyleSheet.create({
     fontSize: "1.25rem",
     fontWeight: "500",
     textAlign: 'center',
-    color: colors.input_text_gray,
+    color: colors.primary_green_dark,
     lineHeight: "1.25rem",
   },
 
@@ -45,17 +44,9 @@ export const styles = EStyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: '2rem'
-    // alignItems: "center",
-    // alignSelf: "center",
-    // marginBottom: "2.25rem",
-    // borderBottomWidth: 1,
-    // borderBottomColor: colors.emphasis_gray,
-    // zIndex: 1000,
   },
 
   dropdown: {
-    width: width > 400 ? "5rem" : "4.5rem",
     height: "2.5rem",
     borderRadius: "0.5rem",
     borderWidth: 1,
@@ -81,40 +72,11 @@ export const styles = EStyleSheet.create({
     fontSize: "0.875rem",
   },
 
-  bottomSection: {
-    marginTop: "1.25rem",
-    alignItems: "center",
-    marginBottom: "2rem",
+  buttonView: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: '1.5rem',
+    gap: '1rem',
   },
 
-  registerButton: {
-    backgroundColor: colors.primary_green_dark,
-    paddingVertical: "0.875rem",
-    borderRadius: "0.375rem",
-    alignItems: "center",
-    marginBottom: "1.5rem",
-    width: "100%",
-    maxWidth: "22.5rem",
-    alignSelf: "center",
-  },
-
-  disabledButton: {
-    backgroundColor: "#E0E0E0",
-  },
-
-  registerText: {
-    color: "#FFFFFF",
-    fontSize: "0.875rem",
-    fontWeight: "400",
-  },
-
-  cancelButton: {
-    marginBottom: "0.5rem",
-  },
-
-  cancelText: {
-    color: "#2E5D2F",
-    fontSize: "0.875rem",
-    fontWeight: "400",
-  },
 });

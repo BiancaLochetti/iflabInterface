@@ -60,23 +60,11 @@ export function Routes() {
   }, []);
 
   return (
-    loading ? (
-      <Tab.Navigator>
-        <Tab.Screen name="Loading" component={Loading} options={{ headerShown: false, tabBarShowLabel: false }}/>
-      </Tab.Navigator>
-    ) : user_info ? (
-      <Tab.Navigator screenOptions={screen_options_style}>
-        <Tab.Screen name="Home" component={Home} options={home_options} />
-        <Tab.Screen name="Schedule" component={Calendar} options={schedule_options} />
-        <Tab.Screen name="User" component={User} options={user_options} />
-      </Tab.Navigator>
-    ) : ( // Temporário, só pra poder acessar. dps vcs fazem a lógica.
-      <Tab.Navigator screenOptions={screen_options_style}>
+    <Tab.Navigator screenOptions={screen_options_style}>
         <Tab.Screen name="Login" component={Login} options={home_options} />
         <Tab.Screen name="Register_user" component={RegisterUser} options={schedule_options} />
         <Tab.Screen name="Register_Campus" component={RegisterCampus} options={user_options} />
-      </Tab.Navigator>
-    )
+    </Tab.Navigator>
   )
 }
 
@@ -84,7 +72,8 @@ export function Routes() {
 const screen_options_style = {
   tabBarStyle: {
     backgroundColor: colors.white_medium,
-    paddingBottom: "4rem"
+    paddingBottom: "4rem",
+    paddingTop: "2rem"
   }
 }
 
