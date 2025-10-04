@@ -1,31 +1,34 @@
 //Import nativo
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
-  TextInput,
   Image,
   Alert,
-  KeyboardAvoidingView,
-  Platform,
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-//Import estilização
+import DropDownPicker from "react-native-dropdown-picker";
+
 import { styles } from "./styles";
+import {
+  registerUser,
+  email_validation,
+  email_code_validation,
+} from "../../api/userRequests";
+import { listCampus } from "../../api/campusRequests";
 
-//Import API
-import { registerUser } from "../../api/userRequests";
-
-//Import components
 import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
 import EmailModal from "../../components/modals/EmailModal";
-// ================================================================
 
-// Página Principal
+function isValidIFSPEmail(email) {
+  const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
+  return regex.test(email);
+}
+
 export function RegisterUser() {
   const navigation = useNavigation();
   const [step, setStep] = useState(1);
@@ -34,7 +37,45 @@ export function RegisterUser() {
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [campusId, setCampusId] = useState("");
+  const [campusId, setCampusId] = useState(null);
+
+  // estados do dropdown
+  const [open, setOpen] = useState(false);
+  const [campusList, setCampusList] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    async function fetchCampus() {
+      setLoading(true);
+      const response = await listCampus();
+      let data = [];
+
+      if (response && Array.isArray(response)) {
+        data = response;
+      } else if (response?.data) {
+        data = response.data;
+      }
+
+      const formatted = data.map((campus) => ({
+        label:
+          campus.nome ||
+          campus.name ||
+          campus.campus_name ||
+          "Campus sem nome",
+        value:
+          campus.id ||
+          campus._id ||
+          campus.nome ||
+          campus.name ||
+          campus.campus_name,
+      }));
+
+      setCampusList(formatted);
+      setLoading(false);
+    }
+
+    fetchCampus();
+  }, []);
 
   function handleNextStep() {
     setStep((prev) => prev + 1);
@@ -44,7 +85,7 @@ export function RegisterUser() {
     setStep((prev) => prev - 1);
   }
 
-  async function handleRegister({ navigation }) {
+  async function handleRegister() {
     const result = await registerUser({
       user_name: name,
       user_email: email,
@@ -72,6 +113,7 @@ export function RegisterUser() {
           />
         </View>
 
+        {/* STEP 1 - EMAIL */}
         {step === 1 && (
           <>
             <View style={styles.formView}>
@@ -88,21 +130,38 @@ export function RegisterUser() {
                 A confirmação será enviada para esse email.
               </Text>
             </View>
-            {/* ===================================================== */}
-            {/* <TouchableOpacity style={styles.button} onPress={handleNextStep}>
-              <Text style={styles.buttonText}>Receber código</Text>
-            </TouchableOpacity> */}
-            {/* ===================================================== */}
+
             <View style={styles.buttonView}>
-              <View style={{ gap: '1rem' }}>
+              <View style={{ gap: "1rem" }}>
                 <Button
                   text="Receber código"
-                  onPress={handleNextStep}
+                  onPress={async () => {
+                    if (!isValidIFSPEmail(email)) {
+                      Alert.alert(
+                        "Email inválido",
+                        "Use apenas emails institucionais do IFSP (@ifsp.edu.br ou @aluno.ifsp.edu.br)."
+                      );
+                      return;
+                    }
+
+                    const result = await email_validation(email, 1);
+                    if (result?.status) {
+                      Alert.alert("Sucesso", result.msg || "Código enviado!");
+                      handleNextStep();
+                    } else {
+                      Alert.alert(
+                        "Erro",
+                        result?.msg || "Não foi possível enviar o código."
+                      );
+                    }
+                  }}
                   type="Green"
+                  disabled={!isValidIFSPEmail(email)}
                 />
+
                 <Text style={styles.terms}>
-                  Ao prosseguir, você confirma que leu e concorda com os termos de
-                  uso e política de privacidade.
+                  Ao prosseguir, você confirma que leu e concorda com os termos
+                  de uso e política de privacidade.
                 </Text>
 
                 <Button
@@ -115,18 +174,46 @@ export function RegisterUser() {
           </>
         )}
 
+        {/* STEP 2 - CÓDIGO */}
         {step === 2 && (
           <>
             <EmailModal
               modalActive={true}
               backPage={handleBackStep}
-              emailVerify={handleNextStep}
-              notCode={() => Alert.alert("Código reenviado")}
+              emailVerify={async (code) => {
+                const result = await email_code_validation(email, code);
+
+                if (result?.status) {
+                  Alert.alert(
+                    "Sucesso",
+                    result.msg || "Código validado com sucesso!"
+                  );
+                  setCode(code);
+                  handleNextStep();
+                } else {
+                  Alert.alert(
+                    "Erro",
+                    result?.msg || "Código inválido ou expirado."
+                  );
+                }
+              }}
+              notCode={async () => {
+                const result = await email_validation(email, 1);
+                if (result?.status) {
+                  Alert.alert("Sucesso", "Novo código reenviado!");
+                } else {
+                  Alert.alert(
+                    "Erro",
+                    result?.msg || "Não foi possível reenviar."
+                  );
+                }
+              }}
               withoutBg
             />
           </>
         )}
 
+        {/* STEP 3 - NOME E SENHA */}
         {step === 3 && (
           <>
             <View style={styles.formView}>
@@ -161,18 +248,31 @@ export function RegisterUser() {
           </>
         )}
 
+        {/* STEP 4 - CAMPUS */}
         {step === 4 && (
           <>
             <View style={styles.formView}>
               <Text style={styles.title}>Insira o seu campus</Text>
-              <InputText
-                placeHolder="Campus"
+
+              <DropDownPicker
+                open={open}
                 value={campusId}
-                onChange={setCampusId}
-                icon={require("../../assets/icons/UI/chevrom.png")}
-                border
+                items={campusList}
+                setOpen={setOpen}
+                setValue={setCampusId}
+                setItems={setCampusList}
+                placeholder="Campus"
+                loading={loading}
+                style={styles.dropdown}
+                dropDownContainerStyle={styles.dropdownContainer}
+                placeholderStyle={styles.dropdownPlaceholder}
+                labelStyle={styles.dropdownLabel}
+                selectedItemLabelStyle={styles.dropdownSelected}
+                listItemLabelStyle={styles.dropdownItem}
+                arrowIconStyle={styles.dropdownArrow}
               />
             </View>
+
             <View style={styles.buttonView}>
               <Button
                 text="Avançar"

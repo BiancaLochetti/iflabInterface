@@ -66,4 +66,47 @@ export const styles = EStyleSheet.create({
     height: "1.5rem",
     marginRight: "0.5rem",
   },
+
+  dropdown: {
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#f5f5f5",
+    paddingHorizontal: 10,
+    height: 55,
+    justifyContent: "center",
+  },
+
+  dropdownContainer: {
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#fff",
+    elevation: 3,
+    marginTop: 5,
+  },
+
+  dropdownPlaceholder: {
+    color: "#777",
+    fontSize: 16,
+  },
+
+  dropdownLabel: {
+    color: "#333",
+    fontSize: 16,
+  },
+
+  dropdownSelected: {
+    fontWeight: "bold",
+    color: colors.primary_green_dark,
+  },
+
+  dropdownItem: {
+    fontSize: 15,
+    color: "#555",
+  },
+
+  dropdownArrow: {
+    tintColor: "#333",
+  },
 });

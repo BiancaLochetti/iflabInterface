@@ -126,6 +126,7 @@ async function email_code_validation(user_email, user_validation_code) {
     // Log. Apagar depois:
     console.log(data);
 
+
     return data;
   } catch (err) {
     return { status: false, msg: "Erro ao conectar com o servidor: " + err };

@@ -25,6 +25,8 @@ const InputText = ({ placeHolder, type, icon, onChange, border = false }) => {
         value={value}
         onChangeText={handleOnChange}
         keyboardType={type}
+        autoCapitalize="none"
+
       />
 
       {/* //Condição caso o tipo seja senha */}

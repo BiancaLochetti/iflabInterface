@@ -45,7 +45,7 @@ const EmailModal = ({
           />
 
           <View style={styles.verifyButtonWrapper}>
-            <Button text="Verificar email" onPress={emailVerify} type="Green" />
+            <Button text="Verificar email" onPress={() => emailVerify(code)} type="Green" />
           </View>
 
           <Button text="Voltar" onPress={backPage} type="White" />

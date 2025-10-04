@@ -49,7 +49,7 @@ async function listCampus() {
   const url = `https://${IP}/campus/get`;
   console.log(url)
 
-  const options = {
+  const options = { 
     method: "GET",
     headers: {
       "Content-Type": "application/json",
