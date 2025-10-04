@@ -12,17 +12,17 @@ EStyleSheet.build({
 });
 
 // Console do Screen-IFrame
-// if (typeof window !== "undefined" && window.parent) {
-//   ["log", "info", "warn", "error", "debug"].forEach((type) => {
-//     const original = console[type].bind(console);
-//     console[type] = function (...args) {
-//       original(...args);
-//       try {
-//         window.parent.postMessage({ type: "console", level: type, args }, "*");
-//       } catch (e) { }
-//     };
-//   });
-// }
+if (typeof window !== "undefined" && window.parent) {
+  ["log", "info", "warn", "error", "debug"].forEach((type) => {
+    const original = console[type].bind(console);
+    console[type] = function (...args) {
+      original(...args);
+      try {
+        window.parent.postMessage({ type: "console", level: type, args }, "*");
+      } catch (e) { }
+    };
+  });
+}
 
 export default function App() {
   return (
