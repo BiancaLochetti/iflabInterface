@@ -1,8 +1,9 @@
 // Imports
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import Dropdown from "../picker/Dropdown";
 import { useState } from "react";
-
+import colors from "../../colors";
 //----------------------------------------------------------------------------------------------
 
 // Componente Principal
@@ -44,7 +45,7 @@ export function DataSelection() {
 
   return (
     <View style={styles.container}>
-      <View style={{ marginBottom: 10 }}>
+      <View style={{ marginBottom: "0.625rem" }}>
         <Text style={styles.titleFree}>Selecione a Data:</Text>
       </View>
       <View style={styles.header}>
@@ -72,10 +73,13 @@ export function DataSelection() {
             setValue={setValue3}
           />
         </View>
-        <View style={[styles.cardFree]}>
+        <View style={styles.cardFree}>
           <TouchableOpacity onPress={restoreDropdowns}>
             <Image
-              style={[styles.cardFree, { width: 60, flexBasis: undefined }]}
+              style={[
+                styles.cardFree,
+                { width: "3.75rem", flexBasis: undefined },
+              ]} // 60px → 3.75rem
               resizeMode="center"
               source={require("../../assets/icons/UI/delete.png")}
             />
@@ -89,43 +93,44 @@ export function DataSelection() {
 //----------------------------------------------------------------------------------------------
 
 // Styles
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    padding: "0.625rem",
     paddingBottom: 0,
   },
-  
+
   header: {
     height: "10%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginVertical: 10,
+    marginVertical: "0.625rem",
     width: "100%",
     display: "flex",
   },
 
   cardFree: {
-    borderRadius: 10,
-    padding: 10,
-    marginHorizontal: 8,
+    borderRadius: "0.625rem",
+    padding: "0.625rem",
+    marginHorizontal: "0.5rem",
     alignItems: "center",
     justifyContent: "center",
-    flexBasis: 10,
+    flexBasis: "0.625rem",
   },
 
   titleFree: {
-    fontSize: 18,
+    fontSize: "1.125rem",
     fontWeight: "normal",
     color: "black",
   },
+
   imageStyle: {
     width: "auto",
-    minWidth: 80,
+    minWidth: "5rem",
     height: "auto",
-    minHeight: 40,
-    backgroundColor: "rgba(245,245,245,1)",
+    minHeight: "2.5rem",
+    backgroundColor: colors.emphasis_gray,
     borderWidth: 0,
   },
 });

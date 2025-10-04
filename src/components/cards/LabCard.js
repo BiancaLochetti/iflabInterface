@@ -1,5 +1,6 @@
 // Imports
-import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import { Text, View, Image, TouchableOpacity } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
 //----------------------------------------------------------------------------------------------
@@ -39,7 +40,7 @@ const LabCard = ({
         <Text style={textStyle}>
           Laboratório <Text style={{ fontWeight: "bold" }}>{lab}</Text>
         </Text>
-        <View style={{ flexDirection: "row", gap: 8 }}>
+        <View style={{ flexDirection: "row", gap: "0.5rem" }}>
           {status === 0 ? (
             <>
               <Image
@@ -82,15 +83,15 @@ const LabCard = ({
 
 export default LabCard;
 
-//--------------------------------------------------------
+//----------------------------------------------------------------------------------------------
 
 // Styles
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   card: {
-    height: 150,
+    height: "9.375rem",
     width: "90%",
-    borderRadius: 10,
-    padding: 10,
+    borderRadius: "0.625rem",
+    padding: "0.625rem",
   },
 
   header: {
@@ -107,13 +108,13 @@ const styles = StyleSheet.create({
 
   text: {
     color: colors.white_full,
-    fontSize: 16,
-    flexDirection: "row"
+    fontSize: "1rem",
+    flexDirection: "row",
   },
 
   icon: {
-    width: 22,
-    height: 22,
-    marginLeft: 10,
+    width: "1.375rem",
+    height: "1.375rem",
+    marginLeft: "0.625rem",
   },
 });

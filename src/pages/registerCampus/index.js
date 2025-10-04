@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
   Alert,
@@ -16,13 +15,16 @@ import { useNavigation } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
 
+import InputText from '../../components/inputs/InputText'
+import Button from '../../components/buttons/Button'
+
 //Import API
 import { registerCampus } from "../../api/campusRequests";
 
 //Import estilização
 import { styles } from "./styles";
 
-export function Register_Campus() {
+export function RegisterCampus() {
   const navigation = useNavigation();
   const [campusName, setCampusName] = useState("");
   const [campusUF, setCampusUF] = useState("");
@@ -83,9 +85,7 @@ export function Register_Campus() {
       behavior={Platform.OS === "ios" ? "padding" : undefined}
     >
       <ScrollView contentContainerStyle={styles.content}>
-
-        {/* TOPO */}
-        <View style={styles.topSection}>
+        <View style={styles.logoView}>
           <Image
             source={require("../../assets/images/logo.png")}
             style={styles.logo}
@@ -93,14 +93,20 @@ export function Register_Campus() {
           />
         </View>
 
-        <Text style={styles.subtitle}>
-          Insira o nome e a unidade federativa do campus
-        </Text>
+        <View style={styles.formView}>
+          <Text style={styles.subtitle}>
+            Insira o nome e a unidade federativa do campus
+          </Text>
 
-        {/* FORM */}
-        <View style={styles.formSection}>
           <View style={styles.inputRow}>
-            <TextInput
+            <InputText
+              placeHolder="Nome do Campus"
+              type="campus"
+              onChange={setCampusName}
+              icon={require('../../assets/icons/UI/school.png')}
+            />
+
+            {/* <TextInput
               style={styles.input}
               placeholder="Nome do campus"
               value={campusName}
@@ -112,31 +118,26 @@ export function Register_Campus() {
               size={20}
               color="#4A4A4A"
               style={styles.iconRight}
+            /> */}
+            <DropDownPicker
+              open={open}
+              value={campusUF}
+              items={items}
+              setOpen={setOpen}
+              setValue={setCampusUF}
+              setItems={setItems}
+              style={styles.dropdown}
+              dropDownContainerStyle={styles.dropdownContainer}
+              placeholder="UF"
+              listMode="SCROLLVIEW"
+              textStyle={styles.dropdownText}
+              placeholderStyle={styles.dropdownPlaceholder}
             />
-
-            {/* Dropdown UF */}
-            <View style={{ zIndex: 1000 }}>
-              <DropDownPicker
-                open={open}
-                value={campusUF}
-                items={items}
-                setOpen={setOpen}
-                setValue={setCampusUF}
-                setItems={setItems}
-                style={styles.dropdown}
-                dropDownContainerStyle={styles.dropdownContainer}
-                placeholder="UF"
-                listMode="SCROLLVIEW"
-                textStyle={styles.dropdownText}
-                placeholderStyle={styles.dropdownPlaceholder}
-              />
-            </View>
           </View>
         </View>
 
-        {/* BOTÕES */}
         <View style={styles.bottomSection}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={[
               styles.registerButton,
               !(campusName && campusUF) && styles.disabledButton,
@@ -150,16 +151,28 @@ export function Register_Campus() {
             ) : (
               <Text style={styles.registerText}>Registrar campus</Text>
             )}
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
-          <TouchableOpacity
+          <Button
+            disabled={!(campusName && campusUF)}
+            type="Green"
+            onPress={handleRegister}
+            text="Registrar Campus"
+          />
+
+          {/* <TouchableOpacity
             style={styles.cancelButton}
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.cancelText}>Cancelar</Text>
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
 
+          <Button
+            type="White"
+            onPress={() => navigation.goBack()}
+            text="Cancelar"
+          />
+        </View>
       </ScrollView>
     </KeyboardAvoidingView>
   );

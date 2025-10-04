@@ -1,36 +1,39 @@
 // Componentes nativos:
 import { useEffect, useState } from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, Image, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+// Tela para loading:
+import { Loading } from '../routes/loading'
+
 // Telas para usuário logado:
-import { Home } from "./pages/Home";
-import { User } from "./pages/User";
-import { Calendar } from "./pages/Calendar";
+import { Home } from '../home';
+import { User } from '../user';
+import { Calendar } from '../calendar';
 
 // Telas para usuário deslogado:
-import { Login } from "./pages/Login"
-import { Register_user } from "./pages/Register_user"
-import { Register_Campus } from "./pages/Register_Campus"
+import { Login } from '../login';
+import { RegisterUser } from '../registerUser';
+import { RegisterCampus } from '../registerCampus';
 
 // Rotas da API:
-import { get_user_info } from "./api/userRequests";
+import { get_user_info } from "../../api/userRequests";
 
 // Componente de navegação:
 const Tab = createBottomTabNavigator();
 
 // Estilização:
-import colors from "./colors";
+import colors from "../../colors";
 
 // Ícones:
-import home_icon from "./assets/icons/UI/home.png";
-import schedule_icon from "./assets/icons/UI/schedule.png"
-import user_icon from "./assets/icons/UI/user.png"
+import home_icon from "../../assets/icons/UI/home.png";
+import schedule_icon from "../../assets/icons/UI/schedule.png"
+import user_icon from "../../assets/icons/UI/user.png"
 
 
 export function Routes() {
   // Para testes, enquanto a tela de login ñ estiver pronta:
-  localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTkzNjA3MzAsImV4cCI6MTc1OTQ0NzEzMH0.c0t0xmWmJ2Mt0Dab8mgEdWN0VTeRBO7W95eO9lRN9P4")
+  // localStorage.setItem('token', "assas.ass.asas")
   // Escreva qualquer coisa nesse token aqui de cima pra fazer ele ficar inválido e o sistema te considerar como deslogado.
 
   // State que vai guardar os dados do usuário:
@@ -58,7 +61,9 @@ export function Routes() {
 
   return (
     loading ? (
-      <>carregando</>
+      <Tab.Navigator>
+        <Tab.Screen name="Loading" component={Loading} options={{ headerShown: false, tabBarShowLabel: false }}/>
+      </Tab.Navigator>
     ) : user_info ? (
       <Tab.Navigator screenOptions={screen_options_style}>
         <Tab.Screen name="Home" component={Home} options={home_options} />
@@ -68,8 +73,8 @@ export function Routes() {
     ) : ( // Temporário, só pra poder acessar. dps vcs fazem a lógica.
       <Tab.Navigator screenOptions={screen_options_style}>
         <Tab.Screen name="Login" component={Login} options={home_options} />
-        <Tab.Screen name="Register_user" component={Register_user} options={schedule_options} />
-        <Tab.Screen name="Register_Campus" component={Register_Campus} options={user_options} />
+        <Tab.Screen name="Register_user" component={RegisterUser} options={schedule_options} />
+        <Tab.Screen name="Register_Campus" component={RegisterCampus} options={user_options} />
       </Tab.Navigator>
     )
   )
@@ -79,7 +84,7 @@ export function Routes() {
 const screen_options_style = {
   tabBarStyle: {
     backgroundColor: colors.white_medium,
-    paddingBottom: 20
+    paddingBottom: "4rem"
   }
 }
 

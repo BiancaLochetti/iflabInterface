@@ -1,5 +1,6 @@
 // Imports
-import { TouchableOpacity, Text, StyleSheet, View, Image } from "react-native";
+import { TouchableOpacity, Text, View, Image } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
 //----------------------------------------------------------------------------------------------
@@ -40,10 +41,7 @@ const Button = ({ text, onPress, disabled = false, icon = null, type }) => {
       onPress={onPress}
       disabled={disabled}
     >
-      <View style={[
-        styles.contentW,
-        icon && styles.content
-      ]}>
+      <View style={[styles.contentW, icon && styles.content]}>
         {icon && (
           <Image
             source={icon}
@@ -73,63 +71,62 @@ export default Button;
 //----------------------------------------------------------------------------------------------
 
 // Styles
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   content: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 10,
+    gap: "0.625rem",
     width: "auto",
-    padding: 18,
+    padding: "1.125rem",
   },
 
-  contentW:{
-    justifyContent: 'center',
+  contentW: {
+    justifyContent: "center",
     alignItems: "center",
     width: "auto",
-    padding: 18,
+    padding: "1.125rem",
   },
 
   icon: {
-    width: 20,
-    height: 20,
+    width: "1rem",
+    height: "1rem",
     tintColor: colors.white_full,
   },
 
-  // Estilos de Cor
   gButton: {
     backgroundColor: colors.primary_green_dark,
-    borderRadius: 6,
+    borderRadius: "0.375rem",
     width: "auto",
     alignItems: "center",
   },
 
   gText: {
     color: colors.white_full,
-    fontSize: 16,
+    fontSize: "1rem",
   },
 
   rButton: {
     backgroundColor: colors.alert_red_btns,
-    borderRadius: 6,
+    borderRadius: "0.375rem",
     width: "auto",
     alignItems: "center",
   },
 
   rText: {
     color: colors.white_full,
-    fontSize: 16,
+    fontSize: "1rem",
   },
 
   wButton: {
     backgroundColor: colors.white_full,
-    borderRadius: 6,
+    borderRadius: "0.375rem",
     width: "auto",
     alignItems: "center",
   },
 
   wText: {
     color: colors.secundary_green,
-    fontSize: 16,
+    fontSize: "1rem",
   },
 });

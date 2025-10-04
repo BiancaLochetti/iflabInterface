@@ -1,12 +1,6 @@
-// Imports
-import {
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-  Image,
-} from "react-native";
+import { TextInput, TouchableOpacity, View, Image } from "react-native";
 import { useState } from "react";
+import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
 //----------------------------------------------------------------------------------------------
@@ -35,7 +29,6 @@ const InputText = ({ placeHolder, type, icon, onChange, border = false }) => {
 
       {/* //Condição caso o tipo seja senha */}
       {type === "password" ? (
-        // Se for senha:
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <Image
             source={
@@ -48,7 +41,6 @@ const InputText = ({ placeHolder, type, icon, onChange, border = false }) => {
           />
         </TouchableOpacity>
       ) : (
-        // Se não for senha:
         <View>
           <Image source={icon} style={styles.iconImage} resizeMode="contain" />
         </View>
@@ -62,39 +54,40 @@ export default InputText;
 //----------------------------------------------------------------------------------------------
 
 // Styles
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   inputContainer: {
-    width: "auto",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    borderBottomWidth: 1,
+    borderBottomWidth: "0.0625rem",
     borderBottomColor: colors.primary_text_gray,
-    paddingLeft: 5
+    paddingLeft: "0.3125rem",
   },
 
   inputBorder: {
-    width: "auto",
+    width: "100%",
     flexDirection: "row",
     alignItems: "center",
-    borderWidth: 1,
+    borderWidth: "0.0625rem",
     borderColor: colors.primary_text_gray,
-    paddingLeft: 5,
-    borderRadius: 8
+    paddingLeft: "0.3125rem",
+    borderRadius: "0.5rem",
   },
 
   input: {
     flex: 1,
-    paddingTop: 18,
-    paddingBottom: 18,
+    paddingTop: "1.125rem",
+    paddingBottom: "1.125rem",
     color: colors.primary_text_gray,
-    outlineStyle: 'none'
+    outlineStyle: "none",
+    fontSize: "1.2rem",
   },
 
   iconImage: {
-    width: 25,
-    height: 25,
-    marginLeft: 10,
+    width: "1.5625rem",
+    height: "1.5625rem",
+    marginLeft: "0.625rem",
     tintColor: colors.primary_text_gray,
-    paddingRight: 5
+    paddingRight: "2.5rem",
   },
 });
