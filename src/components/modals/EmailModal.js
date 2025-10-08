@@ -1,3 +1,4 @@
+// Imports
 import { TextInput, View, Modal, Text } from "react-native";
 
 import Button from "../buttons/Button";
@@ -7,6 +8,7 @@ import colors from "../../colors";
 
 //----------------------------------------------------------------------------------------------
 
+// Componente principal
 const EmailModal = ({
   backPage,
   notCode,
@@ -59,7 +61,7 @@ export default EmailModal;
 
 //----------------------------------------------------------------------------------------------
 
-// Styles fluido com EStyleSheet
+// Styles 
 const styles = EStyleSheet.create({
   outerView: {
     backgroundColor: "rgba(0,0,0,0.5)",

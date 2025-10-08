@@ -1,5 +1,5 @@
 //Import nativo
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,10 +9,12 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import DropDownPicker from "react-native-dropdown-picker";
 
+// Import estilização
 import { styles } from "./styles";
+
+// Import API
 import {
   registerUser,
   email_validation,
@@ -20,6 +22,7 @@ import {
 } from "../../api/userRequests";
 import { listCampus } from "../../api/campusRequests";
 
+// Import componentes
 import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
 import EmailModal from "../../components/modals/EmailModal";
@@ -39,7 +42,7 @@ export function RegisterUser() {
   const [password, setPassword] = useState("");
   const [campusId, setCampusId] = useState(null);
 
-  // estados do dropdown
+  // Estados do DropDown
   const [open, setOpen] = useState(false);
   const [campusList, setCampusList] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -104,7 +107,8 @@ export function RegisterUser() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+
+        {/* Header */}
         <View style={step === 2 ? styles.logoViewStep2 : styles.logoView}>
           <Image
             source={require("../../assets/images/logo.png")}
@@ -113,10 +117,11 @@ export function RegisterUser() {
           />
         </View>
 
-        {/* STEP 1 - EMAIL */}
+        {/* 1 - Email */}
         {step === 1 && (
           <>
-            <View style={styles.formView}>
+            {/* Formulário */}
+            <ScrollView contentContainerStyle={styles.formView}>
               <Text style={styles.title}>Insira seu email institucional</Text>
               <InputText
                 placeHolder="Email"
@@ -129,8 +134,9 @@ export function RegisterUser() {
               <Text style={styles.subtext}>
                 A confirmação será enviada para esse email.
               </Text>
-            </View>
+            </ScrollView>
 
+            {/* Botões */}
             <View style={styles.buttonView}>
               <View style={{ gap: "1rem" }}>
                 <Button
@@ -174,9 +180,10 @@ export function RegisterUser() {
           </>
         )}
 
-        {/* STEP 2 - CÓDIGO */}
+        {/* 2 - Código */}
         {step === 2 && (
           <>
+            {/* Modal de verificação */}
             <EmailModal
               modalActive={true}
               backPage={handleBackStep}
@@ -213,10 +220,11 @@ export function RegisterUser() {
           </>
         )}
 
-        {/* STEP 3 - NOME E SENHA */}
+        {/* 3 - Formulário (Nome e Senha) */}
         {step === 3 && (
           <>
-            <View style={styles.formView}>
+            {/* Formulário */}
+            <ScrollView contentContainerStyle={styles.formView}>
               <Text style={styles.title}>Insira suas informações</Text>
               <InputText
                 placeHolder="Nome de usuário"
@@ -234,8 +242,9 @@ export function RegisterUser() {
                 border
                 type="password"
               />
-            </View>
+            </ScrollView>
 
+            {/* Botões */}
             <View style={styles.buttonView}>
               <Button
                 text="Avançar"
@@ -248,10 +257,11 @@ export function RegisterUser() {
           </>
         )}
 
-        {/* STEP 4 - CAMPUS */}
+        {/* 4 - Campus */}
         {step === 4 && (
           <>
-            <View style={styles.formView}>
+            {/* Formulário */}
+            <ScrollView contentContainerStyle={styles.formView}>
               <Text style={styles.title}>Insira o seu campus</Text>
 
               <DropDownPicker
@@ -271,8 +281,9 @@ export function RegisterUser() {
                 listItemLabelStyle={styles.dropdownItem}
                 arrowIconStyle={styles.dropdownArrow}
               />
-            </View>
+            </ScrollView>
 
+            {/* Botões */}
             <View style={styles.buttonView}>
               <Button
                 text="Avançar"
@@ -289,7 +300,6 @@ export function RegisterUser() {
             </View>
           </>
         )}
-      </ScrollView>
     </SafeAreaView>
   );
 }

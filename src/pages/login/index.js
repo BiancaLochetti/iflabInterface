@@ -1,12 +1,16 @@
-import { Text, View, Image } from "react-native";
+// Import nativo
+import { Text, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
+// Import componentes
 import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
 
-import { loginStyles } from "./styles"; // import dos styles
+// Import estilização
+import { styles } from "./styles";
 
+// Import imagem
 import img from "../../assets/images/logo.png";
 
 export function Login() {
@@ -14,30 +18,34 @@ export function Login() {
   const [senha, setSenha] = useState("");
 
   return (
-    <SafeAreaView style={loginStyles.container}>
-      <View style={loginStyles.logoView}>
-        <Image source={img} style={loginStyles.logo} resizeMode="contain" />
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.logoView}>
+        <Image source={img} style={styles.logo} resizeMode="contain" />
       </View>
 
-      <View style={loginStyles.formView}>
-        <Text style={loginStyles.label}>Digite suas informações</Text>
-        <View style={loginStyles.inputs}>
-          <InputText
-            icon={require("../../assets/icons/UI/email.png")}
-            placeHolder="Email"
-            type="email"
-            onChange={setEmail}
-          />
-          <InputText type="password" placeHolder="Senha" onChange={setSenha} />
-        </View>
-      </View>
+      {/* Formulário */}
+        <ScrollView contentContainerStyle={styles.formView}>
+          <Text style={styles.label}>Digite suas informações</Text>
+          <View style={styles.inputs}>
+            <InputText
+              icon={require("../../assets/icons/UI/email.png")}
+              placeHolder="Email"
+              type="email"
+              onChange={setEmail}
+            />
+            <InputText
+              type="password"
+              placeHolder="Senha"
+              onChange={setSenha}
+            />
+          </View>
+        </ScrollView>
 
-      <View style={loginStyles.buttonView}>
-        <View style={loginStyles.buttonContainer}>
-          <Button
-            type="Green"
-            text="Logar"
-          />
+      {/* Botões */}
+      <View style={styles.buttonView}>
+        <View style={styles.buttonContainer}>
+          <Button type="Green" text="Logar" />
           <Button type="White" text="Não possui login? Registre-se" />
         </View>
       </View>

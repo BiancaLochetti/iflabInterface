@@ -1,22 +1,13 @@
 //Import nativo
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Alert,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-} from "react-native";
+import { useState } from "react";
+import { View, Text, Image, Alert, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Ionicons from "react-native-vector-icons/Ionicons";
 import DropDownPicker from "react-native-dropdown-picker";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import InputText from '../../components/inputs/InputText'
-import Button from '../../components/buttons/Button'
+// Import componentes
+import InputText from "../../components/inputs/InputText";
+import Button from "../../components/buttons/Button";
 
 //Import API
 import { registerCampus } from "../../api/campusRequests";
@@ -80,65 +71,63 @@ export function RegisterCampus() {
   }
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-    >
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.logoView}>
-          <Image
-            source={require("../../assets/images/logo.png")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </View>
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.logoView}>
+        <Image
+          source={require("../../assets/images/logo.png")}
+          style={styles.logo}
+          resizeMode="contain"
+        />
+      </View>
 
-        <View style={styles.formView}>
-          <Text style={styles.subtitle}>
-            Insira o nome e a unidade federativa do campus
-          </Text>
+      {/* Formulário */}
+      <ScrollView contentContainerStyle={styles.formView}>
+        <Text style={styles.subtitle}>
+          Insira o nome e a unidade federativa do campus
+        </Text>
 
-          <View style={styles.inputRow}>
-            <View style={{ width: '70%' }}>
-              <InputText
-                placeHolder="Nome do Campus"
-                type="campus"
-                onChange={setCampusName}
-              />
-            </View>
-            <View style={{ width: '25%' }}>
-              <DropDownPicker
-                open={open}
-                value={campusUF}
-                items={items}
-                setOpen={setOpen}
-                setValue={setCampusUF}
-                setItems={setItems}
-                style={styles.dropdown}
-                dropDownContainerStyle={styles.dropdownContainer}
-                placeholder="UF"
-                listMode="SCROLLVIEW"
-                textStyle={styles.dropdownText}
-                placeholderStyle={styles.dropdownPlaceholder}
-              />
-            </View>
+        <View style={styles.inputRow}>
+          <View style={{ width: "70%" }}>
+            <InputText
+              placeHolder="Nome do Campus"
+              type="campus"
+              onChange={setCampusName}
+            />
+          </View>
+          <View style={{ width: "25%" }}>
+            <DropDownPicker
+              open={open}
+              value={campusUF}
+              items={items}
+              setOpen={setOpen}
+              setValue={setCampusUF}
+              setItems={setItems}
+              style={styles.dropdown}
+              dropDownContainerStyle={styles.dropdownContainer}
+              placeholder="UF"
+              listMode="SCROLLVIEW"
+              textStyle={styles.dropdownText}
+              placeholderStyle={styles.dropdownPlaceholder}
+            />
           </View>
         </View>
-
-        <View style={styles.buttonView}>
-          <Button
-            disabled={!(campusName && campusUF)}
-            type="Green"
-            onPress={handleRegister}
-            text="Registrar Campus"
-          />
-          <Button
-            type="White"
-            onPress={() => navigation.goBack()}
-            text="Cancelar"
-          />
-        </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+
+      {/* Botões */}
+      <View style={styles.buttonView}>
+        <Button
+          disabled={!(campusName && campusUF)}
+          type="Green"
+          onPress={handleRegister}
+          text="Registrar Campus"
+        />
+        <Button
+          type="White"
+          onPress={() => navigation.goBack()}
+          text="Cancelar"
+        />
+      </View>
+    </SafeAreaView>
   );
 }

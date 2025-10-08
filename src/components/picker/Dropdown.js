@@ -1,3 +1,4 @@
+// Imports
 import DropDownPicker from "react-native-dropdown-picker";
 import { useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
@@ -5,6 +6,7 @@ import colors from "../../colors";
 
 //----------------------------------------------------------------------------------------------
 
+// Componente principal
 const Dropdown = ({ items, placeholder, value, setValue }) => {
   const [open, setOpen] = useState(false);
 
@@ -29,6 +31,7 @@ export default Dropdown;
 
 //----------------------------------------------------------------------------------------------
 
+// Styles
 const styles = EStyleSheet.create({
   dropdown: {
     width: "100%",

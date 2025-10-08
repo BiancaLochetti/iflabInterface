@@ -6,9 +6,10 @@ export const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white_full,
-    justifyContent: "space-around",
     padding: "2rem",
   },
+
+// ----------------------------------------
 
   logoView: {
     flex: 1,
@@ -25,10 +26,11 @@ export const styles = EStyleSheet.create({
     alignSelf: "center",
   },
 
+// ----------------------------------------
+
   formView: {
     flex: 1,
     justifyContent: 'center',
-    gap: '0.5rem',
   },
 
   title: {
@@ -46,11 +48,12 @@ export const styles = EStyleSheet.create({
     marginBottom: "2rem",
   },
 
+// ----------------------------------------
+
   buttonView: {
     flex: 1,
     justifyContent: 'center',
     paddingHorizontal: '1.5rem',
-    gap: '0.25rem',
     marginTop: '1.5rem'
   },
 
@@ -61,11 +64,7 @@ export const styles = EStyleSheet.create({
     marginBottom: "1.5rem",
   },
 
-  icon: {
-    width: "1.5rem",
-    height: "1.5rem",
-    marginRight: "0.5rem",
-  },
+// ----------------------------------------
 
   dropdown: {
     borderColor: "#ccc",

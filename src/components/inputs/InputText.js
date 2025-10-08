@@ -1,3 +1,4 @@
+// Imports
 import { TextInput, TouchableOpacity, View, Image } from "react-native";
 import { useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";

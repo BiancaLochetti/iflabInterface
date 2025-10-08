@@ -61,7 +61,7 @@ export function Routes() {
 
   return (
     <Tab.Navigator screenOptions={screen_options_style}>
-        <Tab.Screen name="Login" component={Login} options={home_options} />
+        <Tab.Screen name="Login" component={Home} options={home_options} />
         <Tab.Screen name="Register_user" component={RegisterUser} options={schedule_options} />
         <Tab.Screen name="Register_Campus" component={RegisterCampus} options={user_options} />
     </Tab.Navigator>

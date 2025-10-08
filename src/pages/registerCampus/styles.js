@@ -1,3 +1,4 @@
+// Import
 import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
@@ -5,18 +6,14 @@ export const styles = EStyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white_full,
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
-
-  content: {
-    flex: 1,
     padding: '2rem',
   },
 
+// ----------------------------------------
+
   logoView: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
 
   logo: {
@@ -25,41 +22,46 @@ export const styles = EStyleSheet.create({
     alignSelf: "center",
   },
 
+// ----------------------------------------
+
   formView: {
     flex: 1,
-    justifyContent: 'center',
-    gap: '1rem'
+    justifyContent: "center",
+    gap: "0.5rem",
   },
 
   subtitle: {
     alignSelf: "center",
     fontSize: "1.25rem",
     fontWeight: "500",
-    textAlign: 'center',
+    textAlign: "center",
     color: colors.primary_green_dark,
     lineHeight: "1.25rem",
   },
 
   inputRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    zIndex: 100, // garante prioridade no dropdown
   },
 
   dropdown: {
-    height: "2.5rem",
-    borderRadius: "0.5rem",
+    height: 40,
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.emphasis_gray,
     backgroundColor: "#E0E0E0",
+    zIndex: 1000, // precisa ser maior que o botão
   },
 
   dropdownContainer: {
-    borderRadius: "0.5rem",
+    borderRadius: 8,
     borderWidth: 1,
     borderColor: colors.emphasis_gray,
     backgroundColor: "#fff",
-    zIndex: 1000,
+    zIndex: 2000, // ainda maior, pro menu sobrepor tudo
+    elevation: 1000, // android
   },
 
   dropdownText: {
@@ -72,11 +74,12 @@ export const styles = EStyleSheet.create({
     fontSize: "0.875rem",
   },
 
+// ----------------------------------------
+
   buttonView: {
     flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: '1.5rem',
-    gap: '1rem',
+    justifyContent: "center",
+    paddingHorizontal: "1.5rem",
+    gap: "0.25rem",
   },
-
 });

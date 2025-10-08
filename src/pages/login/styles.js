@@ -1,31 +1,33 @@
+// Import
 import EStyleSheet from 'react-native-extended-stylesheet';
-import { Dimensions } from 'react-native';
 import colors from '../../colors';
 
-const { width } = Dimensions.get('window');
-
-export const loginStyles = EStyleSheet.create({
+export const styles = EStyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.white_full,
     padding: '2rem',
-    flexDirection: 'column',
-    justifyContent: 'space-between'
+    flex: 1
   },
+
+// ----------------------------------------
 
   logoView: {
     flex: 1,
-    alignItems: 'center',
+    justifyContent: 'center',
   },
 
   logo: {
     width: "12.5rem", 
     height: "12.5rem", 
+    alignSelf: 'center'
   },
+
+// ----------------------------------------
 
   formView: {
     flex: 1,
     justifyContent: 'center',
+    gap: '0.5rem'
   },
 
   label: {
@@ -40,10 +42,14 @@ export const loginStyles = EStyleSheet.create({
     gap: '1rem', 
   },
 
+// ----------------------------------------
+
   buttonView: {
-    justifyContent: 'center',
     flex: 1,
-    paddingHorizontal: '1rem',
+    justifyContent: 'center',
+    paddingHorizontal: '1.5rem',
+    gap: '0.25rem',
+    marginTop: '1.5rem'
   },
 
   buttonContainer: {
