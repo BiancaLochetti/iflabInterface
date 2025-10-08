@@ -24,328 +24,349 @@
 // Imports:
 
 // Endereço IP da API (pode variar):
-import IP from "./settings";
+import IP from "./assets/settings";
+
+// AsyncStorage (para pegar o token salvo no dispositivo):
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // O=========================================================================================================O //
 
 async function login_user(user_email, user_password) {
-  const url = `https://${IP}/users/login`;
+	const url = `http://${IP}/users/login`;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_email, user_password }),
-  };
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ user_email, user_password }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function logout_user() {
-  const url = `https://${IP}/user/logout`;
+	const url = `http://${IP}/user/logout`;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token,
-    },
-  };
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			"x-access-token": token,
+		},
+	};
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function email_validation(user_email, reason_for_code) {
-  const url = `https://${IP}/users/email/getcode`;
+	const url = `http://${IP}/users/email/getcode`;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_email, reason_for_code }),
-  };
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ user_email, reason_for_code }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return {
+			status: false,
+			msg: "Erro ao conectar com o servidor: " + err + " " + url,
+		};
+	}
 }
 
 // O=========================================================================================================O //
 
 async function email_code_validation(user_email, user_validation_code) {
-  const url = `https://${IP}/users/email/validate`;
+	const url = `http://${IP}/users/email/validate`;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_email, user_validation_code }),
-  };
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ user_email, user_validation_code }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
-async function password_recovery(user_email, user_validation_code, user_password) {
-  const url = `https://${IP}/users/password/recovery`;
+async function password_recovery(
+	user_email,
+	user_validation_code,
+	user_password
+) {
+	const url = `http://${IP}/users/password/recovery`;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_email, user_validation_code, user_password }),
-  };
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ user_email, user_validation_code, user_password }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
-async function register_user(user_email, user_password, user_name, user_creation_token, campus_id) {
-  const url = `https://${IP}/user/register`;
+async function register_user(
+	user_email,
+	user_password,
+	user_name,
+	user_creation_token,
+	campus_id
+) {
+	const url = `http://${IP}/user/register`;
 
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ user_email, user_password, user_name, user_creation_token, campus_id }),
-  };
+	const options = {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			user_email,
+			user_password,
+			user_name,
+			user_creation_token,
+			campus_id,
+		}),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function edit_user_name(user_name) {
-  const url = `https://${IP}/users/name/edit`;
+	const url = `http://${IP}/users/name/edit`;
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token,
-    },
-    body: JSON.stringify({ user_name }),
-  };
+	const options = {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			"x-access-token": token,
+		},
+		body: JSON.stringify({ user_name }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function edit_user_email(user_email, user_validation_code) {
-  const url = `https://${IP}/users/email/edit`;
+	const url = `http://${IP}/users/email/edit`;
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token,
-    },
-    body: JSON.stringify({ user_email, user_validation_code }),
-  };
+	const options = {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			"x-access-token": token,
+		},
+		body: JSON.stringify({ user_email, user_validation_code }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function edit_user_password(user_password) {
-  const url = `https://${IP}/users/password/edit`;
+	const url = `http://${IP}/users/password/edit`;
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token,
-    },
-    body: JSON.stringify({ user_password }),
-  };
+	const options = {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			"x-access-token": token,
+		},
+		body: JSON.stringify({ user_password }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function edit_user_image(user_image) {
-  const url = `https://${IP}/users/image/edit`;
+	const url = `http://${IP}/users/image/edit`;
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  const options = {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token,
-    },
-    body: JSON.stringify({ user_image }),
-  };
+	const options = {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			"x-access-token": token,
+		},
+		body: JSON.stringify({ user_image }),
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 async function get_user_info() {
-  const url = `https://${IP}/users/info`;
+	const url = `http://${IP}/users/info`;
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "x-access-token": token,
-    },
-  };
+	const options = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			"x-access-token": token,
+		},
+	};
 
-  console.log(url)
+	console.log(url);
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
 }
 
 // O=========================================================================================================O //
 
 // Exportando requisições:
 export {
-  login_user,
-  logout_user,
-  email_validation,
-  email_code_validation,
-  password_recovery,
-  register_user,
-  edit_user_name,
-  edit_user_email,
-  edit_user_password,
-  edit_user_image,
-  get_user_info,
+	login_user,
+	logout_user,
+	email_validation,
+	email_code_validation,
+	password_recovery,
+	register_user,
+	edit_user_name,
+	edit_user_email,
+	edit_user_password,
+	edit_user_image,
+	get_user_info,
 };
 
 // O=========================================================================================================O //

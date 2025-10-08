@@ -84,7 +84,6 @@ const styles = EStyleSheet.create({
   contentW: {
     justifyContent: "center",
     alignItems: "center",
-    width: "auto",
     padding: "1.125rem",
   },
 

@@ -12,36 +12,38 @@
 // Imports:
 
 // Endereço IP da API (pode variar):
-import IP from "./settings";
+import IP from "./assets/settings";
+
+// AsyncStorage (para pegar o token salvo no dispositivo):
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // O=========================================================================================================O //
 
 // Função para Listar as Sessões em andamento:
 
 async function listSections() {
-  const url = `https://${IP}/sessions/mysessions`;
+	const url = `http://${IP}/sessions/mysessions`;
 
-  const token = localStorage.getItem("token");
+	const token = await AsyncStorage.getItem("token");
 
-  const options = {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+	const options = {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	};
 
-  try {
-    const response = await fetch(url, options);
-    const data = await response.json();
+	try {
+		const response = await fetch(url, options);
+		const data = await response.json();
 
-    // Log. Apagar depois:
-    console.log(data);
+		// Log. Apagar depois:
+		console.log(data);
 
-    return data;
-  } catch (err) {
+		return data;
+	} catch (err) {
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+	}
+}
 
-    return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-  }
-} 
-
-export {listSections};
+export { listSections };

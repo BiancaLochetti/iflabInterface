@@ -6,7 +6,7 @@ import { Dimensions } from "react-native";
 // Pega largura da tela
 const { width } = Dimensions.get("window");
 
-// Define o tamanho do REM de forma responsiva
+// // Define o tamanho do REM de forma responsiva
 EStyleSheet.build({
   $rem: width > 700 ? 20 : width > 400 ? 18 : 16,
 });

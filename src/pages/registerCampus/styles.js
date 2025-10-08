@@ -17,8 +17,8 @@ export const styles = EStyleSheet.create({
   },
 
   logo: {
-    width: "12.5rem",
-    height: "12.5rem",
+    width: "60%",
+    height: "60%",
     alignSelf: "center",
   },
 
@@ -27,7 +27,7 @@ export const styles = EStyleSheet.create({
   formView: {
     flex: 1,
     justifyContent: "center",
-    gap: "0.5rem",
+    gap: "1rem",
   },
 
   subtitle: {
@@ -43,7 +43,7 @@ export const styles = EStyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    zIndex: 100, // garante prioridade no dropdown
+    zIndex: 100,
   },
 
   dropdown: {

@@ -14,7 +14,7 @@ const EmailModal = ({
   notCode,
   emailVerify,
   modalActive,
-  withoutBg,
+  withoutBg
 }) => {
   const [code, setCode] = useState("");
 
@@ -79,7 +79,7 @@ const styles = EStyleSheet.create({
 
   modal: {
     backgroundColor: colors.white_full,
-    marginTop: '8rem' ,
+    marginTop: '4rem' ,
     padding: "1.25rem",
     borderRadius: "0.625rem",
     alignItems: "center",

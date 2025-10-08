@@ -1,7 +1,8 @@
 // Import nativo
 import { Text, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import react from "react";
 
 // Import componentes
 import InputText from "../../components/inputs/InputText";
@@ -14,41 +15,42 @@ import { styles } from "./styles";
 import img from "../../assets/images/logo.png";
 
 export function Login() {
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+	const navigation = useNavigation();
+	const [email, setEmail] = react.useState("");
+	const [senha, setSenha] = react.useState("");
 
-  return (
-    <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.logoView}>
-        <Image source={img} style={styles.logo} resizeMode="contain" />
-      </View>
+	return (
+		<SafeAreaView style={styles.container}>
+			{/* Header */}
+			<View style={styles.logoView}>
+				<Image source={img} style={styles.logo} resizeMode="contain" />
+			</View>
 
-      {/* Formulário */}
-        <ScrollView contentContainerStyle={styles.formView}>
-          <Text style={styles.label}>Digite suas informações</Text>
-          <View style={styles.inputs}>
-            <InputText
-              icon={require("../../assets/icons/UI/email.png")}
-              placeHolder="Email"
-              type="email"
-              onChange={setEmail}
-            />
-            <InputText
-              type="password"
-              placeHolder="Senha"
-              onChange={setSenha}
-            />
-          </View>
-        </ScrollView>
+			{/* Formulário */}
+			<View style={styles.formView}>
+				<Text style={styles.label}>Digite suas informações</Text>
+				<View style={styles.inputs}>
+					<InputText
+						icon={require("../../assets/icons/UI/email.png")}
+						placeHolder="Email"
+						type="email"
+						onChange={setEmail}
+					/>
+					<InputText type="password" placeHolder="Senha" onChange={setSenha} />
+				</View>
+			</View>
 
-      {/* Botões */}
-      <View style={styles.buttonView}>
-        <View style={styles.buttonContainer}>
-          <Button type="Green" text="Logar" />
-          <Button type="White" text="Não possui login? Registre-se" />
-        </View>
-      </View>
-    </SafeAreaView>
-  );
+			{/* Botões */}
+			<View style={styles.buttonView}>
+				<View style={styles.buttonContainer}>
+					<Button type="Green" text="Logar" />
+					<Button
+						type="White"
+						text="Não possui login? Registre-se"
+						onPress={() => navigation.navigate("RegisterUser")}
+					/>
+				</View>
+			</View>
+		</SafeAreaView>
+	);
 }

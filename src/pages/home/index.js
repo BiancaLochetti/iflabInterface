@@ -51,8 +51,7 @@ export function Home() {
     getLab();
   }, []);
 
-  // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTkzMzczMzcsImV4cCI6MTc1OTQyMzczN30.VfMt3tO9nD5In2SeLc_xj1ylb05ZAPHE-Ny3TiTgP5M")
-  // const teste = localStorage.getItem("token")
+  // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTk5NDc3MTcsImV4cCI6MTc2MDAzNDExN30.4AGqiB0HR2AveX_CcjGQa_yHx-itZLCHlxr9-c20TGQ")
 
   return !!user && !!lab ? (
     <SafeAreaView style={styles.container}>

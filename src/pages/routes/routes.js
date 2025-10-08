@@ -33,9 +33,8 @@ import user_icon from "../../assets/icons/UI/user.png"
 
 export function Routes() {
   // Para testes, enquanto a tela de login ñ estiver pronta:
-  // localStorage.setItem('token', "assas.ass.asas")
+  // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTk5NDc3MTcsImV4cCI6MTc2MDAzNDExN30.4AGqiB0HR2AveX_CcjGQa_yHx-itZLCHlxr9-c20TGQ")
   // Escreva qualquer coisa nesse token aqui de cima pra fazer ele ficar inválido e o sistema te considerar como deslogado.
-
   // State que vai guardar os dados do usuário:
   const [user_info, setUserInfo] = useState(null);
 
@@ -60,11 +59,21 @@ export function Routes() {
   }, []);
 
   return (
-    <Tab.Navigator screenOptions={screen_options_style}>
-        <Tab.Screen name="Login" component={Home} options={home_options} />
-        <Tab.Screen name="Register_user" component={RegisterUser} options={schedule_options} />
-        <Tab.Screen name="Register_Campus" component={RegisterCampus} options={user_options} />
-    </Tab.Navigator>
+    loading ? (
+      <Text>Carregando...</Text>
+    ) : user_info ? (
+      <Tab.Navigator screenOptions={screen_options_style}>
+        <Tab.Screen name="Home" component={Home} options={home_options} />
+        <Tab.Screen name="Schedule" component={Calendar} options={schedule_options} />
+        <Tab.Screen name="User" component={User} options={user_options} />
+      </Tab.Navigator>
+    ) : ( // Temporário, só pra poder acessar. dps vcs fazem a lógica.
+      <Tab.Navigator screenOptions={screen_options_style}>
+        <Tab.Screen name="Login" component={Login} options={home_options} />
+        <Tab.Screen name="RegisterUser" component={RegisterUser} options={schedule_options} />
+        <Tab.Screen name="RegisterCampus" component={RegisterCampus} options={user_options} />
+      </Tab.Navigator>
+    )
   )
 }
 

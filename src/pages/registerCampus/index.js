@@ -82,7 +82,7 @@ export function RegisterCampus() {
       </View>
 
       {/* Formulário */}
-      <ScrollView contentContainerStyle={styles.formView}>
+      <View style={styles.formView}>
         <Text style={styles.subtitle}>
           Insira o nome e a unidade federativa do campus
         </Text>
@@ -112,7 +112,7 @@ export function RegisterCampus() {
             />
           </View>
         </View>
-      </ScrollView>
+      </View>
 
       {/* Botões */}
       <View style={styles.buttonView}>
