@@ -4,9 +4,9 @@ import colors from "../../colors";
 
 export const styles = EStyleSheet.create({
 	container: {
-		backgroundColor: colors.white_full,
 		padding: "2rem",
 		flex: 1,
+		backgroundColor: colors.white_full,
 	},
 
 	// ----------------------------------------
@@ -25,13 +25,13 @@ export const styles = EStyleSheet.create({
 	// ----------------------------------------
 
 	formView: {
-		flex: 1,
+		flex: 2,
 		justifyContent: "center",
 		gap: "0.5rem",
 	},
 
 	label: {
-    	fontSize: "1.25rem",
+		fontSize: "1.25rem",
 		fontWeight: "500",
 		color: colors.primary_green_dark,
 		textAlign: "center",
@@ -39,7 +39,9 @@ export const styles = EStyleSheet.create({
 	},
 
 	inputs: {
-    	gap: '1rem',
+		gap: "1rem",
+		width: "80%",
+		alignSelf: "center",
 	},
 
 	// ----------------------------------------
@@ -49,10 +51,9 @@ export const styles = EStyleSheet.create({
 		justifyContent: "center",
 		paddingHorizontal: "1.5rem",
 		gap: "0.25rem",
-		marginTop: "1.5rem",
 	},
 
 	buttonContainer: {
-		gap: "1rem"
+		gap: "1rem",
 	},
 });

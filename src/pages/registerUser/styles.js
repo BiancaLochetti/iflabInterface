@@ -29,9 +29,9 @@ export const styles = EStyleSheet.create({
 	// ----------------------------------------
 
 	formView: {
-		flex: 1,
+		flex: 2,
 		justifyContent: "center",
-		gap: "0.2rem",
+		gap: "0.5rem",
 	},
 
 	title: {
@@ -43,7 +43,7 @@ export const styles = EStyleSheet.create({
 	},
 
 	subtext: {
-		fontSize: "1rem",
+		fontSize: "0.75rem",
 		color: colors.contrastant_gray,
 		textAlign: "center",
 		marginBottom: "2rem",
@@ -55,6 +55,7 @@ export const styles = EStyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		paddingHorizontal: "1.5rem",
+		zIndex: -1,
 	},
 
 	terms: {

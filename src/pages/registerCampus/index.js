@@ -95,7 +95,7 @@ export function RegisterCampus() {
               onChange={setCampusName}
             />
           </View>
-          <View style={{ width: "25%" }}>
+          <View style={{ width: "25%", zindex: "1"}}>
             <DropDownPicker
               open={open}
               value={campusUF}

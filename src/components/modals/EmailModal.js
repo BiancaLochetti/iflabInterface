@@ -1,8 +1,7 @@
 // Imports
+import React, { useRef, useState } from "react";
 import { TextInput, View, Modal, Text } from "react-native";
-
 import Button from "../buttons/Button";
-import { useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
@@ -14,9 +13,33 @@ const EmailModal = ({
   notCode,
   emailVerify,
   modalActive,
-  withoutBg
+  withoutBg,
 }) => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(["", "", "", "", ""]);
+  const inputsRef = useRef([]);
+
+  const handleChange = (digit, index) => {
+    const newCode = [...code];
+    newCode[index] = digit;
+    setCode(newCode);
+
+    // Avança para o próximo campo automaticamente
+    if (digit && index < 4) {
+      inputsRef.current[index + 1]?.focus();
+    }
+
+    // Se todos os campos estiverem preenchidos, envia o código
+    if (newCode.every((char) => char !== "")) {
+      const fullCode = newCode.join("");
+      emailVerify(fullCode);
+    }
+  };
+
+  const handleKeyPress = (e, index) => {
+    if (e.nativeEvent.key === "Backspace" && code[index] === "" && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    }
+  };
 
   return (
     <Modal transparent visible={modalActive} animationType="none">
@@ -25,17 +48,16 @@ const EmailModal = ({
           <Text style={styles.title}>Insira o código de verificação</Text>
 
           <View style={styles.codeContainer}>
-            {[...Array(5)].map((_, i) => (
+            {code.map((char, i) => (
               <TextInput
                 key={i}
+                ref={(ref) => (inputsRef.current[i] = ref)}
                 style={styles.codeInput}
                 maxLength={1}
                 keyboardType="numeric"
-                onChangeText={(digit) => {
-                  const newCode = code.split("");
-                  newCode[i] = digit;
-                  setCode(newCode.join(""));
-                }}
+                value={char}
+                onChangeText={(digit) => handleChange(digit, i)}
+                onKeyPress={(e) => handleKeyPress(e, i)}
               />
             ))}
           </View>
@@ -47,7 +69,11 @@ const EmailModal = ({
           />
 
           <View style={styles.verifyButtonWrapper}>
-            <Button text="Verificar email" onPress={() => emailVerify(code)} type="Green" />
+            <Button
+              text="Verificar email"
+              onPress={() => emailVerify(code.join(""))}
+              type="Green"
+            />
           </View>
 
           <Button text="Voltar" onPress={backPage} type="White" />
@@ -61,7 +87,7 @@ export default EmailModal;
 
 //----------------------------------------------------------------------------------------------
 
-// Styles 
+// Styles
 const styles = EStyleSheet.create({
   outerView: {
     backgroundColor: "rgba(0,0,0,0.5)",
@@ -79,7 +105,7 @@ const styles = EStyleSheet.create({
 
   modal: {
     backgroundColor: colors.white_full,
-    marginTop: '4rem' ,
+    marginTop: "4rem",
     padding: "1.25rem",
     borderRadius: "0.625rem",
     alignItems: "center",

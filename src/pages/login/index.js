@@ -2,7 +2,7 @@
 import { Text, View, Image, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import react from "react";
+import { useState } from "react";
 
 // Import componentes
 import InputText from "../../components/inputs/InputText";
@@ -14,10 +14,29 @@ import { styles } from "./styles";
 // Import imagem
 import img from "../../assets/images/logo.png";
 
+// Import API
+import { login_user } from "../../api/userRequests";
+
+// function isValidIFSPEmail(email) {
+// 	const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
+// 	return regex.test(email);
+// }
+
 export function Login() {
 	const navigation = useNavigation();
-	const [email, setEmail] = react.useState("");
-	const [senha, setSenha] = react.useState("");
+	const [email, setEmail] = useState("");
+	const [senha, setSenha] = useState("");
+
+	async function login() {
+		const response = await login_user(email, senha);
+		if (response.success) {
+			navigation.navigate("Calendar");
+		} else {
+			// Mostrar mensagem de erro
+			alert("Falha no login: " + response.message);
+		}
+
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -43,7 +62,11 @@ export function Login() {
 			{/* Botões */}
 			<View style={styles.buttonView}>
 				<View style={styles.buttonContainer}>
-					<Button type="Green" text="Logar" />
+					<Button
+						type="Green"
+						text="Logar"
+						disabled={!isValidIFSPEmail(email) || !senha}
+					/>
 					<Button
 						type="White"
 						text="Não possui login? Registre-se"

@@ -41,35 +41,27 @@ export function RegisterUser() {
 	const [campusList, setCampusList] = useState([]);
 	const [loading, setLoading] = useState(false);
 
-	useEffect(() => {
-		async function fetchCampus() {
-			setLoading(true);
-			const response = await listCampus();
-			let data = [];
+useEffect(() => {
+  async function fetchCampus() {
+    setLoading(true);
+    const response = await listCampus();
 
-			if (response && Array.isArray(response)) {
-				data = response;
-			} else if (response?.data) {
-				data = response.data;
-			}
+    if (response?.status && Array.isArray(response.campusList)) {
+      const formatted = response.campusList.map((campus, index) => ({
+        label: campus.nome || `Campus ${index + 1}`,
+        value: campus.id ?? `campus-${index}`, // garante chave única
+      }));
 
-			const formatted = data.map((campus) => ({
-				label:
-					campus.nome || campus.name || campus.campus_name || "Campus sem nome",
-				value:
-					campus.id ||
-					campus._id ||
-					campus.nome ||
-					campus.name ||
-					campus.campus_name,
-			}));
+      setCampusList(formatted);
+    } else {
+      console.warn("Formato inesperado na resposta da API:", response);
+    }
 
-			setCampusList(formatted);
-			setLoading(false);
-		}
+    setLoading(false);
+  }
 
-		fetchCampus();
-	}, []);
+  fetchCampus();
+}, []);
 
 	function handleNextStep() {
 		setStep((prev) => prev + 1);
@@ -90,7 +82,7 @@ export function RegisterUser() {
 
 		if (result?.status) {
 			Alert.alert("Sucesso", result.msg || "Usuário registrado!");
-			navigation.navigate("Home");
+			navigation.navigate("Home");x
 		} else {
 			Alert.alert("Erro", result?.msg || "Não foi possível registrar.");
 		}
@@ -113,14 +105,16 @@ export function RegisterUser() {
 					{/* Formulário */}
 					<View style={styles.formView}>
 						<Text style={styles.title}>Insira seu email institucional</Text>
-						<InputText
-							placeHolder="Email"
-							icon={require("../../assets/icons/UI/email.png")}
-							value={email}
-							onChange={setEmail}
-							type="email"
-							border
-						/>
+						<View style={{ width: "80%", alignSelf: "center" }}>
+							<InputText
+								placeHolder="Email"
+								icon={require("../../assets/icons/UI/email.png")}
+								value={email}
+								onChange={setEmail}
+								type="email"
+								border
+							/>
+						</View>
 						<Text style={styles.subtext}>
 							A confirmação será enviada para esse email.
 						</Text>
@@ -224,22 +218,24 @@ export function RegisterUser() {
 					{/* Formulário */}
 					<View style={styles.formView}>
 						<Text style={styles.title}>Insira suas informações</Text>
-						<InputText
-							placeHolder="Nome de usuário"
-							value={name}
-							onChange={setName}
-							border
-							type="name"
-							icon={require("../../assets/icons/UI/user.png")}
-						/>
+						<View style={{ width: "80%", alignSelf: "center", gap: "1rem" }}>
+							<InputText
+								placeHolder="Nome de usuário"
+								value={name}
+								onChange={setName}
+								border
+								type="name"
+								icon={require("../../assets/icons/UI/user.png")}
+							/>
 
-						<InputText
-							placeHolder="Senha do usuário"
-							value={password}
-							onChange={setPassword}
-							border
-							type="password"
-						/>
+							<InputText
+								placeHolder="Senha do usuário"
+								value={password}
+								onChange={setPassword}
+								border
+								type="password"
+							/>
+						</View>
 					</View>
 
 					{/* Botões */}
@@ -257,57 +253,62 @@ export function RegisterUser() {
 
 			{/* 4 - Campus */}
 			{step === 4 && (
-				<>
+			<>
+				{/* Header */}
+				<View style={styles.logoView}>
+				<Image
+					source={require("../../assets/images/logo.png")}
+					style={styles.logo}
+					resizeMode="contain"
+				/>
+				</View>
 
-					{/* Header */}
-					<View style={step === 2 ? styles.logoViewStep2 : styles.logoView}>
-						<Image
-							source={require("../../assets/images/logo.png")}
-							style={styles.logo}
-							resizeMode="contain"
-						/>
-					</View>
+				{/* Formulário */}
+				<View style={{ zIndex: 1001 }}>
+				<View style={styles.formView}>
+					<Text style={styles.title}>Insira o seu campus</Text>
 
-					{/* Formulário */}
-					<View style={styles.formView}>
-						<Text style={styles.title}>Insira o seu campus</Text>
+					<DropDownPicker
+					open={open}
+					value={campusId}
+					items={campusList}
+					setOpen={setOpen}
+					setValue={setCampusId}
+					setItems={setCampusList}
+					placeholder="Campus"
+					loading={loading}
+					mode="BADGE"
+					style={[styles.dropdown, { zIndex: 1001 }]}
+					dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
+					placeholderStyle={styles.dropdownPlaceholder}
+					labelStyle={styles.dropdownLabel}
+					selectedItemLabelStyle={styles.dropdownSelected}
+					listItemLabelStyle={styles.dropdownItem}
+					arrowIconStyle={styles.dropdownArrow}
+					/>
+				</View>
+				</View>
 
-						<DropDownPicker
-							open={open}
-							value={campusId}
-							items={campusList}
-							setOpen={setOpen}
-							setValue={setCampusId}
-							setItems={setCampusList}
-							placeholder="Campus"
-							loading={loading}
-							style={styles.dropdown}
-							dropDownContainerStyle={styles.dropdownContainer}
-							placeholderStyle={styles.dropdownPlaceholder}
-							labelStyle={styles.dropdownLabel}
-							selectedItemLabelStyle={styles.dropdownSelected}
-							listItemLabelStyle={styles.dropdownItem}
-							arrowIconStyle={styles.dropdownArrow}
-						/>
-					</View>
-
-					{/* Botões */}
-					<View style={styles.buttonView}>
-						<Button
-							text="Avançar"
-							onPress={handleRegister}
-							type="Green"
-							disabled={!campusId}
-						/>
-						<Button text="Voltar" onPress={handleBackStep} type="White" />
-						<Button
-							text="Não encontrou seu campus? Cadastre-o"
-							onPress={() => navigation.navigate("RegisterCampus")}
-							type="White"
-						/>
-					</View>
-				</>
+				{/* Botões */}
+				<View style={styles.buttonView}>
+				<Button
+					text="Avançar"
+					onPress={handleRegister}
+					type="Green"
+					disabled={!campusId}
+				/>
+				<Button text="Voltar" onPress={handleBackStep} type="White" />
+				<Button
+					text="Não encontrou seu campus? Cadastre-o"
+					onPress={() => navigation.navigate("RegisterCampus")}
+					type="White"
+				/>
+				</View>
+			</>
 			)}
+
+
+
 		</SafeAreaView>
 	);
 }
