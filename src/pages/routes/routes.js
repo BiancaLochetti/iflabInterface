@@ -58,7 +58,7 @@ export function Routes() {
 	}, []);
 
 	return loading ? (
-		<Text>Carregando...</Text>
+		<Text>teste</Text>
 	) : user_info ? (
 		<Tab.Navigator screenOptions={screen_options_style}>
 			<Tab.Screen name="Home" component={Home} options={home_options} />

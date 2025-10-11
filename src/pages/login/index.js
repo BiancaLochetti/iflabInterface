@@ -17,10 +17,10 @@ import img from "../../assets/images/logo.png";
 // Import API
 import { login_user } from "../../api/userRequests";
 
-// function isValidIFSPEmail(email) {
-// 	const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
-// 	return regex.test(email);
-// }
+function isValidIFSPEmail(email) {
+const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
+return regex.test(email);
+}
 
 export function Login() {
 	const navigation = useNavigation();

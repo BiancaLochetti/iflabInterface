@@ -22,293 +22,271 @@ import Button from "../../components/buttons/Button";
 import EmailModal from "../../components/modals/EmailModal";
 
 function isValidIFSPEmail(email) {
-	const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
-	return regex.test(email);
+  const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
+  return regex.test(email);
 }
 
 export function RegisterUser() {
-	const navigation = useNavigation();
-	const [step, setStep] = useState(1);
+  const navigation = useNavigation();
+  const [step, setStep] = useState(1);
 
-	const [email, setEmail] = useState("");
-	const [code, setCode] = useState("");
-	const [name, setName] = useState("");
-	const [password, setPassword] = useState("");
-	const [campusId, setCampusId] = useState(null);
+  const [email, setEmail] = useState("");
+  const [code, setCode] = useState("");
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [campusId, setCampusId] = useState(null);
 
-	// Estados do DropDown
-	const [open, setOpen] = useState(false);
-	const [campusList, setCampusList] = useState([]);
-	const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [campusList, setCampusList] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-useEffect(() => {
-  async function fetchCampus() {
-    setLoading(true);
-    const response = await listCampus();
+  useEffect(() => {
+    async function fetchCampus() {
+      setLoading(true);
+      const response = await listCampus();
 
-    if (response?.status && Array.isArray(response.campusList)) {
-      const formatted = response.campusList.map((campus, index) => ({
-        label: campus.nome || `Campus ${index + 1}`,
-        value: campus.id ?? `campus-${index}`, // garante chave única
-      }));
+      const lista = response?.campusList ?? [];
 
-      setCampusList(formatted);
-    } else {
-      console.warn("Formato inesperado na resposta da API:", response);
+      if (Array.isArray(lista) && lista.length > 0) {
+        const formatted = lista.map((campus, index) => ({
+          label: campus.nome || `Campus ${index + 1}`,
+          value: campus.id ?? `campus-${index}`,
+        }));
+        setCampusList(formatted);
+      } else {
+        console.warn("Lista de campus vazia. Usando dados de teste.");
+        setCampusList([
+          { label: "Campus Campinas", value: "1" },
+          { label: "Campus São Paulo", value: "2" },
+        ]);
+      }
+
+      setLoading(false);
     }
 
-    setLoading(false);
+    fetchCampus();
+  }, []);
+
+  async function handleRegister() {
+    const result = await registerUser({
+      user_name: name,
+      user_email: email,
+      user_password: password,
+      user_creation_token: code,
+      campus_id: campusId,
+    });
+
+    if (result?.status) {
+      Alert.alert("Sucesso", result.msg || "Usuário registrado!");
+      navigation.navigate("Home");
+    } else {
+      Alert.alert("Erro", result?.msg || "Não foi possível registrar.");
+    }
   }
 
-  fetchCampus();
-}, []);
+  function handleNextStep() {
+    setStep((prev) => prev + 1);
+  }
 
-	function handleNextStep() {
-		setStep((prev) => prev + 1);
-	}
+  function handleBackStep() {
+    setStep((prev) => prev - 1);
+  }
 
-	function handleBackStep() {
-		setStep((prev) => prev - 1);
-	}
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Etapa 1 - Email */}
+      {step === 1 && (
+        <>
+          <View style={styles.logoView}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
 
-	async function handleRegister() {
-		const result = await registerUser({
-			user_name: name,
-			user_email: email,
-			user_password: password,
-			user_creation_token: code,
-			campus_id: campusId,
-		});
+          <View style={styles.formView}>
+            <Text style={styles.title}>Insira seu email institucional</Text>
+            <View style={{ width: "80%", alignSelf: "center" }}>
+              <InputText
+                placeHolder="Email"
+                icon={require("../../assets/icons/UI/email.png")}
+                value={email}
+                onChange={setEmail}
+                type="email"
+                border
+              />
+            </View>
+            <Text style={styles.subtext}>
+              A confirmação será enviada para esse email.
+            </Text>
+          </View>
 
-		if (result?.status) {
-			Alert.alert("Sucesso", result.msg || "Usuário registrado!");
-			navigation.navigate("Home");x
-		} else {
-			Alert.alert("Erro", result?.msg || "Não foi possível registrar.");
-		}
-	}
+          <View style={styles.buttonView}>
+            <Button
+              text="Receber código"
+              onPress={async () => {
+                if (!isValidIFSPEmail(email)) {
+                  Alert.alert(
+                    "Email inválido",
+                    "Use apenas emails institucionais do IFSP (@ifsp.edu.br ou @aluno.ifsp.edu.br)."
+                  );
+                  return;
+                }
 
-	return (
-		<SafeAreaView style={styles.container}>
-			{/* 1 - Email */}
-			{step === 1 && (
-				<>
-					{/* Header */}
-					<View style={step === 2 ? styles.logoViewStep2 : styles.logoView}>
-						<Image
-							source={require("../../assets/images/logo.png")}
-							style={styles.logo}
-							resizeMode="contain"
-						/>
-					</View>
+                const result = await email_validation(email, 1);
+                if (result?.status) {
+                  Alert.alert("Sucesso", result.msg || "Código enviado!");
+                  handleNextStep();
+                } else {
+                  Alert.alert(
+                    "Erro",
+                    result?.msg || "Não foi possível enviar o código."
+                  );
+                }
+              }}
+              type="Green"
+              disabled={!isValidIFSPEmail(email)}
+            />
 
-					{/* Formulário */}
-					<View style={styles.formView}>
-						<Text style={styles.title}>Insira seu email institucional</Text>
-						<View style={{ width: "80%", alignSelf: "center" }}>
-							<InputText
-								placeHolder="Email"
-								icon={require("../../assets/icons/UI/email.png")}
-								value={email}
-								onChange={setEmail}
-								type="email"
-								border
-							/>
-						</View>
-						<Text style={styles.subtext}>
-							A confirmação será enviada para esse email.
-						</Text>
-					</View>
+            <Text style={styles.terms}>
+              Ao prosseguir, você confirma que leu e concorda com os termos de
+              uso e política de privacidade.
+            </Text>
 
-					{/* Botões */}
-					<View style={styles.buttonView}>
-						<View style={{ gap: "1rem" }}>
-							<Button
-								text="Receber código"
-								onPress={async () => {
-									if (!isValidIFSPEmail(email)) {
-										Alert.alert(
-											"Email inválido",
-											"Use apenas emails institucionais do IFSP (@ifsp.edu.br ou @aluno.ifsp.edu.br)."
-										);
-										return;
-									}
+            <Button
+              text="Já tem uma conta? Logar"
+              onPress={() => navigation.navigate("Login")}
+              type="White"
+            />
+          </View>
+        </>
+      )}
 
-									const result = await email_validation(email, 1);
-									if (result?.status) {
-										Alert.alert("Sucesso", result.msg || "Código enviado!");
-										handleNextStep();
-									} else {
-										Alert.alert(
-											"Erro",
-											result?.msg || "Não foi possível enviar o código."
-										);
-									}
-								}}
-								type="Green"
-								disabled={!isValidIFSPEmail(email)}
-							/>
+      {/* Etapa 2 - Código */}
+      {step === 2 && (
+        <EmailModal
+          modalActive={true}
+          backPage={handleBackStep}
+          emailVerify={async (code) => {
+            const result = await email_code_validation(email, code);
 
-							<Text style={styles.terms}>
-								Ao prosseguir, você confirma que leu e concorda com os termos de
-								uso e política de privacidade.
-							</Text>
+            if (result?.status) {
+              Alert.alert("Sucesso", result.msg || "Código validado com sucesso!");
+              setCode(code);
+              handleNextStep();
+            } else {
+              Alert.alert("Erro", result?.msg || "Código inválido ou expirado.");
+            }
+          }}
+          notCode={async () => {
+            const result = await email_validation(email, 1);
+            if (result?.status) {
+              Alert.alert("Sucesso", "Novo código reenviado!");
+            } else {
+              Alert.alert("Erro", result?.msg || "Não foi possível reenviar.");
+            }
+          }}
+        />
+      )}
 
-							<Button
-								text="Já tem uma conta? Logar"
-								onPress={() => navigation.navigate("Login")}
-								type="White"
-							/>
-						</View>
-					</View>
-				</>
-			)}
+      {/* Etapa 3 - Nome e Senha */}
+      {step === 3 && (
+        <>
+          <View style={styles.logoView}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
 
-			{/* 2 - Código */}
-			{step === 2 && (
-				<>
-					{/* Modal de verificação */}
-					<EmailModal
-						modalActive={true}
-						backPage={handleBackStep}
-						emailVerify={async (code) => {
-							const result = await email_code_validation(email, code);
+          <View style={styles.formView}>
+            <Text style={styles.title}>Insira suas informações</Text>
+            <View style={{ width: "80%", alignSelf: "center", gap: "1rem" }}>
+              <InputText
+                placeHolder="Nome de usuário"
+                value={name}
+                onChange={setName}
+                border
+                type="name"
+                icon={require("../../assets/icons/UI/user.png")}
+              />
 
-							if (result?.status) {
-								Alert.alert(
-									"Sucesso",
-									result.msg || "Código validado com sucesso!"
-								);
-								setCode(code);
-								handleNextStep();
-							} else {
-								Alert.alert(
-									"Erro",
-									result?.msg || "Código inválido ou expirado."
-								);
-							}
-						}}
-						notCode={async () => {
-							const result = await email_validation(email, 1);
-							if (result?.status) {
-								Alert.alert("Sucesso", "Novo código reenviado!");
-							} else {
-								Alert.alert(
-									"Erro",
-									result?.msg || "Não foi possível reenviar."
-								);
-							}
-						}}
-					/>
-				</>
-			)}
+              <InputText
+                placeHolder="Senha do usuário"
+                value={password}
+                onChange={setPassword}
+                border
+                type="password"
+              />
+            </View>
+          </View>
 
-			{/* 3 - Formulário (Nome e Senha) */}
-			{step === 3 && (
-				<>
-					{/* Header */}
-					<View style={step === 2 ? styles.logoViewStep2 : styles.logoView}>
-						<Image
-							source={require("../../assets/images/logo.png")}
-							style={styles.logo}
-							resizeMode="contain"
-						/>
-					</View>
+          <View style={styles.buttonView}>
+            <Button
+              text="Avançar"
+              onPress={handleNextStep}
+              type="Green"
+              disabled={!(name && password)}
+            />
+            <Button text="Voltar" onPress={handleBackStep} type="White" />
+          </View>
+        </>
+      )}
 
-					{/* Formulário */}
-					<View style={styles.formView}>
-						<Text style={styles.title}>Insira suas informações</Text>
-						<View style={{ width: "80%", alignSelf: "center", gap: "1rem" }}>
-							<InputText
-								placeHolder="Nome de usuário"
-								value={name}
-								onChange={setName}
-								border
-								type="name"
-								icon={require("../../assets/icons/UI/user.png")}
-							/>
+      {/* Etapa 4 - Campus */}
+      {step === 4 && (
+        <>
+          <View style={styles.logoView}>
+            <Image
+              source={require("../../assets/images/logo.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
 
-							<InputText
-								placeHolder="Senha do usuário"
-								value={password}
-								onChange={setPassword}
-								border
-								type="password"
-							/>
-						</View>
-					</View>
+          <View style={{ zIndex: 1001 }}>
+            <View style={styles.formView}>
+              <Text style={styles.title}>Insira o seu campus</Text>
 
-					{/* Botões */}
-					<View style={styles.buttonView}>
-						<Button
-							text="Avançar"
-							onPress={handleNextStep}
-							type="Green"
-							disabled={!(name && password)}
-						/>
-						<Button text="Voltar" onPress={handleBackStep} type="White" />
-					</View>
-				</>
-			)}
+              <DropDownPicker
+                open={open}
+                value={campusId}
+                items={campusList}
+                setOpen={setOpen}
+                setValue={setCampusId}
+                setItems={setCampusList}
+                placeholder="Campus"
+                loading={loading}
+                mode="BADGE"
+                style={[styles.dropdown, { zIndex: 1001 }]}
+                dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
+                placeholderStyle={styles.dropdownPlaceholder}
+                labelStyle={styles.dropdownLabel}
+                selectedItemLabelStyle={styles.dropdownSelected}
+                listItemLabelStyle={styles.dropdownItem}
+                arrowIconStyle={styles.dropdownArrow}
+              />
+            </View>
+          </View>
 
-			{/* 4 - Campus */}
-			{step === 4 && (
-			<>
-				{/* Header */}
-				<View style={styles.logoView}>
-				<Image
-					source={require("../../assets/images/logo.png")}
-					style={styles.logo}
-					resizeMode="contain"
-				/>
-				</View>
-
-				{/* Formulário */}
-				<View style={{ zIndex: 1001 }}>
-				<View style={styles.formView}>
-					<Text style={styles.title}>Insira o seu campus</Text>
-
-					<DropDownPicker
-					open={open}
-					value={campusId}
-					items={campusList}
-					setOpen={setOpen}
-					setValue={setCampusId}
-					setItems={setCampusList}
-					placeholder="Campus"
-					loading={loading}
-					mode="BADGE"
-					style={[styles.dropdown, { zIndex: 1001 }]}
-					dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
-					placeholderStyle={styles.dropdownPlaceholder}
-					labelStyle={styles.dropdownLabel}
-					selectedItemLabelStyle={styles.dropdownSelected}
-					listItemLabelStyle={styles.dropdownItem}
-					arrowIconStyle={styles.dropdownArrow}
-					/>
-				</View>
-				</View>
-
-				{/* Botões */}
-				<View style={styles.buttonView}>
-				<Button
-					text="Avançar"
-					onPress={handleRegister}
-					type="Green"
-					disabled={!campusId}
-				/>
-				<Button text="Voltar" onPress={handleBackStep} type="White" />
-				<Button
-					text="Não encontrou seu campus? Cadastre-o"
-					onPress={() => navigation.navigate("RegisterCampus")}
-					type="White"
-				/>
-				</View>
-			</>
-			)}
-
-
-
-		</SafeAreaView>
-	);
+          <View style={styles.buttonView}>
+            <Button
+              text="Avançar"
+              onPress={handleRegister}
+              type="Green"
+              disabled={!campusId}
+            />
+            <Button text="Voltar" onPress={handleBackStep} type="White" />
+            <Button
+              text="Não encontrou seu campus? Cadastre-o"
+              onPress={() => navigation.navigate("RegisterCampus")}
+              type="White"
+            />
+          </View>
+        </>
+      )}
+    </SafeAreaView>
+  );
 }

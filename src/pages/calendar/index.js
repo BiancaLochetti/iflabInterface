@@ -16,14 +16,6 @@ import { listSections } from "../../api/SectionsRequests";
 
 //--------------------------------------------------------
 
-// AsyncStorage (para pegar o token salvo no dispositivo):
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const token = await AsyncStorage.setItem(
-	"token",
-	"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NjAxMjMwMjQsImV4cCI6MTc2MDIwOTQyNH0.OwIRe353Ye2LYR-gItkaXKfu0RKvouZBrNYgiwxLrAg"
-);
-
 // Página Principal
 export function Calendar() {
 	const [sessions, setSessions] = useState([]);
