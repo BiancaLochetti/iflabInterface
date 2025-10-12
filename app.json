@@ -1,29 +1,29 @@
 {
-  "expo": {
-    "name": "iflabInterface",
-    "slug": "iflabInterface",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./src/assets/icons/iflab/icon-512.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./src/assets/icons/iflab/icon-512.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./src/assets/icons/iflab/icon-512.png",
-        "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true
-    },
-    "web": {
-      "favicon": "./assets/icon-512.png"
-    }
-  }
+	"expo": {
+		"name": "iflabInterface",
+		"slug": "iflabInterface",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./src/assets/icons/iflab/icon-512-maskable.png",
+		"userInterfaceStyle": "light",
+		"newArchEnabled": true,
+		"splash": {
+			"image": "./src/assets/icons/iflab/icon-512-maskable.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"ios": {
+			"supportsTablet": true
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./src/assets/icons/iflab/icon-512-maskable.png",
+				"backgroundColor": "#ffffff"
+			},
+			"edgeToEdgeEnabled": true
+		},
+		"web": {
+			"favicon": "./src/assets/icons/iflab/icon-512.png"
+		}
+	}
 }
