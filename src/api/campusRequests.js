@@ -5,21 +5,23 @@
   O=========================O
 
   Lista de rotas:
-  - [X] registerCampus
-  - [X] listCampus
+  - [] registerCampus
+  - [] listCampus
 */
 // O=========================================================================================================O //
 
 // Imports:
 
-// Endereço IP da API (pode variar):
-import IP from "./assets/settings";
+// Função para ler valores do storage:
+import { storage_getter } from "./utils";
 
 // O=========================================================================================================O //
 
 // Função para registrar um campus:
 async function registerCampus(campus_name, campus_uf) {
-	const url = `http://${IP}/campus/register`;
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/campus/register`;
 
 	const options = {
 		method: "POST",
@@ -33,9 +35,6 @@ async function registerCampus(campus_name, campus_uf) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -46,8 +45,9 @@ async function registerCampus(campus_name, campus_uf) {
 
 // Função para listar todos os campus:
 async function listCampus() {
-	const url = `http://${IP}/campus/get`;
-	console.log(url);
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/campus/get`;
 
 	const options = {
 		method: "GET",
@@ -59,9 +59,6 @@ async function listCampus() {
 	try {
 		const response = await fetch(url, options);
 		const data = await response.json();
-
-		// Log. Apagar depois:
-		console.log(data);
 
 		return data;
 	} catch (err) {

@@ -18,18 +18,20 @@
 
 // Imports:
 
-// Endereço IP da API (pode variar):
-import IP from "./assets/settings";
+// Função para ler valores do storage:
+import { storage_getter } from "./utils";
 
 // AsyncStorage (para pegar o token salvo no dispositivo):
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // O=========================================================================================================O //
 
+// Função para registrar um novo laboratório:
 async function register_new_laboratory(lab_name) {
-	const url = `http://${IP}/labs/register`;
-
+	const IP = await storage_getter("api_ip");
 	const token = await AsyncStorage.getItem("token");
+
+	const url = `http://${IP}:3333/labs/register`;
 
 	const options = {
 		method: "POST",
@@ -44,9 +46,6 @@ async function register_new_laboratory(lab_name) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -55,10 +54,12 @@ async function register_new_laboratory(lab_name) {
 
 // O=========================================================================================================O //
 
+// Função para deletar um laboratório:
 async function delete_laboratory(lab_id) {
-	const url = `http://${IP}/labs/delete/${lab_id}`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/delete/${lab_id}`;
 
 	const options = {
 		method: "DELETE",
@@ -72,9 +73,6 @@ async function delete_laboratory(lab_id) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -83,10 +81,12 @@ async function delete_laboratory(lab_id) {
 
 // O=========================================================================================================O //
 
+// Função para pegar os laboratórios do usuário:
 async function get_laboratories() {
-	const url = `http://${IP}/labs/my`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/my`;
 
 	const options = {
 		method: "GET",
@@ -100,9 +100,6 @@ async function get_laboratories() {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -111,10 +108,12 @@ async function get_laboratories() {
 
 // O=========================================================================================================O //
 
+// Função para pegar a agenda de um laboratório:
 async function get_laboratory_schedule(lab_id, date) {
-	const url = `http://${IP}/labs/schedule/${lab_id}/${date}`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/schedule/${lab_id}/${date}`;
 
 	const options = {
 		method: "GET",
@@ -128,9 +127,6 @@ async function get_laboratory_schedule(lab_id, date) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -139,10 +135,12 @@ async function get_laboratory_schedule(lab_id, date) {
 
 // O=========================================================================================================O //
 
+// Função para pegar os usuários de um laboratório:
 async function get_laboratory_users(lab_id) {
-	const url = `http://${IP}/labs/users/${lab_id}`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/users/${lab_id}`;
 
 	const options = {
 		method: "GET",
@@ -156,9 +154,6 @@ async function get_laboratory_users(lab_id) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -167,10 +162,12 @@ async function get_laboratory_users(lab_id) {
 
 // O=========================================================================================================O //
 
+// Função para mudar o nível de admin de um usuário em um laboratório:
 async function change_user_admin_level(lab_id, user_id, user_admin_level) {
-	const url = `http://${IP}/labs/admin`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/admin`;
 
 	const options = {
 		method: "PUT",
@@ -185,9 +182,6 @@ async function change_user_admin_level(lab_id, user_id, user_admin_level) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -196,10 +190,12 @@ async function change_user_admin_level(lab_id, user_id, user_admin_level) {
 
 // O=========================================================================================================O //
 
+// Função para adicionar um usuário a um laboratório:
 async function add_user_to_lab(lab_id, user_id, user_admin_level) {
-	const url = `http://${IP}/labs/admin`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/admin`;
 
 	const options = {
 		method: "POST",
@@ -214,9 +210,6 @@ async function add_user_to_lab(lab_id, user_id, user_admin_level) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -225,10 +218,12 @@ async function add_user_to_lab(lab_id, user_id, user_admin_level) {
 
 // O=========================================================================================================O //
 
+// Função para remover um usuário de um laboratório:
 async function remove_user_from_lab(lab_id, user_id) {
-	const url = `http://${IP}/labs/admin`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/labs/admin`;
 
 	const options = {
 		method: "DELETE",
@@ -242,9 +237,6 @@ async function remove_user_from_lab(lab_id, user_id) {
 	try {
 		const response = await fetch(url, options);
 		const data = await response.json();
-
-		// Log. Apagar depois:
-		console.log(data);
 
 		return data;
 	} catch (err) {

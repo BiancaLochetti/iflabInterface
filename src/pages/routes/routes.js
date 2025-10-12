@@ -1,7 +1,26 @@
+// O=========================================================================================================O //
+
+/* 
+	O=================O
+	|    Compontes    |
+	O=================O
+*/
+
 // Componentes nativos:
 import { useEffect, useState } from "react";
-import { StyleSheet, Image, Text, View } from "react-native";
+import { StyleSheet, Image, Text, SafeAreaViewBase, view } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+// Componente de navegação:
+const Tab = createBottomTabNavigator();
+
+// O=========================================================================================================O //
+
+/* 
+	O=============O
+	|    Telas    |
+	O=============O
+*/
 
 // Tela para loading:
 import { Loading } from "../routes/loading";
@@ -16,80 +35,146 @@ import { Login } from "../login";
 import { register_user_screen } from "../registerUser";
 import { RegisterCampus } from "../registerCampus";
 
-// Rotas da API:
-import { get_user_info } from "../../api/userRequests";
+// O=========================================================================================================O //
 
-// Componente de navegação:
-const Tab = createBottomTabNavigator();
+/* 
+	O===============O
+	|    APIFLab    |
+	O===============O
+*/
+
+import { get_user_info, login_user } from "../../api/userRequests";
+import { findAPI, storage_getter } from "../../api/utils";
+
+// O=========================================================================================================O //
+
+/* 
+	O==============O
+	|	Estilos    |
+	O==============O
+*/
 
 // Estilização:
 import colors from "../../colors";
+
+// O=========================================================================================================O //
+
+/* 
+	O==============O
+	|    Ícones    |
+	O==============O
+*/
 
 // Ícones:
 import home_icon from "../../assets/icons/UI/home.png";
 import schedule_icon from "../../assets/icons/UI/schedule.png";
 import user_icon from "../../assets/icons/UI/user.png";
 
+// O=========================================================================================================O //
+
 export function Routes() {
-	// Para testes, enquanto a tela de login ñ estiver pronta:
-	// localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTk5NDc3MTcsImV4cCI6MTc2MDAzNDExN30.4AGqiB0HR2AveX_CcjGQa_yHx-itZLCHlxr9-c20TGQ")
-	// Escreva qualquer coisa nesse token aqui de cima pra fazer ele ficar inválido e o sistema te considerar como deslogado.
 	// State que vai guardar os dados do usuário:
 	const [user_info, setUserInfo] = useState(null);
 
 	// State que define se está carregando informações da API ou não:
 	const [loading, setLoading] = useState(true); // Enquanto true, mostra uma tela "carregando..."
 
+	// State que define se a API foi encontrada:
+	const [apiFound, setApiFound] = useState(false);
+
 	// Carregando dados do usuário (e verificando se ele existe / o token é válido):
 	useEffect(() => {
-		async function fetchData() {
-			const data = await get_user_info();
+		async function getAPI() {
+			const API_IP = await findAPI();
 
-			if (!data.status) {
-				setUserInfo(null); // Token é inválido (velho), usuário n é mais considerado logado;
-			} else {
-				setUserInfo(data.data); // Informações do usuário foram carregadas;
+			if (!API_IP) {
+				setApiFound(false);
+				return;
 			}
 
-			setLoading(false); // Informações chegaram (existindo ou não), então define loading como false (não está mais carregando);
+			setApiFound(true);
+
+			fetchUserData();
 		}
 
-		fetchData();
+		async function fetchUserData() {
+			const result = await get_user_info();
+
+			if (result.status) {
+				setLoading(false);
+				setUserInfo(result.data);
+
+				return;
+			}
+
+			const email = await storage_getter("email");
+			const password = await storage_getter("password");
+
+			if (!email || !password) {
+				// Vai pra tela de login
+
+				setLoading(false);
+				return;
+			}
+
+			const login = await login_user(email, password);
+
+			if (!login.status) {
+				// Vai pra tela de login
+
+				setLoading(false);
+				return;
+			}
+			await fetchUserData();
+		}
+
+		getAPI();
 	}, []);
 
-	return loading ? (
-    <Text>teste</Text>
-  ) : user_info ? (
-    <Tab.Navigator screenOptions={screen_options_style}>
-      <Tab.Screen name="Home" component={Home} options={home_options} />
-      {/* <Tab.Screen name="Schedule" component={Calendar} options={schedule_options} /> */}
-      <Tab.Screen name="User" component={User} options={user_options} />
-    </Tab.Navigator>
-  ) : (
-    // Temporário, só pra poder acessar. dps vcs fazem a lógica.
-    <Tab.Navigator screenOptions={screen_options_style}>
-      <Tab.Screen name="Login" component={Login} options={home_options} />
-      <Tab.Screen
-        name="RegisterUser"
-        component={register_user_screen}
-        options={schedule_options}
-      />
-      {/* <Tab.Screen name="RegisterCampus" component={RegisterCampus} options={user_options} /> */}
-      <Tab.Screen
-        name="Schedule"
-        component={Calendar}
-        options={schedule_options}
-      />
-    </Tab.Navigator>
-  );
+	return !apiFound || loading ? (
+		<Loading
+			status_msg={!apiFound ? "Procurando servidor" : "Tentando logar"}
+		/>
+	) : user_info ? (
+		<Tab.Navigator screenOptions={logged_screeen_options}>
+			<Tab.Screen name="Home" component={Home} options={home_options} />
+			<Tab.Screen
+				name="Calendar"
+				component={Calendar}
+				options={calendar_options}
+			/>
+			<Tab.Screen name="User" component={User} options={user_options} />
+		</Tab.Navigator>
+	) : (
+		<Tab.Navigator screenOptions={un_logged_screeen_options}>
+			<Tab.Screen name="Login" component={Login} />
+			<Tab.Screen name="Register user" component={register_user_screen} />
+			<Tab.Screen name="Register campus" component={RegisterCampus} />
+		</Tab.Navigator>
+	);
 }
 
+// O=========================================================================================================O //
+
+/* 
+	O==================O
+	|	Estilizações   |
+	O==================O
+*/
+
 // Estilizações:
-const screen_options_style = {
+const logged_screeen_options = {
 	tabBarStyle: {
 		backgroundColor: colors.white_medium,
 		paddingBottom: "4rem",
 		paddingTop: "2rem",
+	},
+};
+
+const un_logged_screeen_options = {
+	headerShown: false,
+	tabBarStyle: {
+		display: "none",
 	},
 };
 
@@ -106,7 +191,7 @@ const home_options = {
 	},
 };
 
-const schedule_options = {
+const calendar_options = {
 	headerShown: false,
 	tabBarShowLabel: false,
 	tabBarIcon: ({ focused }) => {
@@ -147,3 +232,5 @@ const styles = StyleSheet.create({
 		marginTop: 20,
 	},
 });
+
+// O=========================================================================================================O //

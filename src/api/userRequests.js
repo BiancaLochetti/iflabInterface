@@ -1,7 +1,5 @@
-/* <----------------- apagar para ativar
-
 // O=========================================================================================================O //
-
+/*
   O========================O
   |    Requests - users    |
   O========================O
@@ -18,21 +16,21 @@
   - [] edit_user_password
   - [] edit_user_image
   - [] get_user_info
-
-// O=========================================================================================================O //
 */
+// O=========================================================================================================O //
+
 // Imports:
 
-// Endereço IP da API (pode variar):
-import IP from "./assets/settings";
-
-// AsyncStorage (para pegar o token salvo no dispositivo):
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// Função para ler valores do storage:
+import { storage_getter, storage_saver } from "./utils";
 
 // O=========================================================================================================O //
 
+// Função para login de usuário:
 async function login_user(user_email, user_password) {
-	const url = `http://${IP}/users/login`;
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/users/login`;
 
 	const options = {
 		method: "POST",
@@ -46,8 +44,10 @@ async function login_user(user_email, user_password) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
+		if (data.status) {
+			// Armazena o token localmente:
+			await storage_saver("token", data.token);
+		}
 
 		return data;
 	} catch (err) {
@@ -57,8 +57,12 @@ async function login_user(user_email, user_password) {
 
 // O=========================================================================================================O //
 
+// Função para logout de usuário:
 async function logout_user() {
-	const url = `http://${IP}/users/logout`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
+
+	const url = `http://${IP}:3333/users/logout`;
 
 	const options = {
 		method: "POST",
@@ -68,14 +72,9 @@ async function logout_user() {
 		},
 	};
 
-	const token = await AsyncStorage.getItem("token");
-
 	try {
 		const response = await fetch(url, options);
 		const data = await response.json();
-
-		// Log. Apagar depois:
-		console.log(data);
 
 		return data;
 	} catch (err) {
@@ -85,8 +84,11 @@ async function logout_user() {
 
 // O=========================================================================================================O //
 
+// Função para enviar código de validação para email:
 async function email_validation(user_email, reason_for_code) {
-	const url = `http://${IP}/users/email/getcode`;
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/users/email/getcode`;
 
 	const options = {
 		method: "POST",
@@ -100,9 +102,6 @@ async function email_validation(user_email, reason_for_code) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return {
@@ -114,8 +113,11 @@ async function email_validation(user_email, reason_for_code) {
 
 // O=========================================================================================================O //
 
+// Função para validar código enviado por email:
 async function email_code_validation(user_email, user_validation_code) {
-	const url = `http://${IP}/users/email/validate`;
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/users/email/validate`;
 
 	const options = {
 		method: "POST",
@@ -129,9 +131,6 @@ async function email_code_validation(user_email, user_validation_code) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -140,12 +139,15 @@ async function email_code_validation(user_email, user_validation_code) {
 
 // O=========================================================================================================O //
 
+// Função para recuperar senha:
 async function password_recovery(
 	user_email,
 	user_validation_code,
 	user_password
 ) {
-	const url = `http://${IP}/users/password/recovery`;
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/users/password/recovery`;
 
 	const options = {
 		method: "POST",
@@ -159,9 +161,6 @@ async function password_recovery(
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -170,6 +169,7 @@ async function password_recovery(
 
 // O=========================================================================================================O //
 
+// Função para registrar usuário:
 async function register_user(
 	user_email,
 	user_password,
@@ -177,7 +177,9 @@ async function register_user(
 	user_creation_token,
 	campus_id
 ) {
-	const url = `http://${IP}/users/register`;
+	const IP = await storage_getter("api_ip");
+
+	const url = `http://${IP}:3333/users/register`;
 
 	const options = {
 		method: "POST",
@@ -197,9 +199,6 @@ async function register_user(
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -208,10 +207,12 @@ async function register_user(
 
 // O=========================================================================================================O //
 
+// Função para editar o nome de um usuário:
 async function edit_user_name(user_name) {
-	const url = `http://${IP}/users/name/edit`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/users/name/edit`;
 
 	const options = {
 		method: "PUT",
@@ -226,9 +227,6 @@ async function edit_user_name(user_name) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -237,10 +235,12 @@ async function edit_user_name(user_name) {
 
 // O=========================================================================================================O //
 
+// Função para editar o email de um usuário:
 async function edit_user_email(user_email, user_validation_code) {
-	const url = `http://${IP}/users/email/edit`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/users/email/edit`;
 
 	const options = {
 		method: "PUT",
@@ -255,9 +255,6 @@ async function edit_user_email(user_email, user_validation_code) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -266,10 +263,12 @@ async function edit_user_email(user_email, user_validation_code) {
 
 // O=========================================================================================================O //
 
+// Função para editar a senha de um usuário:
 async function edit_user_password(user_password) {
-	const url = `http://${IP}/users/password/edit`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/users/password/edit`;
 
 	const options = {
 		method: "PUT",
@@ -284,9 +283,6 @@ async function edit_user_password(user_password) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -295,10 +291,12 @@ async function edit_user_password(user_password) {
 
 // O=========================================================================================================O //
 
+// Função para editar a imagem de um usuário:
 async function edit_user_image(user_image) {
-	const url = `http://${IP}/users/image/edit`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/users/image/edit`;
 
 	const options = {
 		method: "PUT",
@@ -313,9 +311,6 @@ async function edit_user_image(user_image) {
 		const response = await fetch(url, options);
 		const data = await response.json();
 
-		// Log. Apagar depois:
-		console.log(data);
-
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
@@ -324,10 +319,12 @@ async function edit_user_image(user_image) {
 
 // O=========================================================================================================O //
 
+// Função para obter informações do usuário:
 async function get_user_info() {
-	const url = `http://${IP}/users/info`;
+	const IP = await storage_getter("api_ip");
+	const token = await storage_getter("token");
 
-	const token = await AsyncStorage.getItem("token");
+	const url = `http://${IP}:3333/users/info`;
 
 	const options = {
 		method: "GET",
@@ -337,14 +334,9 @@ async function get_user_info() {
 		},
 	};
 
-	console.log(url);
-
 	try {
 		const response = await fetch(url, options);
 		const data = await response.json();
-
-		// Log. Apagar depois:
-		console.log(data);
 
 		return data;
 	} catch (err) {
