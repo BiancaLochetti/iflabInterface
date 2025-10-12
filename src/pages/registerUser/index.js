@@ -1,4 +1,4 @@
-//Import nativo
+// Import nativo
 import { useState, useEffect } from "react";
 import { View, Text, Image, Alert, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -10,9 +10,9 @@ import { styles } from "./styles";
 
 // Import API
 import {
-	registerUser,
-	email_validation,
-	email_code_validation,
+  register_user,
+  email_validation,
+  email_code_validation,
 } from "../../api/userRequests";
 import { listCampus } from "../../api/campusRequests";
 
@@ -21,17 +21,21 @@ import InputText from "../../components/inputs/InputText";
 import Button from "../../components/buttons/Button";
 import EmailModal from "../../components/modals/EmailModal";
 
+// Validação de email institucional
 function isValidIFSPEmail(email) {
   const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
   return regex.test(email);
 }
 
-export function RegisterUser() {
+export function register_user_screen() {
   const navigation = useNavigation();
   const [step, setStep] = useState(1);
 
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+
+  const [creationToken, setCreationToken] = useState("");
+
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [campusId, setCampusId] = useState(null);
@@ -42,45 +46,71 @@ export function RegisterUser() {
 
   useEffect(() => {
     async function fetchCampus() {
-      setLoading(true);
-      const response = await listCampus();
+      try {
+        setLoading(true);
+        const response = await listCampus();
+        const lista = response?.campusList ?? [];
 
-      const lista = response?.campusList ?? [];
-
-      if (Array.isArray(lista) && lista.length > 0) {
-        const formatted = lista.map((campus, index) => ({
-          label: campus.nome || `Campus ${index + 1}`,
-          value: campus.id ?? `campus-${index}`,
-        }));
-        setCampusList(formatted);
-      } else {
-        console.warn("Lista de campus vazia. Usando dados de teste.");
-        setCampusList([
-          { label: "Campus Campinas", value: "1" },
-          { label: "Campus São Paulo", value: "2" },
-        ]);
+        if (Array.isArray(lista) && lista.length > 0) {
+          const formatted = lista.map((campus, index) => ({
+            label: campus.nome || `Campus ${index + 1}`,
+            value: campus.id ?? `campus-${index}`,
+          }));
+          setCampusList(formatted);
+        } else {
+          console.warn("Lista de campus vazia. Usando dados de teste.");
+          setCampusList([
+            { label: "Campus Campinas", value: "1" },
+            { label: "Campus São Paulo", value: "2" },
+          ]);
+        }
+      } catch (error) {
+        console.error("Erro ao buscar campus:", error);
+        Alert.alert("Erro", "Falha ao carregar lista de campus.");
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
 
     fetchCampus();
   }, []);
 
   async function handleRegister() {
-    const result = await registerUser({
-      user_name: name,
-      user_email: email,
-      user_password: password,
-      user_creation_token: code,
-      campus_id: campusId,
+    console.log("Valores atuais:", {
+      email,
+      password,
+      name,
+      creationToken,
+      campusId
     });
 
-    if (result?.status) {
-      Alert.alert("Sucesso", result.msg || "Usuário registrado!");
-      navigation.navigate("Home");
-    } else {
-      Alert.alert("Erro", result?.msg || "Não foi possível registrar.");
+    console.log("CampusId: ", campusId, typeof campusId)
+
+    // Verifica se todos os campos estão preenchidos
+    if (!email || !password || !name || !creationToken || !campusId) {
+      Alert.alert("Erro", "Preencha todos os campos antes de continuar.");
+      return;
+    }
+
+    try {
+      const result = await register_user(
+        email,
+        password,
+        name,
+        creationToken,
+        parseInt(campusId)
+      );
+      console.log("Retorno da API:", result);
+
+      if (result?.status) {
+        Alert.alert("Sucesso", result.msg || "Usuário registrado!");
+        navigation.navigate("Home");
+      } else {
+        Alert.alert("Erro", result?.msg || "Não foi possível registrar.");
+      }
+    } catch (error) {
+      console.error("Erro no registro:", error);
+      Alert.alert("Erro", "Falha ao conectar-se à API.");
     }
   }
 
@@ -134,15 +164,28 @@ export function RegisterUser() {
                   return;
                 }
 
-                const result = await email_validation(email, 1);
-                if (result?.status) {
-                  Alert.alert("Sucesso", result.msg || "Código enviado!");
-                  handleNextStep();
-                } else {
-                  Alert.alert(
-                    "Erro",
-                    result?.msg || "Não foi possível enviar o código."
-                  );
+                try {
+                  const result = await email_validation(email, 1);
+                  console.log("Resultado email_validation:", result);
+
+                  if (result?.status) {
+                    Alert.alert("Sucesso", result.msg || "Código enviado!");
+
+                    if (result?.token) {
+                      setCreationToken(result.token);
+                      console.log("Token recebido:", Token);
+                    }
+
+                    handleNextStep();
+                  } else {
+                    Alert.alert(
+                      "Erro",
+                      result?.msg || "Não foi possível enviar o código."
+                    );
+                  }
+                } catch (error) {
+                  console.error("Erro ao validar email:", error);
+                  Alert.alert("Erro", "Falha ao enviar código de validação.");
                 }
               }}
               type="Green"
@@ -168,23 +211,38 @@ export function RegisterUser() {
         <EmailModal
           modalActive={true}
           backPage={handleBackStep}
-          emailVerify={async (code) => {
-            const result = await email_code_validation(email, code);
+          emailVerify={async (codeInput) => {
+            try {
+              const result = await email_code_validation(email, codeInput);
+              console.log("Resultado code_validation:", result);
 
-            if (result?.status) {
-              Alert.alert("Sucesso", result.msg || "Código validado com sucesso!");
-              setCode(code);
-              handleNextStep();
-            } else {
-              Alert.alert("Erro", result?.msg || "Código inválido ou expirado.");
+              if (result?.status) {
+                Alert.alert("Sucesso", result.msg || "Código validado!");
+                setCreationToken(result.authToken);
+                handleNextStep();
+              } else {
+                Alert.alert("Erro", result?.msg || "Código inválido.");
+              }
+            } catch (error) {
+              console.error("Erro ao validar código:", error);
+              Alert.alert("Erro", "Falha ao validar código.");
             }
           }}
           notCode={async () => {
-            const result = await email_validation(email, 1);
-            if (result?.status) {
-              Alert.alert("Sucesso", "Novo código reenviado!");
-            } else {
-              Alert.alert("Erro", result?.msg || "Não foi possível reenviar.");
+            try {
+              const result = await email_validation(email, 1);
+              if (result?.status) {
+                Alert.alert("Sucesso", "Novo código reenviado!");
+                if (result?.token) setCreationToken(result.authToken);
+
+				console.log("Token recebido:", result.authToken);
+
+              } else {
+                Alert.alert("Erro", result?.msg || "Não foi possível reenviar.");
+              }
+            } catch (error) {
+              console.error("Erro ao reenviar código:", error);
+              Alert.alert("Erro", "Falha ao reenviar código.");
             }
           }}
         />
@@ -261,7 +319,10 @@ export function RegisterUser() {
                 loading={loading}
                 mode="BADGE"
                 style={[styles.dropdown, { zIndex: 1001 }]}
-                dropDownContainerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
+                dropDownContainerStyle={[
+                  styles.dropdownContainer,
+                  { zIndex: 1000 },
+                ]}
                 placeholderStyle={styles.dropdownPlaceholder}
                 labelStyle={styles.dropdownLabel}
                 selectedItemLabelStyle={styles.dropdownSelected}
@@ -273,7 +334,7 @@ export function RegisterUser() {
 
           <View style={styles.buttonView}>
             <Button
-              text="Avançar"
+              text="Concluir cadastro"
               onPress={handleRegister}
               type="Green"
               disabled={!campusId}

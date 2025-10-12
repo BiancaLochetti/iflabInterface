@@ -13,7 +13,7 @@ import { Calendar } from "../calendar";
 
 // Telas para usuário deslogado:
 import { Login } from "../login";
-import { RegisterUser } from "../registerUser";
+import { register_user_screen } from "../registerUser";
 import { RegisterCampus } from "../registerCampus";
 
 // Rotas da API:
@@ -58,30 +58,30 @@ export function Routes() {
 	}, []);
 
 	return loading ? (
-		<Text>teste</Text>
-	) : user_info ? (
-		<Tab.Navigator screenOptions={screen_options_style}>
-			<Tab.Screen name="Home" component={Home} options={home_options} />
-			{/* <Tab.Screen name="Schedule" component={Calendar} options={schedule_options} /> */}
-			<Tab.Screen name="User" component={User} options={user_options} />
-		</Tab.Navigator>
-	) : (
-		// Temporário, só pra poder acessar. dps vcs fazem a lógica.
-		<Tab.Navigator screenOptions={screen_options_style}>
-			<Tab.Screen name="Login" component={Login} options={home_options} />
-			<Tab.Screen
-				name="RegisterUser"
-				component={RegisterUser}
-				options={schedule_options}
-			/>
-			{/* <Tab.Screen name="RegisterCampus" component={RegisterCampus} options={user_options} /> */}
-			<Tab.Screen
-				name="Schedule"
-				component={Calendar}
-				options={schedule_options}
-			/>
-		</Tab.Navigator>
-	);
+    <Text>teste</Text>
+  ) : user_info ? (
+    <Tab.Navigator screenOptions={screen_options_style}>
+      <Tab.Screen name="Home" component={Home} options={home_options} />
+      {/* <Tab.Screen name="Schedule" component={Calendar} options={schedule_options} /> */}
+      <Tab.Screen name="User" component={User} options={user_options} />
+    </Tab.Navigator>
+  ) : (
+    // Temporário, só pra poder acessar. dps vcs fazem a lógica.
+    <Tab.Navigator screenOptions={screen_options_style}>
+      <Tab.Screen name="Login" component={Login} options={home_options} />
+      <Tab.Screen
+        name="RegisterUser"
+        component={register_user_screen}
+        options={schedule_options}
+      />
+      {/* <Tab.Screen name="RegisterCampus" component={RegisterCampus} options={user_options} /> */}
+      <Tab.Screen
+        name="Schedule"
+        component={Calendar}
+        options={schedule_options}
+      />
+    </Tab.Navigator>
+  );
 }
 
 // Estilizações:

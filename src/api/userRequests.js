@@ -58,7 +58,7 @@ async function login_user(user_email, user_password) {
 // O=========================================================================================================O //
 
 async function logout_user() {
-	const url = `http://${IP}/user/logout`;
+	const url = `http://${IP}/users/logout`;
 
 	const options = {
 		method: "POST",
@@ -177,7 +177,7 @@ async function register_user(
 	user_creation_token,
 	campus_id
 ) {
-	const url = `http://${IP}/user/register`;
+	const url = `http://${IP}/users/register`;
 
 	const options = {
 		method: "POST",
