@@ -1,15 +1,24 @@
 // Imports
 import { TextInput, TouchableOpacity, View, Image } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
 //----------------------------------------------------------------------------------------------
 
 // Componente Principal
-const InputText = ({ placeHolder, type, icon, onChange, border = false }) => {
-	const [value, setValue] = useState("");
+const InputText = ({ placeHolder, type, icon, onChange, border = false, defaultValue = null }) => {
+	// initialize with defaultValue so component shows it when provided
+	const [value, setValue] = useState(defaultValue ?? "");
 	const [showPassword, setShowPassword] = useState(false);
+
+	// If defaultValue changes after mount, update the internal value
+	// but don't overwrite if the user has already typed something.
+	useEffect(() => {
+		if ((value === null || value === undefined || value === '') && (defaultValue ?? '') !== '') {
+			setValue(defaultValue);
+		}
+	}, [defaultValue]);
 
 	function handleOnChange(text) {
 		setValue(text);
@@ -27,6 +36,7 @@ const InputText = ({ placeHolder, type, icon, onChange, border = false }) => {
 				onChangeText={handleOnChange}
 				keyboardType={type}
 				autoCapitalize="none"
+				defaultValue={defaultValue ?? undefined}
 			/>
 
 			{/* //Condição caso o tipo seja senha */}
