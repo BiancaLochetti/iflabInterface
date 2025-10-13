@@ -1,8 +1,18 @@
 // Imports
 import { useEffect, useRef, useState } from "react";
-import { View, Animated, Easing, StyleSheet, Platform } from "react-native";
+import {
+	View,
+	Animated,
+	Easing,
+	StyleSheet,
+	Platform,
+	Image,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import colors from "../../colors";
+
+// import da imagem do marcio
+import marcio from "../../assets/images/marcio.png";
 
 // Loader com 9 quadradinhos animados e destaque sequencial (ida e volta)
 function BanterLoader() {
@@ -12,9 +22,21 @@ function BanterLoader() {
 
 	const [highlightedIndex, setHighlightedIndex] = useState(0);
 	const [direction, setDirection] = useState(1); // 1 = indo pra frente, -1 = voltando
+	const [showMarcio, setShowMarcio] = useState(false);
 
 	useEffect(() => {
 		const ANIMATION_DURATION = 1600; // 800 up + 800 down
+
+		// Checa a hora atual
+		const checkTime = () => {
+			const now = new Date();
+			const hours = now.getHours();
+			const minutes = now.getMinutes();
+			setShowMarcio(hours === 0 && minutes === 0);
+		};
+
+		checkTime(); // checa logo ao montar
+		const timeChecker = setInterval(checkTime, 10000); // checa a cada 10s
 
 		// animações de escala/opacidade
 		const createLoop = (anim, delay) =>
@@ -57,6 +79,7 @@ function BanterLoader() {
 		return () => {
 			loops.forEach((loop) => loop.stop());
 			clearInterval(colorInterval);
+			clearInterval(timeChecker);
 		};
 	}, [direction]);
 
@@ -86,10 +109,18 @@ function BanterLoader() {
 							{
 								transform: [{ scale }],
 								opacity,
-								backgroundColor,
+								backgroundColor: showMarcio ? "transparent" : backgroundColor,
 							},
 						]}
-					/>
+					>
+						{showMarcio && (
+							<Image
+								source={marcio}
+								style={styles.marcioImage}
+								resizeMode="contain"
+							/>
+						)}
+					</Animated.View>
 				);
 			})}
 		</View>
@@ -176,6 +207,13 @@ const styles = StyleSheet.create({
 		margin: 3,
 		backgroundColor: colors.primary_green_light,
 		borderRadius: 5,
+		overflow: "hidden",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	marcioImage: {
+		width: "100%",
+		height: "100%",
 	},
 	statusText: {
 		marginTop: 20,
