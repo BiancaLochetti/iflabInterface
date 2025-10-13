@@ -5,32 +5,35 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: colors.white_full,
-        height: '100%'
+        paddingHorizontal: "2rem"
     },
 
+// ---------------------------------------------------------
+
     header:{
-        marginTop: 15,
         alignItems: "center",
         justifyContent: "center",
-        position: 'relative'
+        flex: 1
     },
 
     user:{
+        flex: 3,
         flexDirection: 'column',
         alignItems: 'center'
     },
 
     userPic:{
-        width: 170,
         height: 170,
-        borderRadius: 100
+        width: 170,
+        borderRadius: "10rem",
     },
+
+// ---------------------------------------------------------
     
     content:{
-        marginTop: 50,
-        marginBottom: 50,
-        gap: 50,
-        alignContent: 'center' 
+        gap: "10%",
+        justifyContent: 'center',
+        flex: 2,
     },
 
     title:{
@@ -39,23 +42,25 @@ const styles = StyleSheet.create({
     },
 
     subContainer:{
-        marginLeft: 20,
-        marginRight: 20,
-        gap: 10
+        marginHorizontal: "2rem",
+        gap: '0.5rem'
     },
 
     emailContainer:{
-        display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
+        flex: 1, 
+        gap: "2%"
     },
 
+// ---------------------------------------------------------
+
     button:{
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingBottom: 20,
-        alignContent: 'flex-end'
+        flex: 1,
+
     },
 
 });

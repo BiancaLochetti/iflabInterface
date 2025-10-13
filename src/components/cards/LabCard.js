@@ -67,13 +67,13 @@ const LabCard = ({
           <>
             <Text style={textStyle}>Informações da última sessão:</Text>
             <Text style={textStyle}>Responsável: {lastResp}</Text>
-            <Text style={textStyle}>Horário: {lastHour}</Text>
+            {/* <Text style={textStyle}>Horário: {lastHour}</Text> */}
           </>
         ) : (
           <>
             <Text style={textStyle}>Informações da sessão atual:</Text>
             <Text style={textStyle}>Responsável: {responsable}</Text>
-            <Text style={textStyle}>Horário estipulado: {hour}</Text>
+            {/* <Text style={textStyle}>Horário estipulado: {hour}</Text> */}
           </>
         )}
       </View>

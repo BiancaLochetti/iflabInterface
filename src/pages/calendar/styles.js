@@ -19,7 +19,6 @@ const styles = EStyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		gap: "0.5rem",
-		paddingVertical: "0.25rem",
 	},
 
 	chevronImage: {

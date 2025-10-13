@@ -213,6 +213,7 @@ async function edit_user_name(user_name) {
 	const token = await storage_getter("token");
 
 	const url = `http://${IP}:3333/users/name/edit`;
+	
 
 	const options = {
 		method: "PUT",
@@ -230,6 +231,7 @@ async function edit_user_name(user_name) {
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+
 	}
 }
 

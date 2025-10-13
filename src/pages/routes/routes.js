@@ -138,11 +138,7 @@ export function Routes() {
 	) : user_info ? (
 		<Tab.Navigator screenOptions={logged_screeen_options}>
 			<Tab.Screen name="Home" component={Home} options={home_options} />
-			<Tab.Screen
-				name="Calendar"
-				component={Calendar}
-				options={calendar_options}
-			/>
+			<Tab.Screen name="Calendar" component={Calendar} options={calendar_options} />
 			<Tab.Screen name="User" component={User} options={user_options} />
 		</Tab.Navigator>
 	) : (

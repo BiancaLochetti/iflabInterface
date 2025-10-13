@@ -20,7 +20,11 @@ export function Calendar() {
   const [upcomingSessions, setUpcomingSessions] = useState([]);
   const [closedSessions, setClosedSessions] = useState([]);
   // filtro de data vindo do DataSelection
-  const [dateFilter, setDateFilter] = useState({ year: null, month: null, day: null });
+  const [dateFilter, setDateFilter] = useState({
+    year: null,
+    month: null,
+    day: null,
+  });
   // estados para mostrar todas as sessões
   const [showAllRunning, setShowAllRunning] = useState(false);
   const [showAllUpcoming, setShowAllUpcoming] = useState(false);
@@ -32,10 +36,12 @@ export function Calendar() {
       const result = await ListUserSessions();
       if (result && result.sessionsList) {
         const newSessions = result.sessionsList.map((s) => {
-			// formata a hora para não mostrar os segundos
-			const copy = { ...s };
-          if (typeof copy.startsAt === "string") copy.startsAt = copy.startsAt.replace(/(\d{2}:\d{2}):\d{2}/g, "$1");
-          if (typeof copy.endsAt === "string") copy.endsAt = copy.endsAt.replace(/(\d{2}:\d{2}):\d{2}/g, "$1");
+          // formata a hora para não mostrar os segundos
+          const copy = { ...s };
+          if (typeof copy.startsAt === "string")
+            copy.startsAt = copy.startsAt.replace(/(\d{2}:\d{2}):\d{2}/g, "$1");
+          if (typeof copy.endsAt === "string")
+            copy.endsAt = copy.endsAt.replace(/(\d{2}:\d{2}):\d{2}/g, "$1");
           return copy;
         });
         setSessions(newSessions);
@@ -64,7 +70,15 @@ export function Calendar() {
         return new Date(y, m - 1, d, hh, mm, 0, 0);
       }
 
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+      const today = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        0,
+        0,
+        0,
+        0
+      );
 
       const running = [];
       const upcoming = [];
@@ -72,7 +86,8 @@ export function Calendar() {
 
       sessionsList.forEach((s) => {
         const sessionDateStr = s.date || s.session_date || "";
-        const startStr = s.startsAt || s.startAt || s.session_starts_at || "00:00";
+        const startStr =
+          s.startsAt || s.startAt || s.session_starts_at || "00:00";
         const endStr = s.endsAt || s.endAt || s.session_ends_at || "00:00";
 
         const parts = String(sessionDateStr).split("-");
@@ -82,7 +97,15 @@ export function Calendar() {
           return;
         }
 
-        const sessionDay = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10), 0, 0, 0, 0);
+        const sessionDay = new Date(
+          parseInt(parts[0], 10),
+          parseInt(parts[1], 10) - 1,
+          parseInt(parts[2], 10),
+          0,
+          0,
+          0,
+          0
+        );
 
         const startDT = toDateTime(sessionDateStr, startStr);
         const endDT = toDateTime(sessionDateStr, endStr);
@@ -131,7 +154,8 @@ export function Calendar() {
             Dezembro: "12",
           };
           const mStr = months[month] || month;
-          if (String(mStr).padStart(2, "0") !== String(m).padStart(2, "0")) return false;
+          if (String(mStr).padStart(2, "0") !== String(m).padStart(2, "0"))
+            return false;
         }
         if (day && String(day) !== String(parseInt(d, 10))) return false;
         return true;
@@ -167,47 +191,55 @@ export function Calendar() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 40 }}>
+      <ScrollView>
         <View style={styles.headerView}>
           <TouchableOpacity>
-            <Image source={require("../../assets/icons/UI/chevrom.png")} 
-			style={styles.chevronImage} 
-			resizeMode="contain" />
+            <Image
+              source={require("../../assets/icons/UI/chevrom.png")}
+              style={styles.chevronImage}
+              resizeMode="contain"
+            />
           </TouchableOpacity>
           <Text style={styles.headerText}>
-            Calendário do laboratório <Text style={{ fontWeight: "bold" }}>A108</Text>
+            Calendário do laboratório{" "}
+            <Text style={{ fontWeight: "bold" }}>A108</Text>
           </Text>
         </View>
 
         <View style={styles.dataView}>
           <View style={{ flexDirection: "column" }}>
-            <Text style={[styles.textFont, { marginBottom: 10 }]}>Selecione a Data:</Text>
+            <Text style={[styles.textFont, { marginBottom: 10 }]}>
+              Selecione a Data:
+            </Text>
           </View>
           <View style={{ width: "100%" }}>
             <DataSelection onChange={(d) => setDateFilter(d)} />
           </View>
         </View>
-        
-        <SectionListBlock 
-          title="Sessões em andamento" 
-          sessions={runningSessions} 
-          loading={loading} 
-          expanded={showAllRunning} 
-          setExpanded={setShowAllRunning} />
 
-        <SectionListBlock 
-          title="Próximas sessões" 
-          sessions={upcomingSessions} 
-          loading={loading} 
-          expanded={showAllUpcoming} 
-          setExpanded={setShowAllUpcoming} />
+        <SectionListBlock
+          title="Sessões em andamento"
+          sessions={runningSessions}
+          loading={loading}
+          expanded={showAllRunning}
+          setExpanded={setShowAllRunning}
+        />
 
-        <SectionListBlock 
-          title="Sessões encerradas" 
-          sessions={closedSessions} 
-          loading={loading} 
-          expanded={showAllClosed} 
-          setExpanded={setShowAllClosed} />
+        <SectionListBlock
+          title="Próximas sessões"
+          sessions={upcomingSessions}
+          loading={loading}
+          expanded={showAllUpcoming}
+          setExpanded={setShowAllUpcoming}
+        />
+
+        <SectionListBlock
+          title="Sessões encerradas"
+          sessions={closedSessions}
+          loading={loading}
+          expanded={showAllClosed}
+          setExpanded={setShowAllClosed}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -221,44 +253,64 @@ function SectionListBlock({ title, sessions, loading, expanded, setExpanded }) {
         {loading ? (
           <Text style={styles.loadingText}>Carregando...</Text>
         ) : sessions.length === 0 ? (
-          <View style={{ justifyContent: "center", alignItems: "center", padding: 20 }}>
-            <Text style={styles.loadingText}>{title === "Sessões em andamento" ? "Nenhuma sessão reservada" : `Não há ${title.toLowerCase()}`}</Text>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              padding: 20,
+            }}
+          >
+            <Text style={styles.loadingText}>
+              {title === "Sessões em andamento"
+                ? "Nenhuma sessão reservada"
+                : `Não há ${title.toLowerCase()}`}
+            </Text>
           </View>
         ) : (
           <>
             {(() => {
               const shown = expanded ? sessions : sessions.slice(0, 2);
               return (
-                <ScrollView style={{ maxHeight: expanded ? 800 : 300 }} nestedScrollEnabled={true}>
+                <ScrollView
+                  style={{ maxHeight: expanded ? 800 : 300 }}
+                  nestedScrollEnabled={true}
+                >
                   {shown.map((session, idx) => (
-                    <Sections 
-					key={session.sessionId || idx} 
-					inicio={session.startsAt} 
-					fim={session.endsAt} 
-					dataSessão={session.date} 
-					materiaisReservados={session.equipmentsQtd} 
-					elementosReservados={session.elementsQtd} 
-					labName={session.labName} 
-					formDone={session.formDone} />
+                    <Sections
+                      key={session.sessionId || idx}
+                      inicio={session.startsAt}
+                      fim={session.endsAt}
+                      dataSessão={session.date}
+                      materiaisReservados={session.equipmentsQtd}
+                      elementosReservados={session.elementsQtd}
+                      labName={session.labName}
+                      formDone={session.formDone}
+                    />
                   ))}
                 </ScrollView>
               );
             })()}
 
             {!expanded && sessions.length > 2 ? (
-              <TouchableOpacity onPress={() => setExpanded(true)} style={styles.showAllButton}>
+              <TouchableOpacity
+                onPress={() => setExpanded(true)}
+                style={styles.showAllButton}
+              >
                 <Text style={styles.showAllText}>Ver todas as sessões</Text>
               </TouchableOpacity>
             ) : null}
 
             {expanded ? (
-              <TouchableOpacity onPress={() => setExpanded(false)} style={styles.showAllButton}>
+              <TouchableOpacity
+                onPress={() => setExpanded(false)}
+                style={styles.showAllButton}
+              >
                 <Text style={styles.showAllText}>Ver menos</Text>
               </TouchableOpacity>
             ) : null}
           </>
-      )}
+        )}
+      </View>
     </View>
-  </View>
   );
 }

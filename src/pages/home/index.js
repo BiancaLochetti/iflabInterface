@@ -16,6 +16,7 @@ import { get_user_info } from "../../api/userRequests";
 import { get_laboratories } from "../../api/labRequests";
 
 import Loading from "../routes/loading";
+import colors from "../../colors";
 
 //--------------------------------------------------------
 
@@ -51,24 +52,31 @@ export function Home() {
     getLab();
   }, []);
 
-  // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NTk5NDc3MTcsImV4cCI6MTc2MDAzNDExN30.4AGqiB0HR2AveX_CcjGQa_yHx-itZLCHlxr9-c20TGQ")
+  // localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0LCJpYXQiOjE3NjAzNzg1NzMsImV4cCI6MTc2MDQ2NDk3M30.oQAo6YrhF4nagVnrxEassjslJx2HWEOECPH4ypz-6Jw")
+  // console.log('token:', localStorage.getItem('token'))
 
-  return !!user && !!lab ? (
+  return !!user ? (
     <SafeAreaView style={styles.container}>
       {/* Cabeçalho com logo e botão de perfil */}
-      <View style={styles.header}>
+      <View style={styles.headerView}>
         <Image
           source={require("../../assets/images/logo.png")}
           style={styles.logo}
           resizeMode="contain"
         />
-        <TouchableOpacity onPress={() => navigation.navigate("RegisterCampus")}>
-          <Image source={user.user_image} style={styles.profile} />
+        <TouchableOpacity>
+          <Image source={
+            user.user_image
+            ? user.user_image
+            : require('../../assets/icons/UI/user.png')
+          } style={styles.profile} />
         </TouchableOpacity>
+
+
       </View>
 
       {/* Botão para adicionar laboratório */}
-      <View style={styles.addLab}>
+      <View style={styles.addLabView}>
         <Button
           text=" + Adicionar Laboratório"
           onPress={() => alert("AddLab!")}
@@ -78,24 +86,34 @@ export function Home() {
       </View>
 
       {/* Lista de cards de laboratório */}
-      <ScrollView contentContainerStyle={styles.content}>
-        {lab.labsList.map((lab, idx) => (
-          <LabCard
-            key={idx}
-            lab={lab.labName}
-            status={lab.status}
-            responsable={lab.userName}
-            lastResp={lab.userName}
-            hour={lab.startAt + " - " + lab.endsAt}
-            lastHour={lab.startAt + " - " + lab.endsAt}
-          />
-        ))}
-      </ScrollView>
+      {!!lab ? (
+        <>
+          <ScrollView contentContainerStyle={styles.contentView}>
+          {lab.labsList.map((lab, idx) => (
+            <LabCard
+              key={idx}
+              lab={lab.labName}
+              status={lab.status}
+              responsable={lab.userName}
+              lastResp={lab.userName}
+              // hour={lab.hourStart + " - " + lab.endsAt}
+              // lastHour={lab.hourStart + " - " + lab.hourStart}
+            />
+          ))}
+        </ScrollView>
+      </>
+      ) : (
+      <>
+        <View style={{ margin: 'auto', padding: "2rem", backgroundColor: colors.primary_green_dark, borderRadius: "1rem" }}>
+          <Text style={{ color: colors.white_full, fontSize: 30 }}>Nenhum laboratório no momento!</Text>
+        </View>
+      </>
+      )}
     </SafeAreaView>
   ) : (
     <SafeAreaView style={styles.container}>
-      {/* Carregando */}
-      <View
+      {/* Carregando */
+      /*<View
         style={{
           justifyContent: "center",
           alignItems: "center",
@@ -105,7 +123,7 @@ export function Home() {
         <Text style={{ fontSize: 40, color: "green" }}>
           Carregando...
         </Text>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 }

@@ -1,47 +1,54 @@
-import { StyleSheet } from "react-native";
+import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
   container: {
-    gap: 15,
+    paddingHorizontal: "2rem",
+    flex: 1,
     backgroundColor: colors.white_full,
-    height: "100%",
   },
 
-  header: {
-    height: "5%",
+  // -------------------------------------------------------
+
+  headerView: {
+    height: "10%",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10
   },
 
   logo: {
-    width: 100,
+    width: "6rem",
+    height: "6rem"
   },
 
   profile: {
-    height: 50,
-    width: 50,
-    borderRadius: 50,
+    height: "3.125rem",
+    width: "3.125rem",
+    borderRadius: "3.125rem",
     filter: "drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.25))",
   },
 
-  addLab: {
-    flexDirection: "column", 
-    justifyContent: "flex-end", 
-    alignItems: "flex-end", 
-    marginRight: 20,
+  // -------------------------------------------------------
+
+  addLabView: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginTop: "1.25rem",
+    zIndex: -10
   },
 
-  content: {
-    marginTop: 20,
+  // -------------------------------------------------------
+
+  contentView: {
+    marginTop: "1.25rem",
     alignItems: "center",
-    gap: 15,
-    paddingBottom: 30,
+    gap: "0.9375rem",
+    paddingVertical: "1rem",
   },
+
+
 });
 
 export default styles;
