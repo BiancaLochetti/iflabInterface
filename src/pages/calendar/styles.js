@@ -13,6 +13,26 @@ const styles = EStyleSheet.create({
 	headerView: {
 		height: "10%",
 		justifyContent: "center",
+		paddingLeft: "0.5rem",
+		paddingRight: "0.5rem",
+		marginBottom: "1rem",
+		flexDirection: "row",
+		alignItems: "center",
+		gap: "0.5rem",
+		paddingVertical: "0.25rem",
+	},
+
+	chevronImage: {
+		width: "1.5rem",
+		height: "1.5rem",
+		tintColor: colors.contrastant_gray,
+		transform: [{ rotate: "90deg" }],
+	},
+
+	headerText: {
+		flex: 1,
+		textAlign: "center",
+		fontSize: "1rem",
 	},
 
 	// ---------------------------------------------------------------
@@ -40,6 +60,21 @@ const styles = EStyleSheet.create({
 	loadingText: {
 		textAlign: "center",
 		color: "#555",
+	},
+	
+	showAllButton: {
+		marginTop: "0.5rem",
+		alignSelf: "flex-start",
+		paddingVertical: "0.25rem",
+		paddingHorizontal: "0.75rem",
+		backgroundColor: colors.primary_light,
+		borderRadius: "0.375rem",
+	},
+
+	showAllText: {
+		color: colors.primary_text_gray,
+		fontSize: "0.875rem",
+		fontWeight: "600",
 	},
 });
 

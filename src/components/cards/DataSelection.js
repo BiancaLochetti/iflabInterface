@@ -7,7 +7,7 @@ import colors from "../../colors";
 //----------------------------------------------------------------------------------------------
 
 // Componente Principal
-export function DataSelection() {
+export function DataSelection({ onChange }) {
 	const year = Array.from({ length: 8 }, (_, i) => ({
 		label: String(2025 - i),
 		value: String(2025 - i),
@@ -41,47 +41,62 @@ export function DataSelection() {
 		setValue1(null);
 		setValue2(null);
 		setValue3(null);
+		if (typeof onChange === "function") onChange({ year: null, month: null, day: null });
 	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<View style={[styles.cardFree, { zIndex: 1000 }]}>
+				<View style={[styles.cardFree, { zIndex: 1000, flex: 3, paddingHorizontal: "0.25rem" }]}>
 					<Dropdown
 						items={year}
 						placeholder="Ano"
 						value={value1}
-						setValue={setValue1}
+						setValue={(v) => {
+							setValue1(v);
+							if (typeof onChange === "function") onChange({ year: v, month: value2, day: value3 });
+						}}
+						style={{ width: "100%" }}
+						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				<View style={[styles.cardFree, { zIndex: 900 }]}>
+				<View style={[styles.cardFree, { zIndex: 900, flex: 3, paddingHorizontal: "0.25rem" }]}>
 					<Dropdown
 						items={month}
 						placeholder="Mês"
 						value={value2}
-						setValue={setValue2}
+						setValue={(v) => {
+							setValue2(v);
+							if (typeof onChange === "function") onChange({ year: value1, month: v, day: value3 });
+						}}
+						style={{ width: "100%" }}
+						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				<View style={[styles.cardFree, { zIndex: 800 }]}>
+				<View style={[styles.cardFree, { zIndex: 800, flex: 2, paddingHorizontal: "0.25rem" }]}>
 					<Dropdown
 						items={day}
 						placeholder="Dia"
 						value={value3}
-						setValue={setValue3}
+						setValue={(v) => {
+							setValue3(v);
+							if (typeof onChange === "function") onChange({ year: value1, month: value2, day: v });
+						}}
+						style={{ width: "100%" }}
+						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				{/* <View style={styles.cardFree}>
-					<TouchableOpacity onPress={restoreDropdowns}>
-						<Image
-							style={[
-								styles.cardFree,
-								{ width: "3.75rem", flexBasis: undefined },
-							]} // 60px → 3.75rem
-							resizeMode="center"
-							source={require("../../assets/icons/UI/delete.png")}
-						/>
+				<View style={[styles.cardFree, { flex: 1, paddingHorizontal: "0.25rem", minWidth: "10%" }]}>
+					<TouchableOpacity onPress={restoreDropdowns} style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
+						<View style={styles.ImageStyle}>
+							<Image
+								style={styles.deleteImage}
+								resizeMode="contain"
+								source={require("../../assets/icons/UI/delete.png")}
+							/>
+						</View>
 					</TouchableOpacity>
-				</View> */}
+				</View>
 			</View>
 		</View>
 	);
@@ -118,12 +133,18 @@ const styles = EStyleSheet.create({
 		color: "black",
 	},
 
-	imageStyle: {
-		width: "auto",
-		minWidth: "5rem",
-		height: "auto",
-		minHeight: "2.5rem",
-		backgroundColor: colors.emphasis_gray,
+	ImageStyle: {
+		backgroundColor: colors.white_medium,
+		borderRadius: "0.625rem",
+		alignItems: "center",
+		justifyContent: "center",
+		width: "100%",
+		height: "100%",
 		borderWidth: 0,
+	},
+
+	deleteImage: {
+		width: "70%",
+		height: "70%",
 	},
 });

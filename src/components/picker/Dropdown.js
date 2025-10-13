@@ -7,7 +7,7 @@ import colors from "../../colors";
 //----------------------------------------------------------------------------------------------
 
 // Componente principal
-const Dropdown = ({ items, placeholder, value, setValue }) => {
+const Dropdown = ({ items, placeholder, value, setValue, style = {}, dropDownContainerStyle = {} }) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -21,8 +21,8 @@ const Dropdown = ({ items, placeholder, value, setValue }) => {
 			placeholder={placeholder}
 			closeOnBlur={true}
 			placeholderStyle={{ fontSize: EStyleSheet.value("0.75rem") }}
-			style={styles.dropdown}
-			dropDownContainerStyle={styles.dropDownContainer}
+			style={[styles.dropdown, style]}
+			dropDownContainerStyle={[styles.dropDownContainer, dropDownContainerStyle]}
 		/>
 	);
 };
