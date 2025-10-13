@@ -363,6 +363,6 @@ export {
 
 // O=========================================================================================================O //
 
-async function a() {
+/*async function a() {
 await login_user("daniel.rocha@ifsp.edu.br", "M4th3us@12345");
-}
+}*/

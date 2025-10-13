@@ -34,6 +34,8 @@ import { Calendar } from "../calendar";
 import { Login } from "../login";
 import { register_user_screen } from "../registerUser";
 import { RegisterCampus } from "../registerCampus";
+import  ElementStack  from "../elementos";
+import EquipmentsStack from "../equipamentos";
 
 // O=========================================================================================================O //
 
@@ -81,6 +83,8 @@ export function Routes() {
 
 	// State que define se a API foi encontrada:
 	const [apiFound, setApiFound] = useState(false);
+
+	const Tab = createBottomTabNavigator();
 
 	// Carregando dados do usuário (e verificando se ele existe / o token é válido):
 	useEffect(() => {
@@ -148,8 +152,8 @@ export function Routes() {
 	) : (
 		<Tab.Navigator screenOptions={un_logged_screeen_options}>
 			<Tab.Screen name="Login" component={Login} />
-			<Tab.Screen name="Register user" component={register_user_screen} />
-			<Tab.Screen name="Register campus" component={RegisterCampus} />
+			<Tab.Screen name="RegisterUser" component={register_user_screen} />
+			<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
 		</Tab.Navigator>
 	);
 

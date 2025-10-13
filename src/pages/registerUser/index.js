@@ -49,9 +49,12 @@ export function register_user_screen() {
       try {
         setLoading(true);
         const response = await listCampus();
-        const lista = response?.campusList ?? [];
+        console.log("Resposta API Campus:", response);
 
-        if (Array.isArray(lista) && lista.length > 0) {
+        // Correção principal: a resposta é um array direto
+        const lista = Array.isArray(response) ? response : [];
+
+        if (lista.length > 0) {
           const formatted = lista.map((campus, index) => ({
             label: campus.nome || `Campus ${index + 1}`,
             value: campus.id ?? `campus-${index}`,
@@ -81,12 +84,11 @@ export function register_user_screen() {
       password,
       name,
       creationToken,
-      campusId
+      campusId,
     });
 
-    console.log("CampusId: ", campusId, typeof campusId)
+    console.log("CampusId: ", campusId, typeof campusId);
 
-    // Verifica se todos os campos estão preenchidos
     if (!email || !password || !name || !creationToken || !campusId) {
       Alert.alert("Erro", "Preencha todos os campos antes de continuar.");
       return;
@@ -173,7 +175,6 @@ export function register_user_screen() {
 
                     if (result?.token) {
                       setCreationToken(result.token);
-                      console.log("Token recebido:", Token);
                     }
 
                     handleNextStep();
@@ -234,9 +235,6 @@ export function register_user_screen() {
               if (result?.status) {
                 Alert.alert("Sucesso", "Novo código reenviado!");
                 if (result?.token) setCreationToken(result.authToken);
-
-				console.log("Token recebido:", result.authToken);
-
               } else {
                 Alert.alert("Erro", result?.msg || "Não foi possível reenviar.");
               }
@@ -341,7 +339,7 @@ export function register_user_screen() {
             />
             <Button text="Voltar" onPress={handleBackStep} type="White" />
             <Button
-              text="Não encontrou seu campus? Cadastre-o"
+              text="Не encontrou seu campus? Cadastre-o"
               onPress={() => navigation.navigate("RegisterCampus")}
               type="White"
             />

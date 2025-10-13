@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     
     logo: {
         width: 120, 
-        height: 48, 
+        height: 48,
         resizeMode: 'contain',
     },
     

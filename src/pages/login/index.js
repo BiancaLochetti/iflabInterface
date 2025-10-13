@@ -17,63 +17,92 @@ import img from "../../assets/images/logo.png";
 // Import API
 import { login_user } from "../../api/userRequests";
 
+// Validação de email institucional IFSP
 function isValidIFSPEmail(email) {
-const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
-return regex.test(email);
+  const regex = /^[a-zA-Z0-9._%+-]+@(ifsp\.edu\.br|aluno\.ifsp\.edu\.br)$/;
+  return regex.test(email);
 }
 
 export function Login() {
-	const navigation = useNavigation();
-	const [email, setEmail] = useState("");
-	const [senha, setSenha] = useState("");
+  const navigation = useNavigation();
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
-	async function login() {
-		const response = await login_user(email, senha);
-		if (response.success) {
-			navigation.navigate("Calendar");
-		} else {
-			// Mostrar mensagem de erro
-			alert("Falha no login: " + response.message);
-		}
+  async function handleLogin() {
+    console.log("Tentando logar com:", { email, senha });
 
-	}
+    // Verificações básicas
+    if (!isValidIFSPEmail(email)) {
+      Alert.alert("Erro", "Use um e-mail institucional do IFSP.");
+      return;
+    }
 
-	return (
-		<SafeAreaView style={styles.container}>
-			{/* Header */}
-			<View style={styles.logoView}>
-				<Image source={img} style={styles.logo} resizeMode="contain" />
-			</View>
+    if (!senha) {
+      Alert.alert("Erro", "Por favor, insira sua senha.");
+      return;
+    }
 
-			{/* Formulário */}
-			<View style={styles.formView}>
-				<Text style={styles.label}>Digite suas informações</Text>
-				<View style={styles.inputs}>
-					<InputText
-						icon={require("../../assets/icons/UI/email.png")}
-						placeHolder="Email"
-						type="email"
-						onChange={setEmail}
-					/>
-					<InputText type="password" placeHolder="Senha" onChange={setSenha} />
-				</View>
-			</View>
+    try {
+      setLoading(true);
+      const result = await login_user(email, senha);
+      console.log("Resposta do servidor:", result);
 
-			{/* Botões */}
-			<View style={styles.buttonView}>
-				<View style={styles.buttonContainer}>
-					<Button
-						type="Green"
-						text="Logar"
-						disabled={!isValidIFSPEmail(email) || !senha}
-					/>
-					<Button
-						type="White"
-						text="Não possui login? Registre-se"
-						onPress={() => navigation.navigate("RegisterUser")}
-					/>
-				</View>
-			</View>
-		</SafeAreaView>
-	);
+      if (result && result.status) {
+        Alert.alert("Sucesso", result.msg || "Login realizado com sucesso!");
+        navigation.navigate("Calendar");
+      } else {
+        Alert.alert("Falha no login", result?.msg || "E-mail ou senha incorretos.");
+      }
+    } catch (error) {
+      console.error("Erro no login:", error);
+      Alert.alert("Erro", "Não foi possível conectar ao servidor.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.logoView}>
+        <Image source={img} style={styles.logo} resizeMode="contain" />
+      </View>
+
+      {/* Formulário */}
+      <View style={styles.formView}>
+        <Text style={styles.label}>Digite suas informações</Text>
+        <View style={styles.inputs}>
+          <InputText
+            icon={require("../../assets/icons/UI/email.png")}
+            placeHolder="Email"
+            type="email"
+            onChange={setEmail}
+          />
+          <InputText
+            type="password"
+            placeHolder="Senha"
+            onChange={setSenha}
+          />
+        </View>
+      </View>
+
+      {/* Botões */}
+      <View style={styles.buttonView}>
+        <View style={styles.buttonContainer}>
+          <Button
+            type="Green"
+            text={loading ? "Entrando..." : "Logar"}
+            disabled={!isValidIFSPEmail(email) || !senha || loading}
+            onPress={handleLogin}
+          />
+         <Button
+			type="White"
+			text="Não possui login? Registre-se"
+			onPress={() => navigation.navigate("RegisterUser")}
+		/>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 }
