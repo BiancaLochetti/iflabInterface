@@ -1,5 +1,5 @@
 // Import nativo
-import { Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
@@ -16,6 +16,7 @@ import img from "../../assets/images/logo.png";
 
 // Import API
 import { login_user } from "../../api/userRequests";
+import { storage_saver } from "../../api/utils";
 
 // Validação de email institucional IFSP
 function isValidIFSPEmail(email) {
@@ -23,7 +24,7 @@ function isValidIFSPEmail(email) {
   return regex.test(email);
 }
 
-export function Login() {
+export function Login({ triggerRefresh }) {
   const navigation = useNavigation();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -49,8 +50,11 @@ export function Login() {
       console.log("Resposta do servidor:", result);
 
       if (result && result.status) {
-        Alert.alert("Sucesso", result.msg || "Login realizado com sucesso!");
-        navigation.navigate("Calendar");
+        storage_saver("email", email);
+        storage_saver("password", senha);
+        storage_saver("token", result.token || "");
+
+        triggerRefresh();
       } else {
         Alert.alert("Falha no login", result?.msg || "E-mail ou senha incorretos.");
       }
@@ -97,10 +101,10 @@ export function Login() {
             onPress={handleLogin}
           />
          <Button
-			type="White"
-			text="Não possui login? Registre-se"
-			onPress={() => navigation.navigate("RegisterUser")}
-		/>
+            type="White"
+            text="Não possui login? Registre-se"
+            onPress={() => navigation.navigate("RegisterUser")}
+          />
         </View>
       </View>
     </SafeAreaView>

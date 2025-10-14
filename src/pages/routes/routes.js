@@ -74,7 +74,7 @@ import user_icon from "../../assets/icons/UI/user.png";
 
 // O=========================================================================================================O //
 
-export function Routes() {
+export function Routes({ triggerRefresh }) {
 	// State que vai guardar os dados do usuário:
 	const [user_info, setUserInfo] = useState(null);
 
@@ -147,7 +147,9 @@ export function Routes() {
 		</Tab.Navigator>
 	) : (
 		<Tab.Navigator screenOptions={un_logged_screeen_options}>
-			<Tab.Screen name="Login" component={Login} />
+			<Tab.Screen name="Login">
+        		{() => <Login triggerRefresh={triggerRefresh} />}
+    		</Tab.Screen>
 			<Tab.Screen name="RegisterUser" component={register_user_screen} />
 			<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
 		</Tab.Navigator>

@@ -3,6 +3,7 @@ import { Routes } from "./src/pages/routes/routes";
 import EStyleSheet from "react-native-extended-stylesheet";
 import { Dimensions } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useState } from 'react'
 
 // Pega largura da tela
 const { width } = Dimensions.get("window");
@@ -26,11 +27,13 @@ if (typeof window !== "undefined" && window.parent) {
 }
 
 export default function App() {
-	return (
-		<SafeAreaProvider>
-			<NavigationContainer style={{ flex: 1 }}>
-				<Routes />
-			</NavigationContainer>
-		</SafeAreaProvider>
-	);
+	const [refreshKey, setRefreshKey] = useState(0);
+
+    return (
+        <SafeAreaProvider>
+            <NavigationContainer style={{ flex: 1 }}>
+                <Routes key={refreshKey} triggerRefresh={() => setRefreshKey(k => k + 1)} />
+            </NavigationContainer>
+        </SafeAreaProvider>
+    );
 }

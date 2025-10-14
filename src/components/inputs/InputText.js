@@ -8,12 +8,9 @@ import colors from "../../colors";
 
 // Componente Principal
 const InputText = ({ placeHolder, type, icon, onChange, border = false, defaultValue = null }) => {
-	// initialize with defaultValue so component shows it when provided
 	const [value, setValue] = useState(defaultValue ?? "");
 	const [showPassword, setShowPassword] = useState(false);
 
-	// If defaultValue changes after mount, update the internal value
-	// but don't overwrite if the user has already typed something.
 	useEffect(() => {
 		if ((value === null || value === undefined || value === '') && (defaultValue ?? '') !== '') {
 			setValue(defaultValue);
