@@ -48,7 +48,7 @@ const Button = ({ text, onPress, disabled = false, icon = null, type }) => {
 						style={[
 							styles.icon,
 							disabled && { tintColor: colors.input_text_gray },
-							type === "White" && { tintColor: colors.contrastant_gray },
+							type === "White" && { tintColor: colors.primary_green_dark },
 						]}
 						resizeMode="contain"
 					/>

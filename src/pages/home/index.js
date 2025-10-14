@@ -96,8 +96,6 @@ export function Home() {
               status={lab.status}
               responsable={lab.userName}
               lastResp={lab.userName}
-              // hour={lab.hourStart + " - " + lab.endsAt}
-              // lastHour={lab.hourStart + " - " + lab.hourStart}
             />
           ))}
         </ScrollView>

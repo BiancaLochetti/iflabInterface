@@ -24,6 +24,7 @@ const Tab = createBottomTabNavigator();
 
 // Tela para loading:
 import { Loading } from "../routes/loading";
+import { Teste } from "../routes/teste";
 
 // Telas para usuário logado:
 import { Home } from "../home";
@@ -135,25 +136,27 @@ export function Routes({ triggerRefresh }) {
 		getAPI();
 	}, []);
 
-	return !apiFound || loading ? (
-		<Loading
-			status_msg={!apiFound ? "Procurando servidor" : "Tentando logar"}
-		/>
-	) : user_info ? (
-		<Tab.Navigator screenOptions={logged_screeen_options}>
-			<Tab.Screen name="Home" component={Home} options={home_options} />
-			<Tab.Screen name="Calendar" component={Calendar} options={calendar_options} />
-			<Tab.Screen name="User" component={User} options={user_options} />
-		</Tab.Navigator>
-	) : (
-		<Tab.Navigator screenOptions={un_logged_screeen_options}>
-			<Tab.Screen name="Login">
-        		{() => <Login triggerRefresh={triggerRefresh} />}
-    		</Tab.Screen>
-			<Tab.Screen name="RegisterUser" component={register_user_screen} />
-			<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
-		</Tab.Navigator>
-	);
+	return(
+		<Teste/>
+	)
+
+	// return !apiFound || loading ? (
+	// 	<Teste/>
+	// ) : user_info ? (
+	// 	<Tab.Navigator screenOptions={logged_screeen_options}>
+	// 		<Tab.Screen name="Home" component={Home} options={home_options} />
+	// 		<Tab.Screen name="Calendar" component={Calendar} options={calendar_options} />
+	// 		<Tab.Screen name="User" component={User} options={user_options} />
+	// 	</Tab.Navigator>
+	// ) : (
+	// 	<Tab.Navigator screenOptions={un_logged_screeen_options}>
+	// 		<Tab.Screen name="Login">
+    //     		{() => <Login triggerRefresh={triggerRefresh} />}
+    // 		</Tab.Screen>
+	// 		<Tab.Screen name="RegisterUser" component={register_user_screen} />
+	// 		<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
+	// 	</Tab.Navigator>
+	// );
 
 	/* return (
 		<Tab.Navigator screenOptions={logged_screeen_options}>
