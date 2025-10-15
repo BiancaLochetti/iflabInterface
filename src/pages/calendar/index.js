@@ -19,6 +19,8 @@ export function Calendar() {
   const [runningSessions, setRunningSessions] = useState([]);
   const [upcomingSessions, setUpcomingSessions] = useState([]);
   const [closedSessions, setClosedSessions] = useState([]);
+  // ids de sessões marcadas localmente como finalizadas/canceladas
+  const [finalizedIds, setFinalizedIds] = useState([]);
   // filtro de data vindo do DataSelection
   const [dateFilter, setDateFilter] = useState({
     year: null,
@@ -31,13 +33,15 @@ export function Calendar() {
   const [showAllClosed, setShowAllClosed] = useState(false);
 
   useEffect(() => {
-    async function UserSessions() {
+    async function refreshSessions() {
       setLoading(true);
       const result = await ListUserSessions();
       if (result && result.sessionsList) {
         const newSessions = result.sessionsList.map((s) => {
           // formata a hora para não mostrar os segundos
           const copy = { ...s };
+          const id = copy.sessionId || copy.session_id || copy.id;
+          if (id && finalizedIds.map(String).includes(String(id))) copy.finalizada = true;
           if (typeof copy.startsAt === "string")
             copy.startsAt = copy.startsAt.replace(/(\d{2}:\d{2}):\d{2}/g, "$1");
           if (typeof copy.endsAt === "string")
@@ -50,11 +54,12 @@ export function Calendar() {
       }
       setLoading(false);
     }
-    UserSessions();
+    refreshSessions();
   }, []);
 
   // Filtro das sessões pelo status data e hora
   // Recomputar as listas categorizadas sempre que `sessions` mudar.
+  // gambiarra iminente
   useEffect(() => {
     function categorize(sessionsList) {
       const now = new Date();
@@ -71,7 +76,7 @@ export function Calendar() {
       }
 
       const today = new Date(
-        now.getFullYear(),
+        now.getFullYear(), 
         now.getMonth(),
         now.getDate(),
         0,
@@ -85,9 +90,13 @@ export function Calendar() {
       const closed = [];
 
       sessionsList.forEach((s) => {
+          // se marcada localmente como finalizada/cancelada, considerar encerrada
+          if (s.finalizada) {
+            closed.push(s);
+            return;
+          }
         const sessionDateStr = s.date || s.session_date || "";
-        const startStr =
-          s.startsAt || s.startAt || s.session_starts_at || "00:00";
+        const startStr = s.startsAt || s.startAt || s.session_starts_at || "00:00";
         const endStr = s.endsAt || s.endAt || s.session_ends_at || "00:00";
 
         const parts = String(sessionDateStr).split("-");
@@ -127,42 +136,57 @@ export function Calendar() {
 
       return { running, upcoming, closed };
     }
-
-    // aplica o filtro de data, se houver
+    // fim da gambiarra
+    // aplica o filtro de data, se houver (suporta 'YYYY-MM-DD' e ISO like 'YYYY-MM-DDT...')
     let filtered = sessions || [];
     const { year, month, day } = dateFilter || {};
-    if (year || month || day) {
-      filtered = filtered.filter((s) => {
+  if (year || month || day) {
+      const monthsMap = {
+        Janeiro: "01",
+        Fevereiro: "02",
+        Março: "03",
+        Abril: "04",
+        Maio: "05",
+        Junho: "06",
+        Julho: "07",
+        Agosto: "08",
+        Setembro: "09",
+        Outubro: "10",
+        Novembro: "11",
+        Dezembro: "12",
+      };
+
+  filtered = filtered.filter((s) => {
         const sessionDateStr = s.date || s.session_date || "";
-        const parts = String(sessionDateStr).split("-");
-        if (parts.length !== 3) return false;
-        const [y, m, d] = parts;
+
+        // try YYYY-MM-DD at start (covers '2025-09-03' and '2025-09-03T03:00:00')
+        const isoMatch = String(sessionDateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
+        let y, m, d;
+        if (isoMatch) {
+          y = isoMatch[1];
+          m = isoMatch[2];
+          d = isoMatch[3];
+        } else {
+          // fallback: try Date parsing
+          const parsed = new Date(sessionDateStr);
+          if (isNaN(parsed)) return false;
+          y = String(parsed.getFullYear());
+          m = String(parsed.getMonth() + 1).padStart(2, "0");
+          d = String(parsed.getDate()).padStart(2, "0");
+        }
+
         if (year && String(year) !== String(y)) return false;
         if (month) {
-          const months = {
-            Janeiro: "01",
-            Fevereiro: "02",
-            Março: "03",
-            Abril: "04",
-            Maio: "05",
-            Junho: "06",
-            Julho: "07",
-            Agosto: "08",
-            Setembro: "09",
-            Outubro: "10",
-            Novembro: "11",
-            Dezembro: "12",
-          };
-          const mStr = months[month] || month;
-          if (String(mStr).padStart(2, "0") !== String(m).padStart(2, "0"))
-            return false;
+          const mStr = monthsMap[month] || month;
+          if (String(mStr).padStart(2, "0") !== String(m).padStart(2, "0")) return false;
         }
         if (day && String(day) !== String(parseInt(d, 10))) return false;
         return true;
       });
     }
 
-    const { running, upcoming, closed } = categorize(filtered || []);
+
+      const { running, upcoming, closed } = categorize(filtered || []);
 
     function toStartDate(s) {
       const sd = s.date || s.session_date || "";
@@ -188,6 +212,9 @@ export function Calendar() {
     setUpcomingSessions(upcoming);
     setClosedSessions(closed);
   }, [sessions, dateFilter]);
+
+  useEffect(() => {
+  }, [dateFilter]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -223,6 +250,19 @@ export function Calendar() {
           loading={loading}
           expanded={showAllRunning}
           setExpanded={setShowAllRunning}
+          canFinish={true}
+          canDelete={false}
+          onFinished={(sessionId) => {
+            setSessions((prev) => prev.map((s) => {
+              const id = s.sessionId || s.session_id || s.id;
+              if (String(id) === String(sessionId)) return { ...s, finalizada: true };
+              return s;
+            }));
+            setFinalizedIds((prev) => {
+              if (prev.map(String).includes(String(sessionId))) return prev;
+              return [...prev, sessionId];
+            });
+          }}
         />
 
         <SectionListBlock
@@ -231,6 +271,19 @@ export function Calendar() {
           loading={loading}
           expanded={showAllUpcoming}
           setExpanded={setShowAllUpcoming}
+          canFinish={false}
+          canDelete={true}
+          onDeleted={(sessionId) => {
+            setSessions((prev) => prev.map((s) => {
+              const id = s.sessionId || s.session_id || s.id;
+              if (String(id) === String(sessionId)) return { ...s, finalizada: true };
+              return s;
+            }));
+            setFinalizedIds((prev) => {
+              if (prev.map(String).includes(String(sessionId))) return prev;
+              return [...prev, sessionId];
+            });
+          }}
         />
 
         <SectionListBlock
@@ -239,13 +292,15 @@ export function Calendar() {
           loading={loading}
           expanded={showAllClosed}
           setExpanded={setShowAllClosed}
+          canFinish={false}
+          canDelete={false}
         />
       </ScrollView>
     </SafeAreaView>
   );
 }
 
-function SectionListBlock({ title, sessions, loading, expanded, setExpanded }) {
+function SectionListBlock({ title, sessions, loading, expanded, setExpanded, canFinish = false, canDelete = false, onFinished, onDeleted }) {
   return (
     <View style={{ zIndex: -1 }}>
       <View style={{ marginBottom: 5, marginRight: 20 }}>
@@ -276,16 +331,22 @@ function SectionListBlock({ title, sessions, loading, expanded, setExpanded }) {
                   nestedScrollEnabled={true}
                 >
                   {shown.map((session, idx) => (
-                    <Sections
-                      key={session.sessionId || idx}
-                      inicio={session.startsAt}
-                      fim={session.endsAt}
-                      dataSessão={session.date}
-                      materiaisReservados={session.equipmentsQtd}
-                      elementosReservados={session.elementsQtd}
-                      labName={session.labName}
-                      formDone={session.formDone}
-                    />
+                    <View key={idx} style={styles.sessionWrapper}>
+                      <Sections
+                        session_id={session.sessionId || session.session_id || session.id}
+                        inicio={session.startsAt}
+                        fim={session.endsAt}
+                        dataSessão={session.date}
+                        materiaisReservados={session.equipmentsQtd}
+                        elementosReservados={session.elementsQtd}
+                        labName={session.labName}
+                        formDone={session.formDone}
+                        canFinish={canFinish}
+                        canDelete={canDelete}
+                        onFinished={onFinished}
+                        onDeleted={onDeleted}
+                      />
+                    </View>
                   ))}
                 </ScrollView>
               );

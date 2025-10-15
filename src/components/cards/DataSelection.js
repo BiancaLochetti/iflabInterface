@@ -2,7 +2,7 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import EStyleSheet from "react-native-extended-stylesheet";
 import Dropdown from "../picker/Dropdown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import colors from "../../colors";
 //----------------------------------------------------------------------------------------------
 
@@ -44,6 +44,10 @@ export function DataSelection({ onChange }) {
 		if (typeof onChange === "function") onChange({ year: null, month: null, day: null });
 	};
 
+	useEffect(() => {
+		if (typeof onChange === "function") onChange({ year: value1, month: value2, day: value3 });
+	}, [value1, value2, value3]);
+
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
@@ -52,10 +56,7 @@ export function DataSelection({ onChange }) {
 						items={year}
 						placeholder="Ano"
 						value={value1}
-						setValue={(v) => {
-							setValue1(v);
-							if (typeof onChange === "function") onChange({ year: v, month: value2, day: value3 });
-						}}
+						setValue={setValue1}
 						style={{ width: "100%" }}
 						dropDownContainerStyle={{ width: "100%" }}
 					/>
@@ -65,10 +66,7 @@ export function DataSelection({ onChange }) {
 						items={month}
 						placeholder="Mês"
 						value={value2}
-						setValue={(v) => {
-							setValue2(v);
-							if (typeof onChange === "function") onChange({ year: value1, month: v, day: value3 });
-						}}
+						setValue={setValue2}
 						style={{ width: "100%" }}
 						dropDownContainerStyle={{ width: "100%" }}
 					/>
@@ -78,10 +76,7 @@ export function DataSelection({ onChange }) {
 						items={day}
 						placeholder="Dia"
 						value={value3}
-						setValue={(v) => {
-							setValue3(v);
-							if (typeof onChange === "function") onChange({ year: value1, month: value2, day: v });
-						}}
+						setValue={setValue3}
 						style={{ width: "100%" }}
 						dropDownContainerStyle={{ width: "100%" }}
 					/>

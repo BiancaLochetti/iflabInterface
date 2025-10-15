@@ -75,6 +75,10 @@ const styles = EStyleSheet.create({
 		fontSize: "0.875rem",
 		fontWeight: "600",
 	},
+
+	sessionWrapper: {
+		marginBottom: "0.75rem",
+	},
 });
 
 export default styles;

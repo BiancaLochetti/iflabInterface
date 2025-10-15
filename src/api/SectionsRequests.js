@@ -178,7 +178,6 @@ async function ListUserSessions() {
 		return { status: false, msg: "Erro ao conectar com o servidor:" + err };
 	}
 }
-
 // O=========================================================================================================O //
 
 // Função para ler formulários de utilização:

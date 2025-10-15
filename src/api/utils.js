@@ -24,7 +24,7 @@ const AsyncStorage =
 
 // O======================================================================O
 
-const WEB_LOCAL_IP = "192.168.0.28";
+const WEB_LOCAL_IP = "192.168.3.6";
 const API_PORT = 3333; // Porta padrão da sua API local
 const SCAN_BATCH_SIZE = 20; // Quantidade de IPs testados em paralelo
 const TIMEOUT = 1500;
@@ -233,8 +233,8 @@ export { storage_saver, storage_getter, findAPI };
 
 // O======================================================================O
 
-/*storage_saver("email", "daniel.rocha@ifsp.edu.br");
-storage_saver("password", "M4th3us@12345");*/
+// storage_saver("email", "daniel.rocha@ifsp.edu.br");
+// storage_saver("password", "M4th3us@12345");
 
 // storage_saver("email", "");
 // storage_saver("password", "");

@@ -2,14 +2,20 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import EStyleSheet from "react-native-extended-stylesheet";
 import colors from "../../colors";
+import { FinishSession, DeleteSession } from "../../api/SectionsRequests";
 
 export function Sections({
+  session_id,
   inicio,
   fim,
   materiaisReservados,
   elementosReservados,
   labName,
   formDone,
+  canFinish = false,
+  canDelete = false,
+  onFinished,
+  onDeleted,
 }) {
   const [showBox, setShowBox] = useState(false);
 
@@ -17,9 +23,34 @@ export function Sections({
     setShowBox(!showBox);
   };
 
-  const handleFinish = () => {
-    alert("Seção finalizada!");
-    setShowBox(false);
+  const handleFinish = async () => {
+    try {
+      const result = await FinishSession(session_id);
+      if (!result || !result.status) {
+        alert("Erro ao finalizar sessão: " + (result?.msg || "erro desconhecido"));
+        return;
+      }
+      alert("Sessão finalizada!");
+      setShowBox(false);
+      if (typeof onFinished === "function") onFinished(session_id);
+    } catch (err) {
+      alert("Erro ao finalizar sessão: " + err.message);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const result = await DeleteSession(session_id);
+      if (!result || !result.status) {
+        alert("Erro ao cancelar sessão: " + (result?.msg || "erro desconhecido"));
+        return;
+      }
+      alert("Sessão cancelada!");
+      setShowBox(false);
+      if (typeof onDeleted === "function") onDeleted(session_id);
+    } catch (err) {
+      alert("Erro ao cancelar sessão: " + err.message);
+    }
   };
 
   return (
@@ -28,19 +59,31 @@ export function Sections({
         <Text style={styles.titleFree}>
           {inicio} até {fim}
         </Text>
-        <TouchableOpacity onPress={handleArrowPress}>
-          <Image
-            source={require("../../assets/icons/UI/down.png")}
-            style={styles.downIcon}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
+        {canFinish || canDelete? (
+          <TouchableOpacity onPress={handleArrowPress}>
+            <Image
+              source={require("../../assets/icons/UI/down.png")}
+              style={styles.downIcon}
+              resizeMode="contain"
+            />
+          </TouchableOpacity>
+        ) : null}
       </View>
 
-      {showBox && (
-        <TouchableOpacity style={styles.finishBox} onPress={handleFinish}>
-          <Text style={styles.finishText}>Finalizar seção</Text>
-        </TouchableOpacity>
+      {showBox && (canFinish || canDelete) && (
+        <View style={styles.finishBox}>
+          {canFinish ? (
+            <TouchableOpacity style={{ paddingVertical: 6 }} onPress={handleFinish}>
+              <Text style={styles.finishText}>Finalizar sessão</Text>
+            </TouchableOpacity>
+          ) : null}
+
+          {canDelete ? (
+            <TouchableOpacity style={{ paddingVertical: 6 }} onPress={handleDelete}>
+              <Text style={styles.finishText}>Cancelar sessão</Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
       )}
       <View>
         <Text style={styles.TextFont}>
