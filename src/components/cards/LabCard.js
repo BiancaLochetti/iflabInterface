@@ -46,18 +46,18 @@ const LabCard = ({
               <Image
                 style={iconStyle}
                 resizeMode="contain"
-                source={require("../../assets/icons/UI/check.png")}
+                source={require("../../assets/icons/UI/alert.png")}
               />
-              <Text style={textStyle}>Em uso no momento</Text>
+              <Text style={textStyle}>Em uso</Text>
             </>
           ) : (
             <>
               <Image
                 style={iconStyle}
                 resizeMode="contain"
-                source={require("../../assets/icons/UI/alert.png")}
+                source={require("../../assets/icons/UI/check.png")}
               />
-              <Text style={textStyle}>Livre para reservar</Text>
+              <Text style={textStyle}>Livre</Text>
             </>
           )}
         </View>

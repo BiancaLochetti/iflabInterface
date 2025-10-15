@@ -2,7 +2,8 @@
 import { View, Image, TouchableOpacity, ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native"; // ⬅ Importa o hook de navegação
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Modalize } from "react-native-modalize";
 
 //Import estilização
 import styles from "./styles";
@@ -15,7 +16,6 @@ import Button from "../../components/buttons/Button";
 import { get_user_info } from "../../api/userRequests";
 import { get_laboratories } from "../../api/labRequests";
 
-import Loading from "../routes/loading";
 import colors from "../../colors";
 
 //--------------------------------------------------------
@@ -23,6 +23,12 @@ import colors from "../../colors";
 // Página Principal
 export function Home() {
   const navigation = useNavigation(); // Inicializa o hook
+
+  const modalizeRef = useRef(null);
+
+  function onOpen() {
+    modalizeRef.current?.open();
+  }
 
   const [user, setUser] = useState(null);
   const [lab, setLab] = useState(null);
@@ -65,14 +71,15 @@ export function Home() {
           resizeMode="contain"
         />
         <TouchableOpacity>
-          <Image source={
-            user.user_image
-            ? user.user_image
-            : require('../../assets/icons/UI/user.png')
-          } style={styles.profile} />
+          <Image
+            source={
+              user.user_image
+                ? user.user_image
+                : require("../../assets/icons/UI/user.png")
+            }
+            style={styles.profile}
+          />
         </TouchableOpacity>
-
-
       </View>
 
       {/* Botão para adicionar laboratório */}
@@ -89,23 +96,90 @@ export function Home() {
       {!!lab ? (
         <>
           <ScrollView contentContainerStyle={styles.contentView}>
-          {lab.labsList.map((lab, idx) => (
-            <LabCard
-              key={idx}
-              lab={lab.labName}
-              status={lab.status}
-              responsable={lab.userName}
-              lastResp={lab.userName}
-            />
-          ))}
-        </ScrollView>
-      </>
+            {lab.labsList.map((lab, idx) => (
+              <LabCard
+                key={idx}
+                lab={lab.labName}
+                status={lab.status}
+                responsable={lab.userName}
+                lastResp={lab.userName}
+                onPress={onOpen}
+              />
+            ))}
+          </ScrollView>
+
+            {/* Bottom sheet */}
+          <Modalize
+            ref={modalizeRef}
+            snapPoint={430}
+            modalHeight={450}
+            withHandle={false}
+            HeaderComponent={
+              <View style={{ alignItems: "center", paddingBottom: 20 }}>
+                <Image
+                  source={require("../../assets/icons/UI/drag-horizontal.png")}
+                  style={{ tintColor: colors.primary_green_dark }}
+                  resizeMode="contain"
+                />
+              </View>
+            }
+          >
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "flex-start",
+                flexDirection: "column",
+                backgroundColor: colors.white_full,
+                paddingHorizontal: 20,
+                gap: 10,
+              }}
+            >
+              <Button
+                text="Sessões no laboratório"
+                type="White"
+                icon={require("../../assets/icons/UI/schedule.png")}
+              />
+              <Button
+                text="Elementos do laboratório"
+                type="White"
+                icon={require("../../assets/icons/UI/potion.png")}
+                onPress={() => navigation.navigate("Elements")}
+              />
+              <Button
+                text="Equipamentos do laboratório"
+                type="White"
+                icon={require("../../assets/icons/UI/equipment.png")}
+                onPress={() => navigation.navigate("Equipaments")}
+              />
+              <Button
+                text="Gerenciar acessos do laboratório"
+                type="White"
+                icon={require("../../assets/icons/UI/access-management.png")}
+              />
+              <Button
+                text="Gerar relatório do laboratório"
+                type="White"
+                icon={require("../../assets/icons/UI/access-relatory.png")}
+              />
+            </View>
+          </Modalize>
+        </>
       ) : (
-      <>
-        <View style={{ margin: 'auto', padding: "2rem", backgroundColor: colors.primary_green_dark, borderRadius: "1rem" }}>
-          <Text style={{ color: colors.white_full, fontSize: 30 }}>Nenhum laboratório no momento!</Text>
-        </View>
-      </>
+        <>
+          <View
+            style={{
+              margin: "auto",
+              padding: "2rem",
+              backgroundColor: colors.primary_green_dark,
+              borderRadius: "1rem",
+            }}
+          >
+            <Text style={{ color: colors.white_full, fontSize: 30 }}>
+              Nenhum laboratório no momento!
+            </Text>
+          </View>
+        </>
       )}
     </SafeAreaView>
   ) : (

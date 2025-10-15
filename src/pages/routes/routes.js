@@ -136,27 +136,29 @@ export function Routes({ triggerRefresh }) {
 		getAPI();
 	}, []);
 
-	return(
-		<Teste/>
-	)
-
-	// return !apiFound || loading ? (
+	// return(
 	// 	<Teste/>
-	// ) : user_info ? (
-	// 	<Tab.Navigator screenOptions={logged_screeen_options}>
-	// 		<Tab.Screen name="Home" component={Home} options={home_options} />
-	// 		<Tab.Screen name="Calendar" component={Calendar} options={calendar_options} />
-	// 		<Tab.Screen name="User" component={User} options={user_options} />
-	// 	</Tab.Navigator>
-	// ) : (
-	// 	<Tab.Navigator screenOptions={un_logged_screeen_options}>
-	// 		<Tab.Screen name="Login">
-    //     		{() => <Login triggerRefresh={triggerRefresh} />}
-    // 		</Tab.Screen>
-	// 		<Tab.Screen name="RegisterUser" component={register_user_screen} />
-	// 		<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
-	// 	</Tab.Navigator>
-	// );
+	// )
+
+	return !apiFound || loading ? (
+		<Loading/>
+	) : user_info ? (
+		<Tab.Navigator screenOptions={logged_screeen_options}>
+			<Tab.Screen name="Home" component={Home} options={home_options} />
+			<Tab.Screen name="Elements" component={ElementStack} options={element_options} />
+			<Tab.Screen name="Calendar" component={Calendar} options={calendar_options} />
+			<Tab.Screen name="Equipaments" component={EquipmentsStack} options={element_options} />
+			<Tab.Screen name="User" component={User} options={user_options} />
+		</Tab.Navigator>
+	) : (
+		<Tab.Navigator screenOptions={un_logged_screeen_options}>
+			<Tab.Screen name="Login">
+        		{() => <Login triggerRefresh={triggerRefresh} />}
+    		</Tab.Screen>
+			<Tab.Screen name="RegisterUser" component={register_user_screen} />
+			<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
+		</Tab.Navigator>
+	);
 
 	/* return (
 		<Tab.Navigator screenOptions={logged_screeen_options}>
@@ -231,6 +233,13 @@ const user_options = {
 		);
 	},
 };
+
+const element_options = {
+	headerShown: false,
+	tabBarShowLabel: false,
+	tabBarIcon: () => null,
+	tabBarStyle: { display: "none" },
+}
 
 const styles = StyleSheet.create({
 	inFocus: {
