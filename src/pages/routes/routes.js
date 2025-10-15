@@ -35,7 +35,7 @@ import { Calendar } from "../calendar";
 import { Login } from "../login";
 import { register_user_screen } from "../registerUser";
 import { RegisterCampus } from "../registerCampus";
-import  ElementStack  from "../elementos";
+import ElementStack from "../elementos";
 import EquipmentsStack from "../equipamentos";
 
 // O=========================================================================================================O //
@@ -141,20 +141,32 @@ export function Routes({ triggerRefresh }) {
 	// )
 
 	return !apiFound || loading ? (
-		<Loading/>
+		<Loading status_msg={!apiFound ? "Procurando servidor" : "Fazendo login"} />
 	) : user_info ? (
 		<Tab.Navigator screenOptions={logged_screeen_options}>
 			<Tab.Screen name="Home" component={Home} options={home_options} />
-			<Tab.Screen name="Elements" component={ElementStack} options={element_options} />
-			<Tab.Screen name="Calendar" component={Calendar} options={calendar_options} />
-			<Tab.Screen name="Equipaments" component={EquipmentsStack} options={element_options} />
+			<Tab.Screen
+				name="Elements"
+				component={ElementStack}
+				options={element_options}
+			/>
+			<Tab.Screen
+				name="Calendar"
+				component={Calendar}
+				options={calendar_options}
+			/>
+			<Tab.Screen
+				name="Equipaments"
+				component={EquipmentsStack}
+				options={element_options}
+			/>
 			<Tab.Screen name="User" component={User} options={user_options} />
 		</Tab.Navigator>
 	) : (
 		<Tab.Navigator screenOptions={un_logged_screeen_options}>
 			<Tab.Screen name="Login">
-        		{() => <Login triggerRefresh={triggerRefresh} />}
-    		</Tab.Screen>
+				{() => <Login triggerRefresh={triggerRefresh} />}
+			</Tab.Screen>
 			<Tab.Screen name="RegisterUser" component={register_user_screen} />
 			<Tab.Screen name="RegisterCampus" component={RegisterCampus} />
 		</Tab.Navigator>
@@ -239,7 +251,7 @@ const element_options = {
 	tabBarShowLabel: false,
 	tabBarIcon: () => null,
 	tabBarStyle: { display: "none" },
-}
+};
 
 const styles = StyleSheet.create({
 	inFocus: {

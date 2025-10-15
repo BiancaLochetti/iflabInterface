@@ -212,8 +212,7 @@ async function edit_user_name(user_name) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/name/edit`;
-	
+	const url = `http://${IP}:3333/users/edit/name`;
 
 	const options = {
 		method: "PUT",
@@ -224,6 +223,8 @@ async function edit_user_name(user_name) {
 		body: JSON.stringify({ user_name }),
 	};
 
+	console.log(IP, token, url, options);
+
 	try {
 		const response = await fetch(url, options);
 		const data = await response.json();
@@ -231,7 +232,6 @@ async function edit_user_name(user_name) {
 		return data;
 	} catch (err) {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
-
 	}
 }
 
@@ -242,7 +242,7 @@ async function edit_user_email(user_email, user_validation_code) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/email/edit`;
+	const url = `http://${IP}:3333/users/edit/email`;
 
 	const options = {
 		method: "PUT",
@@ -270,7 +270,7 @@ async function edit_user_password(user_password) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/password/edit`;
+	const url = `http://${IP}:3333/users/edit/password`;
 
 	const options = {
 		method: "PUT",
@@ -298,7 +298,7 @@ async function edit_user_image(user_image) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/image/edit`;
+	const url = `http://${IP}:3333/users/edit/image`;
 
 	const options = {
 		method: "PUT",

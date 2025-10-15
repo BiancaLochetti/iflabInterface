@@ -24,7 +24,7 @@ const AsyncStorage =
 
 // O======================================================================O
 
-const WEB_LOCAL_IP = "26.184.138.22";
+const WEB_LOCAL_IP = "192.168.0.28";
 const API_PORT = 3333; // Porta padrão da sua API local
 const SCAN_BATCH_SIZE = 20; // Quantidade de IPs testados em paralelo
 const TIMEOUT = 1500;
@@ -33,7 +33,7 @@ const TIMEOUT = 1500;
 
 // Função universal para salvar dados (Web ou React Native) (as funções de requisição tbm utilizam):
 async function storage_saver(key, value) {
-	// console.log("Salvando", key, value);
+	console.log("Salvando", key, value);
 
 	if (typeof window !== "undefined" && window.localStorage) {
 		window.localStorage.setItem(key, value);
@@ -50,7 +50,7 @@ async function storage_saver(key, value) {
 
 // Função universal para recuperar dados (Web ou React Native) (as funções de requisição tbm utilizam):
 async function storage_getter(key) {
-	// console.log("Recuperando", key);
+	console.log("Recuperando", key);
 
 	if (typeof window !== "undefined" && window.localStorage) {
 		return window.localStorage.getItem(key);
@@ -71,7 +71,7 @@ async function storage_getter(key) {
 async function getLocalDeviceIp() {
 	// Caso Web → usa o IP manual definido no topo
 	if (Platform.OS === "web") {
-		// console.log("Modo Web detectado — usando IP manual:", WEB_LOCAL_IP);
+		console.log("Modo Web detectado — usando IP manual:", WEB_LOCAL_IP);
 		return WEB_LOCAL_IP;
 	}
 
@@ -80,7 +80,7 @@ async function getLocalDeviceIp() {
 		const ipAddress = await Network.getIpAddressAsync();
 
 		if (ipAddress && ipAddress !== "0.0.0.0") {
-			// console.log("IP Local do Dispositivo:", ipAddress);
+			console.log("IP Local do Dispositivo:", ipAddress);
 			return ipAddress;
 		}
 
@@ -125,15 +125,15 @@ async function fetchAPI(ip, secret) {
 
 		const data = await response.json();
 
-		// console.log("Conectado à API:", url);
+		console.log("Conectado à API:", url);
 
 		return data;
 	} catch (error) {
 		// Ignora o erro se for timeout
 		if (error.name === "AbortError") {
-			// console.log(`Timeout: ${url}`);
+			console.log(`Timeout: ${url}`);
 		} else {
-			// console.log(`Erro ao acessar ${url}: ${error.message}`);
+			console.log(`Erro ao acessar ${url}: ${error.message}`);
 		}
 		clearTimeout(timeoutId); // Garante que o timeout seja limpo
 		return null;
@@ -144,7 +144,7 @@ async function fetchAPI(ip, secret) {
 
 // Função auxiliar: varre um intervalo de IPs em lotes paralelos:
 async function scanNetworkBatch(subnet, secret) {
-	// console.log(`Iniciando varredura paralela na sub-rede ${subnet}.x ...`);
+	console.log(`Iniciando varredura paralela na sub-rede ${subnet}.x ...`);
 
 	let current = 2;
 	let foundIP = null;
@@ -166,7 +166,7 @@ async function scanNetworkBatch(subnet, secret) {
 		foundIP = results.find((ip) => ip !== null);
 
 		if (foundIP) {
-			// console.log("API encontrada em:", foundIP);
+			console.log("API encontrada em:", foundIP);
 			return foundIP;
 		}
 	}
@@ -192,17 +192,17 @@ async function findAPI() {
 	if (saved_ip) {
 		const test = await fetchAPI(saved_ip, secret);
 		if (test) {
-			// console.log("API encontrada no IP salvo:", saved_ip);
+			console.log("API encontrada no IP salvo:", saved_ip);
 			return saved_ip;
 		}
-		// console.log("IP salvo inválido, iniciando varredura...");
+		console.log("IP salvo inválido, iniciando varredura...");
 	}
 
 	/*--------------------------------------------------*/
 
 	// Obtém o IP local do dispositivo
 	const my_ip = await getLocalDeviceIp();
-	// console.log("Meu IP local:", my_ip);
+	console.log("Meu IP local:", my_ip);
 
 	const subnet = getSubnet(my_ip);
 	if (!subnet) {
@@ -217,8 +217,8 @@ async function findAPI() {
 
 	if (foundIP) {
 		await storage_saver("api_ip", foundIP);
-		// console.log("API localizada e IP salvo:", foundIP);
-		// console.log(foundIP);
+		console.log("API localizada e IP salvo:", foundIP);
+		console.log(foundIP);
 		return foundIP;
 	}
 
@@ -239,4 +239,4 @@ storage_saver("password", "M4th3us@12345");*/
 // storage_saver("email", "");
 // storage_saver("password", "");
 // storage_saver("token", "");
-// storage_saver("api_ip", ""); 
+// storage_saver("api_ip", "");
