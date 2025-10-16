@@ -5,34 +5,29 @@ const styles = EStyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: colors.white_full,
-		paddingHorizontal: "2rem",
+		paddingHorizontal: "1.2rem",
 	},
 
 	// ----------------------------------------------------------------
 
-	headerView: {
-		height: "10%",
-		justifyContent: "center",
-		paddingLeft: "0.5rem",
-		paddingRight: "0.5rem",
-		marginBottom: "1rem",
-		flexDirection: "row",
-		alignItems: "center",
-		gap: "0.5rem",
-	},
+	header:{
+        alignItems: "center",
+        justifyContent: "center",
+        height: "10%",
+    },
 
-	chevronImage: {
-		width: "1.5rem",
-		height: "1.5rem",
-		tintColor: colors.contrastant_gray,
-		transform: [{ rotate: "90deg" }],
-	},
+	// chevronImage: {
+	// 	width: "1.5rem",
+	// 	height: "1.5rem",
+	// 	tintColor: colors.contrastant_gray,
+	// 	transform: [{ rotate: "90deg" }],
+	// },
 
-	headerText: {
-		flex: 1,
-		textAlign: "center",
-		fontSize: "1rem",
-	},
+	// headerText: {
+	// 	flex: 1,
+	// 	textAlign: "center",
+	// 	fontSize: 16,
+	// },
 
 	// ---------------------------------------------------------------
 

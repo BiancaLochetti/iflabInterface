@@ -19,38 +19,29 @@ const LabCard = ({
     styles.card,
     {
       backgroundColor: status
-        ? colors.primary_green_dark
-        : colors.emphasis_gray,
+        ? colors.emphasis_gray
+        : colors.primary_green_dark,
     },
   ];
 
   const iconStyle = [
     styles.icon,
-    { tintColor: status ? colors.white_full : colors.primary_text_gray },
+    { tintColor: status ? colors.primary_text_gray : colors.white_full },
   ];
 
   const textStyle = [
     styles.text,
-    { color: status ? colors.white_full : colors.contrastant_gray },
+    { color: status ? colors.contrastant_gray : colors.white_full },
   ];
 
   return (
-    <TouchableOpacity style={cardStyle} disabled={!status} onPress={onPress}>
+    <TouchableOpacity style={cardStyle} disabled={status === 1} onPress={onPress}>
       <View style={styles.header}>
         <Text style={textStyle}>
           Laboratório <Text style={{ fontWeight: "bold" }}>{lab}</Text>
         </Text>
-        <View style={{ flexDirection: "row", gap: "0.5rem" }}>
+        <View style={{ flexDirection: "column", gap: "1rem", alignItems: "center" }}>
           {status === 0 ? (
-            <>
-              <Image
-                style={iconStyle}
-                resizeMode="contain"
-                source={require("../../assets/icons/UI/alert.png")}
-              />
-              <Text style={textStyle}>Em uso</Text>
-            </>
-          ) : (
             <>
               <Image
                 style={iconStyle}
@@ -58,6 +49,15 @@ const LabCard = ({
                 source={require("../../assets/icons/UI/check.png")}
               />
               <Text style={textStyle}>Livre</Text>
+            </>
+          ) : (
+            <>
+              <Image
+                style={iconStyle}
+                resizeMode="contain"
+                source={require("../../assets/icons/UI/alert.png")}
+              />
+              <Text style={textStyle}>Em uso</Text>
             </>
           )}
         </View>
@@ -89,7 +89,7 @@ export default LabCard;
 const styles = EStyleSheet.create({
   card: {
     height: "9.375rem",
-    width: "90%",
+    width: "100%",
     borderRadius: "0.625rem",
     padding: "0.625rem",
   },
@@ -108,7 +108,7 @@ const styles = EStyleSheet.create({
 
   text: {
     color: colors.white_full,
-    fontSize: "1rem",
+    fontSize: "0.875rem",
     flexDirection: "row",
   },
 

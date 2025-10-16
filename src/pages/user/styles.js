@@ -1,11 +1,11 @@
-import { StyleSheet } from 'react-native';
+import EStyleSheet from "react-native-extended-stylesheet";
 import colors from '../../colors';
 
-const styles = StyleSheet.create({
+const styles = EStyleSheet.create({
     container:{
         flex: 1,
         backgroundColor: colors.white_full,
-        paddingHorizontal: "2rem"
+        paddingHorizontal: "1rem"
     },
 
 // ---------------------------------------------------------
@@ -13,19 +13,20 @@ const styles = StyleSheet.create({
     header:{
         alignItems: "center",
         justifyContent: "center",
-        flex: 1
+        height: "10%",
     },
 
     user:{
-        flex: 3,
+        flex: 2,
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 
     userPic:{
         height: 170,
         width: 170,
-        borderRadius: "10rem",
+        borderRadius: 100,
     },
 
 // ---------------------------------------------------------
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     content:{
         gap: "10%",
         justifyContent: 'center',
-        flex: 2,
+        flex: 3,
     },
 
     title:{
@@ -49,8 +50,7 @@ const styles = StyleSheet.create({
     emailContainer:{
         flexDirection: 'row',
         justifyContent: 'space-between',
-        flex: 1, 
-        gap: "2%"
+        gap: 10
     },
 
 // ---------------------------------------------------------
@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         flexDirection: 'row',
         alignItems: 'center',
-        flex: 1,
+        marginTop: "1rem",
+        flex: 0.5,
 
     },
 

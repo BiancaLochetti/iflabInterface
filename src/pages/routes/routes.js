@@ -236,6 +236,9 @@ const calendar_options = {
 const user_options = {
 	headerShown: false,
 	tabBarShowLabel: false,
+	tabBarStyle: {
+		display: "none"
+	},
 	tabBarIcon: ({ focused }) => {
 		return (
 			<Image
@@ -250,7 +253,7 @@ const element_options = {
 	headerShown: false,
 	tabBarShowLabel: false,
 	tabBarIcon: () => null,
-	tabBarStyle: { display: "none" },
+	// tabBarStyle: { display: "none" },
 };
 
 const styles = StyleSheet.create({

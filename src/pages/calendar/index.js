@@ -1,6 +1,6 @@
 // Calendar page (clean single implementation)
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, Image, TouchableOpacity, ScrollView, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import styles from "./styles";
@@ -10,6 +10,7 @@ import { Sections } from "../../components/cards/Sections";
 
 import { ListUserSessions } from "../../api/SectionsRequests";
 
+import colors from "../../colors";
 export function Calendar() {
   // vetor das sessões
   const [sessions, setSessions] = useState([]);
@@ -41,7 +42,8 @@ export function Calendar() {
           // formata a hora para não mostrar os segundos
           const copy = { ...s };
           const id = copy.sessionId || copy.session_id || copy.id;
-          if (id && finalizedIds.map(String).includes(String(id))) copy.finalizada = true;
+          if (id && finalizedIds.map(String).includes(String(id)))
+            copy.finalizada = true;
           if (typeof copy.startsAt === "string")
             copy.startsAt = copy.startsAt.replace(/(\d{2}:\d{2}):\d{2}/g, "$1");
           if (typeof copy.endsAt === "string")
@@ -76,7 +78,7 @@ export function Calendar() {
       }
 
       const today = new Date(
-        now.getFullYear(), 
+        now.getFullYear(),
         now.getMonth(),
         now.getDate(),
         0,
@@ -90,13 +92,14 @@ export function Calendar() {
       const closed = [];
 
       sessionsList.forEach((s) => {
-          // se marcada localmente como finalizada/cancelada, considerar encerrada
-          if (s.finalizada) {
-            closed.push(s);
-            return;
-          }
+        // se marcada localmente como finalizada/cancelada, considerar encerrada
+        if (s.finalizada) {
+          closed.push(s);
+          return;
+        }
         const sessionDateStr = s.date || s.session_date || "";
-        const startStr = s.startsAt || s.startAt || s.session_starts_at || "00:00";
+        const startStr =
+          s.startsAt || s.startAt || s.session_starts_at || "00:00";
         const endStr = s.endsAt || s.endAt || s.session_ends_at || "00:00";
 
         const parts = String(sessionDateStr).split("-");
@@ -140,7 +143,7 @@ export function Calendar() {
     // aplica o filtro de data, se houver (suporta 'YYYY-MM-DD' e ISO like 'YYYY-MM-DDT...')
     let filtered = sessions || [];
     const { year, month, day } = dateFilter || {};
-  if (year || month || day) {
+    if (year || month || day) {
       const monthsMap = {
         Janeiro: "01",
         Fevereiro: "02",
@@ -156,11 +159,13 @@ export function Calendar() {
         Dezembro: "12",
       };
 
-  filtered = filtered.filter((s) => {
+      filtered = filtered.filter((s) => {
         const sessionDateStr = s.date || s.session_date || "";
 
         // try YYYY-MM-DD at start (covers '2025-09-03' and '2025-09-03T03:00:00')
-        const isoMatch = String(sessionDateStr).match(/^(\d{4})-(\d{2})-(\d{2})/);
+        const isoMatch = String(sessionDateStr).match(
+          /^(\d{4})-(\d{2})-(\d{2})/
+        );
         let y, m, d;
         if (isoMatch) {
           y = isoMatch[1];
@@ -178,15 +183,15 @@ export function Calendar() {
         if (year && String(year) !== String(y)) return false;
         if (month) {
           const mStr = monthsMap[month] || month;
-          if (String(mStr).padStart(2, "0") !== String(m).padStart(2, "0")) return false;
+          if (String(mStr).padStart(2, "0") !== String(m).padStart(2, "0"))
+            return false;
         }
         if (day && String(day) !== String(parseInt(d, 10))) return false;
         return true;
       });
     }
 
-
-      const { running, upcoming, closed } = categorize(filtered || []);
+    const { running, upcoming, closed } = categorize(filtered || []);
 
     function toStartDate(s) {
       const sd = s.date || s.session_date || "";
@@ -213,26 +218,30 @@ export function Calendar() {
     setClosedSessions(closed);
   }, [sessions, dateFilter]);
 
-  useEffect(() => {
-  }, [dateFilter]);
+  useEffect(() => {}, [dateFilter]);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.headerView}>
-          <TouchableOpacity>
+      <View style={styles.header}>
+          {/* <TouchableOpacity
+            style={{ position: "absolute", left: 0 }}
+            onPress={() => navigation.goBack()}
+          >
             <Image
               source={require("../../assets/icons/UI/chevrom.png")}
-              style={styles.chevronImage}
+              style={{
+                tintColor: colors.contrastant_gray,
+                width: 30,
+                height: 30,
+                transform: [{ rotate: "90deg" }],
+              }}
               resizeMode="contain"
             />
-          </TouchableOpacity>
-          <Text style={styles.headerText}>
-            Calendário do laboratório{" "}
-            <Text style={{ fontWeight: "bold" }}>A108</Text>
-          </Text>
+          </TouchableOpacity> */}
+          <Text style={{ textAlign: "center", fontSize: 16 }}>Calendário</Text>
         </View>
 
+      <ScrollView>
         <View style={styles.dataView}>
           <View style={{ flexDirection: "column" }}>
             <Text style={[styles.textFont, { marginBottom: 10 }]}>
@@ -253,11 +262,14 @@ export function Calendar() {
           canFinish={true}
           canDelete={false}
           onFinished={(sessionId) => {
-            setSessions((prev) => prev.map((s) => {
-              const id = s.sessionId || s.session_id || s.id;
-              if (String(id) === String(sessionId)) return { ...s, finalizada: true };
-              return s;
-            }));
+            setSessions((prev) =>
+              prev.map((s) => {
+                const id = s.sessionId || s.session_id || s.id;
+                if (String(id) === String(sessionId))
+                  return { ...s, finalizada: true };
+                return s;
+              })
+            );
             setFinalizedIds((prev) => {
               if (prev.map(String).includes(String(sessionId))) return prev;
               return [...prev, sessionId];
@@ -274,11 +286,14 @@ export function Calendar() {
           canFinish={false}
           canDelete={true}
           onDeleted={(sessionId) => {
-            setSessions((prev) => prev.map((s) => {
-              const id = s.sessionId || s.session_id || s.id;
-              if (String(id) === String(sessionId)) return { ...s, finalizada: true };
-              return s;
-            }));
+            setSessions((prev) =>
+              prev.map((s) => {
+                const id = s.sessionId || s.session_id || s.id;
+                if (String(id) === String(sessionId))
+                  return { ...s, finalizada: true };
+                return s;
+              })
+            );
             setFinalizedIds((prev) => {
               if (prev.map(String).includes(String(sessionId))) return prev;
               return [...prev, sessionId];
@@ -300,10 +315,20 @@ export function Calendar() {
   );
 }
 
-function SectionListBlock({ title, sessions, loading, expanded, setExpanded, canFinish = false, canDelete = false, onFinished, onDeleted }) {
+function SectionListBlock({
+  title,
+  sessions,
+  loading,
+  expanded,
+  setExpanded,
+  canFinish = false,
+  canDelete = false,
+  onFinished,
+  onDeleted,
+}) {
   return (
     <View style={{ zIndex: -1 }}>
-      <View style={{ marginBottom: 5, marginRight: 20 }}>
+      <View style={{ marginBottom: 5}}>
         <Text style={[styles.textFont, { marginBottom: 10 }]}>{title}:</Text>
         {loading ? (
           <Text style={styles.loadingText}>Carregando...</Text>
@@ -333,7 +358,9 @@ function SectionListBlock({ title, sessions, loading, expanded, setExpanded, can
                   {shown.map((session, idx) => (
                     <View key={idx} style={styles.sessionWrapper}>
                       <Sections
-                        session_id={session.sessionId || session.session_id || session.id}
+                        session_id={
+                          session.sessionId || session.session_id || session.id
+                        }
                         inicio={session.startsAt}
                         fim={session.endsAt}
                         dataSessão={session.date}

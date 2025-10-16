@@ -157,7 +157,8 @@ export function register_user_screen() {
           <View style={styles.buttonView}>
             <Button
               text="Receber código"
-              onPress={async () => {
+              onPress={
+              async () => {
                 if (!isValidIFSPEmail(email)) {
                   Alert.alert(
                     "Email inválido",

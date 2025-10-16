@@ -3,7 +3,7 @@ import colors from "../../colors";
 
 const styles = EStyleSheet.create({
   container: {
-    paddingHorizontal: "2rem",
+    paddingHorizontal: "1rem",
     flex: 1,
     backgroundColor: colors.white_full,
   },

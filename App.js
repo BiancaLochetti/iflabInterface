@@ -4,6 +4,7 @@ import EStyleSheet from "react-native-extended-stylesheet";
 import { Dimensions } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useState } from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 // Pega largura da tela
 const { width } = Dimensions.get("window");
@@ -30,10 +31,12 @@ export default function App() {
 	const [refreshKey, setRefreshKey] = useState(0);
 
     return (
-        <SafeAreaProvider>
-            <NavigationContainer style={{ flex: 1 }}>
-                <Routes key={refreshKey} triggerRefresh={() => setRefreshKey(k => k + 1)} />
-            </NavigationContainer>
-        </SafeAreaProvider>
+		<GestureHandlerRootView>
+			<SafeAreaProvider>
+				<NavigationContainer style={{ flex: 1 }}>
+					<Routes key={refreshKey} triggerRefresh={() => setRefreshKey(k => k + 1)} />
+				</NavigationContainer>
+			</SafeAreaProvider>
+		</GestureHandlerRootView>
     );
 }

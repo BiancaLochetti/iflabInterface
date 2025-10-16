@@ -81,7 +81,7 @@ export function DataSelection({ onChange }) {
 						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				<View style={[styles.cardFree, { flex: 1, paddingHorizontal: "0.25rem", minWidth: "10%" }]}>
+				<View style={[styles.cardFree, { flex: 1, paddingHorizontal: "0.25rem", minWidth: "3%" }]}>
 					<TouchableOpacity onPress={restoreDropdowns} style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
 						<View style={styles.ImageStyle}>
 							<Image

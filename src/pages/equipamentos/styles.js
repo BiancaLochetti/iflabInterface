@@ -1,14 +1,16 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import colors from "../../colors"; 
+import EStyleSheet from "react-native-extended-stylesheet";
 
 const { width } = Dimensions.get('window');
 
 const C = colors; 
 
-export const styles = StyleSheet.create({
+export const styles = EStyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: C.white_full, 
+        paddingHorizontal: "1.2rem",
     },
     loadingContainer: {
         flex: 1,
@@ -17,16 +19,10 @@ export const styles = StyleSheet.create({
         backgroundColor: C.white_full,
     },
     
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 50, 
-        paddingBottom: 10,
-        backgroundColor: C.white_full,
-        borderBottomWidth: 1,
-        borderBottomColor: C.emphasis_gray,
+    header:{
+        alignItems: "center",
+        justifyContent: "center",
+        height: "10%",
     },
     
     logo: {
@@ -49,8 +45,6 @@ export const styles = StyleSheet.create({
         backgroundColor: C.white_full,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: C.emphasis_gray,
     },
     searchInput: {
         flex: 1,

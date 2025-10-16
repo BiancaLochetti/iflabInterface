@@ -11,6 +11,7 @@ import styles from "./styles";
 //Import componentes:
 import LabCard from "../../components/cards/LabCard";
 import Button from "../../components/buttons/Button";
+import BottomSheet from "../../components/modals/BottomSheet";
 
 //Import API
 import { get_user_info } from "../../api/userRequests";
@@ -22,16 +23,19 @@ import colors from "../../colors";
 
 // Página Principal
 export function Home() {
+  function onOpen(labInfo) {
+    setSelectedLab(labInfo);
+    modalizeRef.current?.open();
+  }
+
   const navigation = useNavigation(); // Inicializa o hook
 
   const modalizeRef = useRef(null);
 
-  function onOpen() {
-    modalizeRef.current?.open();
-  }
-
   const [user, setUser] = useState(null);
   const [lab, setLab] = useState(null);
+
+  const [selectedLab, setSelectedLab] = useState(null);
 
   useEffect(() => {
     // Carregando informações do usuário e lista de laboratórios:
@@ -103,67 +107,17 @@ export function Home() {
                 status={lab.status}
                 responsable={lab.userName}
                 lastResp={lab.userName}
-                onPress={onOpen}
+                onPress={() => onOpen(lab)}
               />
             ))}
           </ScrollView>
 
-            {/* Bottom sheet */}
-          <Modalize
-            ref={modalizeRef}
-            snapPoint={430}
-            modalHeight={450}
-            withHandle={false}
-            HeaderComponent={
-              <View style={{ alignItems: "center", paddingBottom: 20 }}>
-                <Image
-                  source={require("../../assets/icons/UI/drag-horizontal.png")}
-                  style={{ tintColor: colors.primary_green_dark }}
-                  resizeMode="contain"
-                />
-              </View>
-            }
-          >
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                alignItems: "flex-start",
-                flexDirection: "column",
-                backgroundColor: colors.white_full,
-                paddingHorizontal: 20,
-                gap: 10,
-              }}
-            >
-              <Button
-                text="Sessões no laboratório"
-                type="White"
-                icon={require("../../assets/icons/UI/schedule.png")}
-              />
-              <Button
-                text="Elementos do laboratório"
-                type="White"
-                icon={require("../../assets/icons/UI/potion.png")}
-                onPress={() => navigation.navigate("Elements")}
-              />
-              <Button
-                text="Equipamentos do laboratório"
-                type="White"
-                icon={require("../../assets/icons/UI/equipment.png")}
-                onPress={() => navigation.navigate("Equipaments")}
-              />
-              <Button
-                text="Gerenciar acessos do laboratório"
-                type="White"
-                icon={require("../../assets/icons/UI/access-management.png")}
-              />
-              <Button
-                text="Gerar relatório do laboratório"
-                type="White"
-                icon={require("../../assets/icons/UI/access-relatory.png")}
-              />
-            </View>
-          </Modalize>
+          {/* Bottom sheet */}
+          <BottomSheet
+            modalizeRef={modalizeRef}
+            labInfo={selectedLab}
+            navigation={navigation}
+          />
         </>
       ) : (
         <>
