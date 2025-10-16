@@ -58,6 +58,11 @@ const BottomSheet = ({ modalizeRef, labInfo, navigation }) => {
           text="Gerenciar acessos do laboratório"
           type="White"
           icon={require("../../assets/icons/UI/access-management.png")}
+          onPress={() =>
+            navigation.navigate("AcessLab", {
+              params: { labName: labInfo.labName },
+            })
+          }
         />
         <Button
           text="Gerar relatório do laboratório"

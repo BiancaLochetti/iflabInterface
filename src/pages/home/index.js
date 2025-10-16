@@ -125,11 +125,11 @@ export function Home() {
             style={{
               margin: "auto",
               padding: "2rem",
-              backgroundColor: colors.primary_green_dark,
+              backgroundColor: colors.white_full,
               borderRadius: "1rem",
             }}
           >
-            <Text style={{ color: colors.white_full, fontSize: 30 }}>
+            <Text style={{ color: colors.primary_green_dark, fontSize: 30, textAlign: 'center' }}>
               Nenhum laboratório no momento!
             </Text>
           </View>

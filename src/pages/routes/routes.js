@@ -30,13 +30,15 @@ import { Teste } from "../routes/teste";
 import { Home } from "../home";
 import { User } from "../user";
 import { Calendar } from "../calendar";
+import ElementStack from "../elementos";
+import EquipmentsStack from "../equipamentos";
+import { AcessLab } from "../acessLab";
 
 // Telas para usuário deslogado:
 import { Login } from "../login";
 import { register_user_screen } from "../registerUser";
 import { RegisterCampus } from "../registerCampus";
-import ElementStack from "../elementos";
-import EquipmentsStack from "../equipamentos";
+
 
 // O=========================================================================================================O //
 
@@ -161,6 +163,7 @@ export function Routes({ triggerRefresh }) {
 				options={element_options}
 			/>
 			<Tab.Screen name="User" component={User} options={user_options} />
+			<Tab.Screen name="AcessLab" component={AcessLab} options={element_options} />
 		</Tab.Navigator>
 	) : (
 		<Tab.Navigator screenOptions={un_logged_screeen_options}>
@@ -253,7 +256,7 @@ const element_options = {
 	headerShown: false,
 	tabBarShowLabel: false,
 	tabBarIcon: () => null,
-	// tabBarStyle: { display: "none" },
+	tabBarStyle: { display: "none" },
 };
 
 const styles = StyleSheet.create({

@@ -260,7 +260,7 @@ export function register_user_screen() {
 
           <View style={styles.formView}>
             <Text style={styles.title}>Insira suas informações</Text>
-            <View style={{ width: "80%", alignSelf: "center", gap: "1rem" }}>
+            <View style={{ width: "80%", alignSelf: "center", gap: "2rem" }}>
               <InputText
                 placeHolder="Nome de usuário"
                 value={name}
@@ -340,7 +340,7 @@ export function register_user_screen() {
             />
             <Button text="Voltar" onPress={handleBackStep} type="White" />
             <Button
-              text="Не encontrou seu campus? Cadastre-o"
+              text="Não encontrou seu campus? Cadastre-o"
               onPress={() => navigation.navigate("RegisterCampus")}
               type="White"
             />

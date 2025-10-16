@@ -253,7 +253,6 @@ function EquipmentInventoryScreen() {
           style={{
             textAlign: "center",
             fontSize: 20,
-            fontWeight: "bold",
             color: colors.primary_green_dark,
           }}
         >

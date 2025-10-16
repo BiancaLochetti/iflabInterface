@@ -266,7 +266,7 @@ function InventoryScreen() {
             resizeMode="contain"
           />
         </TouchableOpacity>
-        <Text style={{ textAlign: "center", fontSize: 20, fontWeight: "bold", color: colors.primary_green_dark }}>{labName || "Laboratório"}</Text>
+        <Text style={{ textAlign: "center", fontSize: 20, color: colors.primary_green_dark }}>{labName || "Laboratório"}</Text>
       </View>
 
 
