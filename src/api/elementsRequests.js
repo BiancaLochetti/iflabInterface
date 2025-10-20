@@ -49,7 +49,7 @@ async function RegisterElement(
 
 	const options = {
 		method: "POST",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -88,7 +88,7 @@ async function DeleteElement(element_id) {
 
 	const options = {
 		method: "DELETE",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -97,10 +97,13 @@ async function DeleteElement(element_id) {
 
 	try {
 		const response = await fetch(url, options);
-		const data = response.json();
+		const data = await response.json();
+
+		console.log("resultado:", data, "token:", token, "options:", options);
 
 		return data;
 	} catch (err) {
+		console.log("ai :(");
 		return { status: false, msg: "Erro ao conectar com o servidor:" + err };
 	}
 }
@@ -116,7 +119,7 @@ async function ListLabElements(labId) {
 
 	const options = {
 		method: "GET",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -143,7 +146,7 @@ async function GetSessionElements(sessionId) {
 
 	const options = {
 		method: "GET",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -170,7 +173,7 @@ async function GetElementInfo(elementId) {
 
 	const options = {
 		method: "GET",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -197,7 +200,7 @@ async function EditElementName(element_id, element_name) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -228,7 +231,7 @@ async function EditElementQuantity(element_id, element_quantity) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -259,7 +262,7 @@ async function EditElementCAS(element_id, element_cas_number) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -290,7 +293,7 @@ async function EditElementEC(element_id, element_ec_number) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -321,7 +324,7 @@ async function EditElementPhysicalState(element_id, element_physical_state) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -352,7 +355,7 @@ async function EditElementValidity(element_id, element_admin_level) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -383,7 +386,7 @@ async function EditElementAdministration(element_id, element_admin_level) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -414,7 +417,7 @@ async function EditElementMolarMass(element_id, element_molar_mass) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -445,7 +448,7 @@ async function EditElementImage(element_id, element_image) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},

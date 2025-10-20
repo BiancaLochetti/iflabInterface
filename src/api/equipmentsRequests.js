@@ -43,7 +43,7 @@ async function RegisterEquipment(
 
 	const options = {
 		method: "POST",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -79,7 +79,7 @@ async function DeleteEquipment(equipment_id) {
 
 	const options = {
 		method: "DELETE",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -107,7 +107,7 @@ async function ListLabEquipments(labId) {
 
 	const options = {
 		method: "GET",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -134,7 +134,7 @@ async function ListSessionEquipments(sessionId) {
 
 	const options = {
 		method: "GET",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -161,7 +161,7 @@ async function GetEquipmentInfo(equipmentId) {
 
 	const options = {
 		method: "GET",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -189,7 +189,7 @@ async function EditEquipmentName(equipment_id, equipment_name) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -217,7 +217,7 @@ async function EditEquipmentQuantity(equipment_id, equipment_quantity) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -245,7 +245,7 @@ async function EditEquipmentQuality(equipment_id, equipment_quality) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -273,7 +273,7 @@ async function EditEquipmentDescription(equipment_id, equipment_description) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -304,7 +304,7 @@ async function EditEquipmentAdministration(
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
@@ -332,7 +332,7 @@ async function EditEquipmentImage(equipment_id, equipment_image) {
 
 	const options = {
 		method: "PUT",
-		header: {
+		headers: {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
