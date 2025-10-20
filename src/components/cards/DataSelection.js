@@ -41,17 +41,24 @@ export function DataSelection({ onChange }) {
 		setValue1(null);
 		setValue2(null);
 		setValue3(null);
-		if (typeof onChange === "function") onChange({ year: null, month: null, day: null });
+		if (typeof onChange === "function")
+			onChange({ year: null, month: null, day: null });
 	};
 
 	useEffect(() => {
-		if (typeof onChange === "function") onChange({ year: value1, month: value2, day: value3 });
+		if (typeof onChange === "function")
+			onChange({ year: value1, month: value2, day: value3 });
 	}, [value1, value2, value3]);
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<View style={[styles.cardFree, { zIndex: 1000, flex: 3, paddingHorizontal: "0.25rem" }]}>
+				<View
+					style={[
+						styles.cardFree,
+						{ zIndex: 1000, flex: 3, paddingHorizontal: "1rem" },
+					]}
+				>
 					<Dropdown
 						items={year}
 						placeholder="Ano"
@@ -61,7 +68,12 @@ export function DataSelection({ onChange }) {
 						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				<View style={[styles.cardFree, { zIndex: 900, flex: 3, paddingHorizontal: "0.25rem" }]}>
+				<View
+					style={[
+						styles.cardFree,
+						{ zIndex: 900, flex: 3, paddingHorizontal: "1rem" },
+					]}
+				>
 					<Dropdown
 						items={month}
 						placeholder="Mês"
@@ -71,7 +83,12 @@ export function DataSelection({ onChange }) {
 						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				<View style={[styles.cardFree, { zIndex: 800, flex: 2, paddingHorizontal: "0.25rem" }]}>
+				<View
+					style={[
+						styles.cardFree,
+						{ zIndex: 800, flex: 2, paddingHorizontal: "1rem" },
+					]}
+				>
 					<Dropdown
 						items={day}
 						placeholder="Dia"
@@ -81,8 +98,21 @@ export function DataSelection({ onChange }) {
 						dropDownContainerStyle={{ width: "100%" }}
 					/>
 				</View>
-				<View style={[styles.cardFree, { flex: 1, paddingHorizontal: "0.25rem", minWidth: "3%" }]}>
-					<TouchableOpacity onPress={restoreDropdowns} style={{ alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
+				<View
+					style={[
+						styles.cardFree,
+						{ flex: 1, paddingHorizontal: "1rem", minWidth: "3%" },
+					]}
+				>
+					<TouchableOpacity
+						onPress={restoreDropdowns}
+						style={{
+							alignItems: "center",
+							justifyContent: "center",
+							width: "100%",
+							height: "100%",
+						}}
+					>
 						<View style={styles.ImageStyle}>
 							<Image
 								style={styles.deleteImage}

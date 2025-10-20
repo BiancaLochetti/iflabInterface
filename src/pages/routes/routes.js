@@ -28,6 +28,7 @@ import { Teste } from "../routes/teste";
 
 // Telas para usuário logado:
 import { Home } from "../home";
+import { HomeStack } from "../home/homeStack";
 import { User } from "../user";
 import { Calendar } from "../calendar";
 import ElementStack from "../elementos";
@@ -38,7 +39,6 @@ import { AcessLab } from "../acessLab";
 import { Login } from "../login";
 import { register_user_screen } from "../registerUser";
 import { RegisterCampus } from "../registerCampus";
-
 
 // O=========================================================================================================O //
 
@@ -146,24 +146,13 @@ export function Routes({ triggerRefresh }) {
 		<Loading status_msg={!apiFound ? "Procurando servidor" : "Fazendo login"} />
 	) : user_info ? (
 		<Tab.Navigator screenOptions={logged_screeen_options}>
-			<Tab.Screen name="Home" component={Home} options={home_options} />
-			<Tab.Screen
-				name="Elements"
-				component={ElementStack}
-				options={element_options}
-			/>
+			<Tab.Screen name="Home" component={HomeStack} options={home_options} />
 			<Tab.Screen
 				name="Calendar"
 				component={Calendar}
 				options={calendar_options}
 			/>
-			<Tab.Screen
-				name="Equipaments"
-				component={EquipmentsStack}
-				options={element_options}
-			/>
 			<Tab.Screen name="User" component={User} options={user_options} />
-			<Tab.Screen name="AcessLab" component={AcessLab} options={element_options} />
 		</Tab.Navigator>
 	) : (
 		<Tab.Navigator screenOptions={un_logged_screeen_options}>
@@ -240,7 +229,7 @@ const user_options = {
 	headerShown: false,
 	tabBarShowLabel: false,
 	tabBarStyle: {
-		display: "none"
+		display: "none",
 	},
 	tabBarIcon: ({ focused }) => {
 		return (
@@ -256,7 +245,12 @@ const element_options = {
 	headerShown: false,
 	tabBarShowLabel: false,
 	tabBarIcon: () => null,
-	tabBarStyle: { display: "none" },
+	tabBarStyle: {
+		display: "none",
+		width: 0,
+		m: 0,
+		p: 0,
+	},
 };
 
 const styles = StyleSheet.create({
