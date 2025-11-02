@@ -1,9 +1,24 @@
+import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import Button from "../buttons/Button";
 import colors from "../../colors";
 
-const BottomSheet = ({ modalizeRef, labInfo, navigation }) => {
+const BottomSheet = ({ modalizeRef, labInfo = {}, navigation }) => {
+	// Evita navegação se não houver info do lab
+	const handleNavigate = (stack, screen, extraParams = {}) => {
+		if (!labInfo?.labId || !labInfo?.labName) return;
+
+		navigation.navigate(stack, {
+			screen,
+			params: {
+				labName: labInfo.labName,
+				labId: labInfo.labId,
+				...extraParams,
+			},
+		});
+	};
+
 	return (
 		<Modalize
 			ref={modalizeRef}
@@ -21,49 +36,43 @@ const BottomSheet = ({ modalizeRef, labInfo, navigation }) => {
 			}
 		>
 			<View style={styles.container}>
-				{labInfo && (
-					<>
-						<Text style={styles.title}>Laboratório: {labInfo.labName}</Text>
-					</>
+				{labInfo?.labName && (
+					<Text style={styles.title}>Laboratório: {labInfo.labName}</Text>
 				)}
 
 				<Button
 					text="Sessões no laboratório"
 					type="White"
 					icon={require("../../assets/icons/UI/schedule.png")}
+					onPress={() => handleNavigate("Elements", "Sessions")}
 				/>
+
 				<Button
 					text="Elementos do laboratório"
 					type="White"
 					icon={require("../../assets/icons/UI/potion.png")}
 					onPress={() =>
 						navigation.navigate("Elements", {
-							screen: "Inventory",
-							params: { labName: labInfo.labName },
+							labName: labInfo.labName,
+							labId: labInfo.labId,
 						})
 					}
 				/>
+				
 				<Button
 					text="Equipamentos do laboratório"
 					type="White"
 					icon={require("../../assets/icons/UI/equipment.png")}
-					onPress={() =>
-						navigation.navigate("Equipaments", {
-							screen: "EquipmentInventory",
-							params: { labName: labInfo.labName },
-						})
-					}
+					onPress={() => handleNavigate("Equipments", "EquipmentInventory")}
 				/>
+
 				<Button
 					text="Gerenciar acessos do laboratório"
 					type="White"
 					icon={require("../../assets/icons/UI/access-management.png")}
-					onPress={() =>
-						navigation.navigate("AcessLab", {
-							params: { labName: labInfo.labName },
-						})
-					}
+					onPress={() => handleNavigate("AcessLab", "AcessMain")}
 				/>
+
 				<Button
 					text="Gerar relatório do laboratório"
 					type="White"

@@ -45,7 +45,7 @@ async function RegisterElement(
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/`;
+	const url = `http://${IP}:3333/elements/register`;
 
 	const options = {
 		method: "POST",
@@ -69,7 +69,7 @@ async function RegisterElement(
 
 	try {
 		const response = await fetch(url, options);
-		const data = response.json();
+		const data = await response.json();
 
 		return data;
 	} catch (err) {

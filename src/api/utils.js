@@ -24,7 +24,7 @@ const AsyncStorage =
 
 // O======================================================================O
 
-const WEB_LOCAL_IP = "10.14.40.153";
+const WEB_LOCAL_IP = "192.168.1.28";
 const API_PORT = 3333; // Porta padrão da sua API local
 const SCAN_BATCH_SIZE = 20; // Quantidade de IPs testados em paralelo
 const TIMEOUT = 1500;
