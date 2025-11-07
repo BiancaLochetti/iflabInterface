@@ -21,7 +21,7 @@ import { storage_getter } from "./utils";
 async function registerCampus(campus_name, campus_uf) {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/campus/register`;
+	const url = `https://api-flab-v2-0.vercel.app/campus/register`;
 
 	const options = {
 		method: "POST",
@@ -47,7 +47,7 @@ async function registerCampus(campus_name, campus_uf) {
 async function listCampus() {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/campus/get`;
+	const url = `https://api-flab-v2-0.vercel.app/campus/get`;
 
 	const options = {
 		method: "GET",

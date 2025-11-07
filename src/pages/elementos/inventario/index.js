@@ -18,38 +18,27 @@ import { styles } from "./styles";
 import { ListLabElements } from "../../../api/elementsRequests";
 
 const ElementListItem = ({ element, onPress }) => {
-	const formattedDate = element.element_validity
-		? new Date(element.element_validity).toLocaleDateString()
+	const formattedDate = element.expirationDate
+		? new Date(element.expirationDate).toLocaleDateString()
 		: "S/ Data";
 
 	return (
 		<TouchableOpacity
 			style={styles.listItemContainer}
-			onPress={() => onPress(element.id)}
+			onPress={() => onPress(element.chemicalId)}
 		>
 			<View style={styles.listItemTextContent}>
-				<Text style={styles.listItemName}>Nome: {element.element_name}</Text>
+				<Text style={styles.listItemName}>Nome: {element.name}</Text>
 				<Text style={styles.listItemDetail}>
-					Número CAS: {element.element_cas_number}
+					Número CAS: {element.casNumber}
 				</Text>
 				<Text style={styles.listItemDetail}>
-					Número EC: {element.element_ec_number}
+					Número EC: {element.ecNumber}
 				</Text>
-				{element.element_admin_level && (
-					<View style={styles.listItemAdminLevelContainer}>
-						<AntDesign
-							name="infocirlceo"
-							size={14}
-							color={colors.secundary_green}
-						/>
-						<Text style={styles.listItemAdminLevelText}>
-							{element.element_admin_level}
-						</Text>
-					</View>
-				)}
+				
 			</View>
 			<View style={styles.listItemRightContent}>
-				<Text style={styles.listItemQuantity}>{element.element_quantity}</Text>
+				<Text style={styles.listItemQuantity}>{element.quantity}</Text>
 				<Text style={styles.listItemValidity}>val. {formattedDate}</Text>
 			</View>
 		</TouchableOpacity>
@@ -60,28 +49,17 @@ export default function InventoryScreen() {
 	const route = useRoute();
 	const { labId, labName } = route.params || {};
 	const navigation = useNavigation();
-    console.log("InventoryScreen - labId:", labId, "labName:", labName);
+	console.log("InventoryScreen - labId:", labId, "labName:", labName);
 
 	const [elements, setElements] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
-    /* 
 	
-	
-	
-	8======D
-	
-	aqui
-	
-	|
-	V
-	
-	
-	*/
 	useEffect(() => {
 		async function fetchData() {
 			const data = await ListLabElements(labId);
+			console.log(data);
 
 			if (data.status) {
 				setElements(data.elementsList);
@@ -89,7 +67,7 @@ export default function InventoryScreen() {
 		}
 
 		fetchData();
-	}, [])
+	}, []);
 
 	const handleElementPress = (elementId) => {
 		navigation.navigate("infoElementos", { elementId });
@@ -141,7 +119,11 @@ export default function InventoryScreen() {
 
 			<View style={styles.searchRow}>
 				<View style={styles.searchInputWrapper}>
-					<MaterialIcons name="search" size={24} color={colors.primary_text_gray} />
+					<MaterialIcons
+						name="search"
+						size={24}
+						color={colors.primary_text_gray}
+					/>
 					<TextInput
 						style={styles.searchInput}
 						placeholder="Pesquisar um elemento"
@@ -164,7 +146,7 @@ export default function InventoryScreen() {
 				{elements.length > 0 ? (
 					elements.map((element) => (
 						<ElementListItem
-							key={element.id}
+							key={element.chemicalId}
 							element={element}
 							onPress={handleElementPress}
 						/>
@@ -178,4 +160,3 @@ export default function InventoryScreen() {
 		</SafeAreaView>
 	);
 }
-

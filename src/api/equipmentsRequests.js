@@ -39,7 +39,7 @@ async function RegisterEquipment(
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/register`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/register`;
 
 	const options = {
 		method: "POST",
@@ -75,7 +75,7 @@ async function DeleteEquipment(equipment_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/delete`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/delete`;
 
 	const options = {
 		method: "DELETE",
@@ -103,7 +103,7 @@ async function ListLabEquipments(labId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/lab/${labId}`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/lab/${labId}`;
 
 	const options = {
 		method: "GET",
@@ -130,7 +130,7 @@ async function ListSessionEquipments(sessionId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/session/${sessionId}`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/session/${sessionId}`;
 
 	const options = {
 		method: "GET",
@@ -157,7 +157,7 @@ async function GetEquipmentInfo(equipmentId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/info/${equipmentId}`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/info/${equipmentId}`;
 
 	const options = {
 		method: "GET",
@@ -185,7 +185,7 @@ async function EditEquipmentName(equipment_id, equipment_name) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/edit/name`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/edit/name`;
 
 	const options = {
 		method: "PUT",
@@ -213,7 +213,7 @@ async function EditEquipmentQuantity(equipment_id, equipment_quantity) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/edit/quantity`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/edit/quantity`;
 
 	const options = {
 		method: "PUT",
@@ -241,7 +241,7 @@ async function EditEquipmentQuality(equipment_id, equipment_quality) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/edit/quality`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/edit/quality`;
 
 	const options = {
 		method: "PUT",
@@ -269,7 +269,7 @@ async function EditEquipmentDescription(equipment_id, equipment_description) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/edit/description`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/edit/description`;
 
 	const options = {
 		method: "PUT",
@@ -300,7 +300,7 @@ async function EditEquipmentAdministration(
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/edit/admin`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/edit/admin`;
 
 	const options = {
 		method: "PUT",
@@ -328,7 +328,7 @@ async function EditEquipmentImage(equipment_id, equipment_image) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/equipments/edit/image`;
+	const url = `https://api-flab-v2-0.vercel.app/equipments/edit/image`;
 
 	const options = {
 		method: "PUT",

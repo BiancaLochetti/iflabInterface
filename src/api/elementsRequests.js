@@ -45,7 +45,7 @@ async function RegisterElement(
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/register`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/register`;
 
 	const options = {
 		method: "POST",
@@ -84,7 +84,7 @@ async function DeleteElement(element_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/delete`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/delete`;
 
 	const options = {
 		method: "DELETE",
@@ -115,7 +115,7 @@ async function ListLabElements(labId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/lab/${labId}`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/lab/${labId}`;
 
 	const options = {
 		method: "GET",
@@ -142,7 +142,7 @@ async function GetSessionElements(sessionId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/session/${sessionId}`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/session/${sessionId}`;
 
 	const options = {
 		method: "GET",
@@ -169,7 +169,7 @@ async function GetElementInfo(elementId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/info/${elementId}`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/info/${elementId}`;
 
 	const options = {
 		method: "GET",
@@ -196,7 +196,7 @@ async function EditElementName(element_id, element_name) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/name`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/name`;
 
 	const options = {
 		method: "PUT",
@@ -227,7 +227,7 @@ async function EditElementQuantity(element_id, element_quantity) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/quantity`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/quantity`;
 
 	const options = {
 		method: "PUT",
@@ -258,7 +258,7 @@ async function EditElementCAS(element_id, element_cas_number) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/cas`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/cas`;
 
 	const options = {
 		method: "PUT",
@@ -289,7 +289,7 @@ async function EditElementEC(element_id, element_ec_number) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/ec`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/ec`;
 
 	const options = {
 		method: "PUT",
@@ -320,7 +320,7 @@ async function EditElementPhysicalState(element_id, element_physical_state) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/state`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/state`;
 
 	const options = {
 		method: "PUT",
@@ -351,7 +351,7 @@ async function EditElementValidity(element_id, element_admin_level) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/validity`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/validity`;
 
 	const options = {
 		method: "PUT",
@@ -382,7 +382,7 @@ async function EditElementAdministration(element_id, element_admin_level) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/admin`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/admin`;
 
 	const options = {
 		method: "PUT",
@@ -413,7 +413,7 @@ async function EditElementMolarMass(element_id, element_molar_mass) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/molarmass`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/molarmass`;
 
 	const options = {
 		method: "PUT",
@@ -444,7 +444,7 @@ async function EditElementImage(element_id, element_image) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/elements/edit/image`;
+	const url = `https://api-flab-v2-0.vercel.app/elements/edit/image`;
 
 	const options = {
 		method: "PUT",

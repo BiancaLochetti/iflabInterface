@@ -30,7 +30,7 @@ import { storage_getter, storage_saver } from "./utils";
 async function login_user(user_email, user_password) {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/users/login`;
+	const url = `https://api-flab-v2-0.vercel.app/users/login`;
 
 	const options = {
 		method: "POST",
@@ -62,7 +62,7 @@ async function logout_user() {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/logout`;
+	const url = `https://api-flab-v2-0.vercel.app/users/logout`;
 
 	const options = {
 		method: "POST",
@@ -81,14 +81,13 @@ async function logout_user() {
 		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
 	}
 }
-
 // O=========================================================================================================O //
 
 // Função para enviar código de validação para email:
 async function email_validation(user_email, reason_for_code) {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/users/email/getcode`;
+	const url = `https://api-flab-v2-0.vercel.app/users/email/getcode`;
 
 	const options = {
 		method: "POST",
@@ -117,7 +116,7 @@ async function email_validation(user_email, reason_for_code) {
 async function email_code_validation(user_email, user_validation_code) {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/users/email/validate`;
+	const url = `https://api-flab-v2-0.vercel.app/users/email/validate`;
 
 	const options = {
 		method: "POST",
@@ -147,7 +146,7 @@ async function password_recovery(
 ) {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/users/password/recovery`;
+	const url = `https://api-flab-v2-0.vercel.app/users/password/recovery`;
 
 	const options = {
 		method: "POST",
@@ -179,7 +178,7 @@ async function register_user(
 ) {
 	const IP = await storage_getter("api_ip");
 
-	const url = `http://${IP}:3333/users/register`;
+	const url = `https://api-flab-v2-0.vercel.app/users/register`;
 
 	const options = {
 		method: "POST",
@@ -212,7 +211,7 @@ async function edit_user_name(user_name) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/edit/name`;
+	const url = `https://api-flab-v2-0.vercel.app/users/edit/name`;
 
 	const options = {
 		method: "PUT",
@@ -242,7 +241,7 @@ async function edit_user_email(user_email, user_validation_code) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/edit/email`;
+	const url = `https://api-flab-v2-0.vercel.app/users/edit/email`;
 
 	const options = {
 		method: "PUT",
@@ -270,7 +269,7 @@ async function edit_user_password(user_password) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/edit/password`;
+	const url = `https://api-flab-v2-0.vercel.app/users/edit/password`;
 
 	const options = {
 		method: "PUT",
@@ -298,7 +297,7 @@ async function edit_user_image(user_image) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/edit/image`;
+	const url = `https://api-flab-v2-0.vercel.app/users/edit/image`;
 
 	const options = {
 		method: "PUT",
@@ -326,7 +325,7 @@ async function get_user_info() {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/users/info`;
+	const url = `https://api-flab-v2-0.vercel.app/users/info`;
 
 	const options = {
 		method: "GET",

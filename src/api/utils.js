@@ -24,7 +24,7 @@ const AsyncStorage =
 
 // O======================================================================O
 
-const WEB_LOCAL_IP = "192.168.1.28";
+const WEB_LOCAL_IP = "10.123.71.222";
 const API_PORT = 3333; // Porta padrão da sua API local
 const SCAN_BATCH_SIZE = 20; // Quantidade de IPs testados em paralelo
 const TIMEOUT = 1500;
@@ -239,4 +239,4 @@ export { storage_saver, storage_getter, findAPI };
 /* storage_saver("email", "");
 storage_saver("password", "");
 storage_saver("token", "");
-storage_saver("api_ip", ""); */
+storage_saver("api_ip", "https://api-flab-v2-0.vercel.app/"); */

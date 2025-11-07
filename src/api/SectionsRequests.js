@@ -34,7 +34,7 @@ async function CreateNewSession(
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/session/create`;
+	const url = `https://api-flab-v2-0.vercel.app/session/create`;
 
 	const options = {
 		method: "POST",
@@ -69,7 +69,7 @@ async function DeleteSession(session_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/session/delete`;
+	const url = `https://api-flab-v2-0.vercel.app/session/delete`;
 
 	const options = {
 		method: "DELETE",
@@ -99,7 +99,7 @@ async function StartSession(session_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/session/start`;
+	const url = `https://api-flab-v2-0.vercel.app/session/start`;
 
 	const options = {
 		method: "PUT",
@@ -129,7 +129,7 @@ async function FinishSession(session_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/session/finish`;
+	const url = `https://api-flab-v2-0.vercel.app/session/finish`;
 
 	const options = {
 		method: "PUT",
@@ -158,8 +158,9 @@ async function FinishSession(session_id) {
 async function ListUserSessions() {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
+	console.log(token);
 
-	const url = `http://${IP}:3333/session/mysessions`;
+	const url = `https://api-flab-v2-0.vercel.app/session/mysessions`;
 
 	const options = {
 		method: "GET",
@@ -178,6 +179,7 @@ async function ListUserSessions() {
 		return { status: false, msg: "Erro ao conectar com o servidor:" + err };
 	}
 }
+
 // O=========================================================================================================O //
 
 // Função para ler formulários de utilização:
@@ -185,7 +187,7 @@ async function GetUtilizationForms(sessionId) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/session/form/${sessionId}`;
+	const url = `https://api-flab-v2-0.vercel.app/session/form/${sessionId}`;
 
 	const options = {
 		method: "GET",
@@ -212,7 +214,7 @@ async function SaveUtilizationForm(session_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/session/form/set`;
+	const url = `https://api-flab-v2-0.vercel.app/session/form/set`;
 
 	const options = {
 		method: "PUT",

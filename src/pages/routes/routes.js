@@ -48,7 +48,7 @@ import { RegisterCampus } from "../registerCampus";
 	O===============O
 */
 
-import { get_user_info, login_user } from "../../api/userRequests";
+import { get_user_info, login_user, logout_user } from "../../api/userRequests";
 import { findAPI, storage_getter } from "../../api/utils";
 
 // O=========================================================================================================O //
@@ -92,13 +92,14 @@ export function Routes({ triggerRefresh }) {
 	// Carregando dados do usuário (e verificando se ele existe / o token é válido):
 	useEffect(() => {
 		async function getAPI() {
-			const API_IP = await findAPI();
+			/* const API_IP = await findAPI();
 
 			if (!API_IP) {
 				setApiFound(false);
 				return;
 			}
 
+			setApiFound(true); */
 			setApiFound(true);
 
 			fetchUserData();
@@ -125,10 +126,13 @@ export function Routes({ triggerRefresh }) {
 			}
 
 			const login = await login_user(email, password);
+			const logout = await logout_user();
 
 			if (!login.status) {
 				// Vai pra tela de login
-
+				setLoading(false);
+				return;
+			} else if (logout.status) {
 				setLoading(false);
 				return;
 			}

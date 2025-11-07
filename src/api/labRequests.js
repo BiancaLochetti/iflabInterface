@@ -31,7 +31,7 @@ async function register_new_laboratory(lab_name) {
 	const IP = await storage_getter("api_ip");
 	const token = await AsyncStorage.getItem("token");
 
-	const url = `http://${IP}:3333/labs/register`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/register`;
 
 	const options = {
 		method: "POST",
@@ -59,7 +59,7 @@ async function delete_laboratory(lab_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/delete/${lab_id}`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/delete/${lab_id}`;
 
 	const options = {
 		method: "DELETE",
@@ -86,7 +86,7 @@ async function get_laboratories() {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/my`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/my`;
 
 	const options = {
 		method: "GET",
@@ -113,7 +113,7 @@ async function get_laboratory_schedule(lab_id, date) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/schedule/${lab_id}/${date}`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/schedule/${lab_id}/${date}`;
 
 	const options = {
 		method: "GET",
@@ -140,7 +140,7 @@ async function get_laboratory_users(lab_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/users/${lab_id}`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/users/${lab_id}`;
 
 	const options = {
 		method: "GET",
@@ -167,7 +167,7 @@ async function change_user_admin_level(lab_id, user_id, user_admin_level) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/admin`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/admin`;
 
 	const options = {
 		method: "PUT",
@@ -195,7 +195,7 @@ async function add_user_to_lab(lab_id, user_id, user_admin_level) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/admin`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/admin`;
 
 	const options = {
 		method: "POST",
@@ -223,7 +223,7 @@ async function remove_user_from_lab(lab_id, user_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
-	const url = `http://${IP}:3333/labs/admin`;
+	const url = `https://api-flab-v2-0.vercel.app/labs/admin`;
 
 	const options = {
 		method: "DELETE",
