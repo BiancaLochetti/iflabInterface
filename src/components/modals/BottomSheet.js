@@ -63,7 +63,12 @@ const BottomSheet = ({ modalizeRef, labInfo = {}, navigation }) => {
 					text="Equipamentos do laboratório"
 					type="White"
 					icon={require("../../assets/icons/UI/equipment.png")}
-					onPress={() => handleNavigate("Equipments", "EquipmentInventory")}
+				onPress={() =>
+						navigation.navigate("Equipaments", {
+							labName: labInfo.labName,
+							labId: labInfo.labId,
+						})	
+					}
 				/>
 
 				<Button
