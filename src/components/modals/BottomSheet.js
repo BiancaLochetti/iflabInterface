@@ -71,14 +71,17 @@ const BottomSheet = ({ modalizeRef, labInfo = {}, navigation }) => {
 					}
 				/>
 
-				<Button
-					text="Gerenciar acessos do laboratório"
-					type="White"
-					icon={require("../../assets/icons/UI/access-management.png")}
-					onPress={() => handleNavigate("AcessLab", "AcessMain")}
-				/>
-
-				<Button
+			<Button
+				text="Gerenciar acessos do laboratório"
+				type="White"
+				icon={require("../../assets/icons/UI/access-management.png")}
+				onPress={() =>
+					navigation.navigate("AcessLab", {
+						labName: labInfo.labName,
+						labId: labInfo.labId,
+					})
+				}
+			/>				<Button
 					text="Gerar relatório do laboratório"
 					type="White"
 					icon={require("../../assets/icons/UI/access-relatory.png")}

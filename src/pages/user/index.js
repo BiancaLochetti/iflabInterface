@@ -29,6 +29,8 @@ import {
 	edit_user_image,
 	logout_user,
 } from "../../api/userRequests";
+import { storage_saver } from "../../api/utils";
+import { useNavigation } from "@react-navigation/native";
 
 //--------------------------------------------------------
 
@@ -39,8 +41,9 @@ function isValidIFSPEmail(email) {
 }
 
 // Página Principal
-export function User({ navigation }) {
+export function User({ triggerRefresh }) {
 	const [user, setUser] = useState(null);
+	const navigation = useNavigation();
 
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
@@ -90,6 +93,23 @@ export function User({ navigation }) {
 			setLoading(true);
 			const result = await logout_user();
 			console.log("Resposta do servidor:", result);
+
+			// Limpa credenciais salvas localmente para forçar tela de login
+			try {
+				await storage_saver("email", "");
+				await storage_saver("password", "");
+				await storage_saver("token", "");
+			} catch (e) {
+				console.warn("Erro ao limpar storage:", e);
+			}
+
+			// Dispara refresh global para que o componente Routes reavalie o usuário
+			if (typeof triggerRefresh === "function") {
+				triggerRefresh();
+			} else {
+				// fallback: tenta navegar pra tela de Login diretamente
+				navigation.reset({ index: 0, routes: [{ name: "Login" }] });
+			}
 		} catch (error) {
 			console.error("Erro no login:", error);
 			Alert.alert("Erro", "Não foi possível conectar ao servidor.");
@@ -110,8 +130,7 @@ export function User({ navigation }) {
 
 			<View style={styles.header}>
 				<TouchableOpacity
-					style={{ position: "absolute", left: 0 }}
-					onPress={() => navigation.goBack()}
+					onPress={() => navigation.navigate("Home")}
 				>
 					<Image
 						source={require("../../assets/icons/UI/chevrom.png")}
@@ -125,6 +144,7 @@ export function User({ navigation }) {
 					/>
 				</TouchableOpacity>
 				<Text style={{ textAlign: "center", fontSize: 16 }}>Editar Perfil</Text>
+				<Button text="Logout" type="Red" onPress={logout} />
 			</View>
 
 			<View style={styles.user}>
@@ -191,7 +211,7 @@ export function User({ navigation }) {
 				<Button
 					text="Cancelar"
 					type="White"
-					onPress={() => navigation.goBack()}
+					onPress={() => navigation.navigate("Home")}
 				/>
 				<Button
 					text="Salvar Edições"
@@ -199,7 +219,6 @@ export function User({ navigation }) {
 					onPress={editUser}
 					disabled={!(name && password && isValidIFSPEmail(email))}
 				/>
-				<Button text="Logout" type="Red" onPress={logout} />
 			</View>
 		</SafeAreaView>
 	);

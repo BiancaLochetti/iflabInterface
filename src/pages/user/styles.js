@@ -12,7 +12,8 @@ const styles = EStyleSheet.create({
 
     header:{
         alignItems: "center",
-        justifyContent: "center",
+        justifyContent: "space-between",
+        flexDirection: "row",
         height: "10%",
     },
 

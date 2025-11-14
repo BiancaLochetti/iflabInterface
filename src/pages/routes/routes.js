@@ -156,7 +156,9 @@ export function Routes({ triggerRefresh }) {
 				component={Calendar}
 				options={calendar_options}
 			/>
-			<Tab.Screen name="User" component={User} options={user_options} />
+			<Tab.Screen name="User" options={user_options}>
+				{() => <User triggerRefresh={triggerRefresh} />}
+			</Tab.Screen>
 		</Tab.Navigator>
 	) : (
 		<Tab.Navigator screenOptions={un_logged_screeen_options}>

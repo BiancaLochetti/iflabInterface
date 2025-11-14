@@ -106,7 +106,8 @@ export function register_user_screen() {
 
       if (result?.status) {
         Alert.alert("Sucesso", result.msg || "Usuário registrado!");
-        navigation.navigate("Home");
+        // Ao concluir registro, volta para a tela de Login
+        navigation.navigate("Login");
       } else {
         Alert.alert("Erro", result?.msg || "Não foi possível registrar.");
       }
