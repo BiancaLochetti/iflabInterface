@@ -12,6 +12,7 @@ export function Sections({
   elementosReservados,
   labName,
   formDone,
+  statusText,
   canFinish = false,
   canDelete = false,
   onFinished,
@@ -26,6 +27,7 @@ export function Sections({
   const handleFinish = async () => {
     try {
       const result = await FinishSession(session_id);
+      console.log(result);
       if (!result || !result.status) {
         alert("Erro ao finalizar sessão: " + (result?.msg || "erro desconhecido"));
         return;

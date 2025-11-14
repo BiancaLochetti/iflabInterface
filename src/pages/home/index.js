@@ -88,14 +88,14 @@ export function Home() {
 			</View>
 
 			{/* Botão para adicionar laboratório */}
-			<View style={styles.addLabView}>
+			{/*<View style={styles.addLabView}>
 				<Button
 					text=" + Adicionar Laboratório"
 					onPress={() => alert("AddLab!")}
 					disabled={false}
 					type="White"
 				/>
-			</View>
+			</View>}*/}
 
 			{/* Lista de cards de laboratório */}
 			{!!lab ? (

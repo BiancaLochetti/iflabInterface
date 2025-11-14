@@ -30,7 +30,7 @@ import { Teste } from "../routes/teste";
 import { Home } from "../home";
 import { HomeStack } from "../home/homeStack";
 import { User } from "../user";
-import { Calendar } from "../calendar";
+import { Calendar } from "../calendar/CalendarPage";
 import ElementStack from "../elementos";
 import EquipmentsStack from "../equipamentos";
 import { AcessLab } from "../acessLab";

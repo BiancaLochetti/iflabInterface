@@ -33,7 +33,6 @@ async function CreateNewSession(
 ) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
-
 	const url = `https://api-flab-v2-0.vercel.app/session/create`;
 
 	const options = {
@@ -158,7 +157,6 @@ async function FinishSession(session_id) {
 async function ListUserSessions() {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
-	console.log(token);
 
 	const url = `https://api-flab-v2-0.vercel.app/session/mysessions`;
 
@@ -179,7 +177,6 @@ async function ListUserSessions() {
 		return { status: false, msg: "Erro ao conectar com o servidor:" + err };
 	}
 }
-
 // O=========================================================================================================O //
 
 // Função para ler formulários de utilização:
