@@ -53,7 +53,7 @@ export const styles = EStyleSheet.create({
 		paddingHorizontal: '1rem',
 		paddingVertical: '0.9rem',
 		fontSize: 15,
-		color: C.primary_text_gray,
+		color: "#0F0F0F",
 		marginBottom: '0.8rem',
 	},
 
@@ -93,4 +93,14 @@ export const styles = EStyleSheet.create({
 		fontSize: 15,
 		fontWeight: 'bold',
 	},
+
+
+	dropDownContainerStyle:{
+		backgroundColor: colors.white_light,  
+		borderRadius: 12,
+		borderWidth: 1,
+		borderColor: colors.input_border,
+		paddingHorizontal: '1rem',
+		paddingVertical: '0.9rem',
+	},	
 });

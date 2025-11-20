@@ -28,7 +28,7 @@ export function AcessLab() {
 
   const [users, setUsers] = useState([]);
   const [loadingUsers, setLoadingUsers] = useState(false);
-
+    
   useEffect(() => {
     async function fetchUsers() {
       if (!labId) {

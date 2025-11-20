@@ -11,7 +11,7 @@ export default {
     input_text_gray: "#00000050", /* Texto de inputs não selecionados em cinza */
     contrastant_gray: "#787878", /* Cinza que contrasta com a cor white_dark. Colocar em textos de botões desabilitados (que não podem ser clicados ainda) */
     emphasis_gray: "#00000037", /* Cinza para bordas de componentes e linhas */
-
+    
 
     /* Cores primárias */
     primary_green_dark: "#224410", /* Verde escuro, para botões primários */
