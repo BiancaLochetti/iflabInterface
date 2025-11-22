@@ -30,6 +30,39 @@ import {
     DeleteElement,
 } from "../../../api/elementsRequests";
 
+function formatDateToDisplay(dateString) {
+    if (!dateString) {
+        return { display: "Não informado", iso: null };
+    }
+
+    console.log("Recebido para formatar:", dateString);
+
+    // caso venha no formato YYYY-MM-DD
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
+        const [year, month, day] = dateString.split("-");
+        const display = `${day}/${month}/${year}`;
+        const iso = `${year}-${month}-${day}`; 
+
+        return { display, iso };
+    }
+
+    // caso venha outro formato
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        console.log("Data inválida recebida!", dateString);
+        return { display: dateString, iso: null };
+    }
+
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const year = date.getUTCFullYear();
+
+    const display = `${day}/${month}/${year}`;
+    const iso = `${year}-${month}-${day}`; 
+
+    return { display, iso };
+}
+
 export default function ElementInfoScreen() {
     const navigation = useNavigation();
     const route = useRoute();
@@ -37,7 +70,7 @@ export default function ElementInfoScreen() {
 
     const [elementInfo, setElementInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);   // <- prevenção do loading infinito
+    const [error, setError] = useState(null);
 
     const [isEditing, setIsEditing] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -47,6 +80,10 @@ export default function ElementInfoScreen() {
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const isSaveDisabled = editValue === originalValue || editValue.trim() === "";
+
+    console.log("\n====================");
+    console.log("Tela carregada. Element ID:", elementId);
+    console.log("====================\n");
 
     const apiEditFunctions = {
         element_name: EditElementName,
@@ -59,83 +96,169 @@ export default function ElementInfoScreen() {
         element_molar_mass: EditElementMolarMass,
     };
 
-    // ---- FUNÇÃO CORRIGIDA ----
+    const numericFields = {
+        element_quantity: "float",
+        element_molar_mass: "float",
+        element_admin_level: "int",
+    };
+
+    const normalizeResponse = (res) => {
+        if (!res) return null;
+        return res?.data ?? res;
+    };
+
     const fetchElementInfo = async () => {
+        console.log("\n=== BUSCANDO ELEMENTO ===");
         setIsLoading(true);
         setError(null);
 
         try {
-            const response = await GetElementInfo(elementId);
-            console.log("API RESPONSE:", response);
+            const raw = await GetElementInfo(elementId);
+            console.log("Resposta crua GetElementInfo:", raw);
 
-            if (response.status) {
-                setElementInfo(response.data);
+            const response = normalizeResponse(raw);
+            console.log("Resposta normalizada:", response);
+
+            if (response?.status) {
+                console.log("Elemento recebido:", response.element);
+                setElementInfo(response.element);
             } else {
-                setError(response.msg || "Não foi possível carregar o elemento.");
+                setError(response?.msg || "Erro ao carregar.");
             }
         } catch (err) {
-            setError("Falha ao comunicar com a API.");
+            console.log("ERRO AO CHAMAR GetElementInfo:", err);
+            setError("Falha ao comunicar com API.");
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
-    // ---- AGORA CHAMA SÓ UMA VEZ ----
     useEffect(() => {
         fetchElementInfo();
-    }, []);
+    }, [elementId]);
+
+    const openEditModal = (field, currentValue) => {
+        console.log("\n=== ABRINDO MODAL DE EDIÇÃO ===");
+        console.log("Campo:", field);
+        console.log("Valor atual:", currentValue);
+
+        setEditField(field);
+        setOriginalValue(currentValue ?? "");
+        setEditValue(currentValue ?? "");
+        setModalVisible(true);
+        setIsEditing(true);
+    };
 
     const handleSaveEdit = async () => {
         if (isSaveDisabled) return;
 
+        console.log("\n=== SALVANDO EDIÇÃO ===");
+        console.log("Campo editado:", editField);
+        console.log("Valor digitado:", editValue);
+
         setModalVisible(false);
         setIsLoading(true);
 
-        try {
-            const apiFunction = apiEditFunctions[editField];
-            const response = await apiFunction(elementId, editValue);
-
-            if (response.status) {
-                setElementInfo((prev) => ({ ...prev, [editField]: editValue }));
-                Alert.alert("Sucesso", "Campo atualizado com sucesso.");
-            } else {
-                Alert.alert("Erro", response.msg || "Falha ao atualizar o campo.");
-            }
-        } catch {
-            Alert.alert("Erro", "Falha ao comunicar-se com a API.");
+        const apiFunction = apiEditFunctions[editField];
+        if (!apiFunction) {
+            Alert.alert("Erro", "Função de edição não encontrada.");
+            setIsLoading(false);
+            return;
         }
 
-        setIsLoading(false);
-    };
+        let parsedValue = editValue;
 
-    const openEditModal = (field, currentValue) => {
-        setEditField(field);
-        setOriginalValue(currentValue || "");
-        setEditValue(currentValue || "");
-        setModalVisible(true);
+        // Conversão específica para validade
+        if (editField === "element_validity") {
+            console.log("Convertendo validade para YYYY-MM-DD...");
+
+            if (/^\d{2}\/\d{2}\/\d{4}$/.test(editValue)) {
+                const [day, month, year] = editValue.split("/");
+                parsedValue = `${year}-${month}-${day}`;
+            } else if (/^\d{4}-\d{2}-\d{2}$/.test(editValue)) {
+                parsedValue = editValue;
+            } else {
+                Alert.alert("Erro", "A validade deve estar no formato DD/MM/AAAA ou YYYY-MM-DD.");
+                setIsLoading(false);
+                return;
+            }
+
+            console.log("Validade convertida:", parsedValue);
+        }
+
+        if (numericFields[editField]) {
+            console.log("Convertendo para número...");
+
+            if (numericFields[editField] === "int") {
+                parsedValue = parseInt(editValue);
+            } else if (numericFields[editField] === "float") {
+                parsedValue = parseFloat(editValue);
+            }
+
+            console.log("Valor após parse:", parsedValue);
+
+            if (isNaN(parsedValue)) {
+                Alert.alert("Erro", "Digite um número válido.");
+                setIsLoading(false);
+                return;
+            }
+        }
+
+        console.log("Payload enviado:", parsedValue);
+
+        try {
+            const raw = await apiFunction(elementId, parsedValue);
+            console.log("Resposta crua da edição:", raw);
+
+            const response = normalizeResponse(raw);
+            console.log("Resposta normalizada da edição:", response);
+
+            if (response?.status) {
+                setElementInfo((prev) => ({
+                    ...prev,
+                    [editField]: parsedValue,
+                }));
+
+                Alert.alert("Sucesso", "Campo atualizado!");
+            } else {
+                Alert.alert("Erro", response?.msg || "Falha ao atualizar.");
+            }
+        } catch (err) {
+            console.log("ERRO AO EDITAR:", err);
+            Alert.alert("Erro", "Falha ao comunicar com API.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleDeleteElement = async () => {
+        console.log("\n=== DELETANDO ELEMENTO ===");
+
         setDeleteModalVisible(false);
         setIsLoading(true);
 
         try {
-            const response = await DeleteElement(elementId);
-            if (response.status) {
-                Alert.alert("Sucesso", "Elemento excluído com sucesso.", [
+            const raw = await DeleteElement(elementId);
+            console.log("Resposta crua delete:", raw);
+
+            const response = normalizeResponse(raw);
+            console.log("Resposta normalizada delete:", response);
+
+            if (response?.status) {
+                Alert.alert("Sucesso", "Elemento excluído.", [
                     { text: "OK", onPress: () => navigation.goBack() },
                 ]);
             } else {
-                Alert.alert("Erro", response.msg || "Não foi possível excluir o elemento.");
+                Alert.alert("Erro", response?.msg || "Falha ao excluir.");
             }
-        } catch {
-            Alert.alert("Erro", "Falha ao comunicar-se com a API.");
+        } catch (err) {
+            console.log("ERRO AO DELETAR:", err);
+            Alert.alert("Erro", "Falha ao comunicar com API.");
+        } finally {
+            setIsLoading(false);
         }
-
-        setIsLoading(false);
     };
 
-    // ---- TELA DE LOADING ----
     if (isLoading) {
         return (
             <View style={styles.loadingContainer}>
@@ -147,13 +270,10 @@ export default function ElementInfoScreen() {
         );
     }
 
-    // ---- AVISO DE ERRO (sem loop infinito) ----
     if (error) {
         return (
             <View style={styles.loadingContainer}>
-                <Text style={{ color: "red", marginBottom: 15 }}>
-                    {error}
-                </Text>
+                <Text style={{ color: "red", marginBottom: 15 }}>{error}</Text>
                 <TouchableOpacity
                     onPress={fetchElementInfo}
                     style={{
@@ -168,7 +288,6 @@ export default function ElementInfoScreen() {
         );
     }
 
-    /** COMPONENTE EDITÁVEL **/
     const EditableField = ({ field, label, value, isTitle = false }) => {
         const valueStyle = isTitle
             ? { fontSize: 24, fontWeight: "bold", color: colors.primary_text_gray }
@@ -178,15 +297,14 @@ export default function ElementInfoScreen() {
             <TouchableOpacity
                 style={[styles.infoField, styles.infoFieldEditable]}
                 onPress={() => openEditModal(field, value)}
-                activeOpacity={0.7}
             >
                 {!isTitle && <Text style={styles.infoLabel}>{label}</Text>}
-                <Text style={valueStyle}>{value || "Não informado"}</Text>
+                <Text style={valueStyle}>{value ?? "Não informado"}</Text>
             </TouchableOpacity>
         ) : (
             <View style={styles.infoField}>
                 {!isTitle && <Text style={styles.infoLabel}>{label}</Text>}
-                <Text style={valueStyle}>{value || "Não informado"}</Text>
+                <Text style={valueStyle}>{value ?? "Não informado"}</Text>
             </View>
         );
     };
@@ -197,8 +315,8 @@ export default function ElementInfoScreen() {
                 <Image
                     source={{
                         uri:
-                            elementInfo.element_image ||
-                            "https://via.placeholder.com/600/CCCCCC/808080?text=Sem+Imagem",
+                            elementInfo?.element_image ||
+                            "https://placehold.co/600x400?text=Sem+Imagem",
                     }}
                     style={styles.infoImageBackground}
                 />
@@ -227,18 +345,56 @@ export default function ElementInfoScreen() {
                     </View>
                 </View>
 
-                <EditableField field="element_name" value={elementInfo.element_name} isTitle />
+                <EditableField
+                    field="element_name"
+                    value={elementInfo.element_name}
+                    isTitle
+                />
 
-                <EditableField field="element_quantity" label="Quantidade:" value={elementInfo.element_quantity} />
-                <EditableField field="element_molar_mass" label="Massa Molar:" value={elementInfo.element_molar_mass} />
-                <EditableField field="element_cas_number" label="Número CAS:" value={elementInfo.element_cas_number} />
-                <EditableField field="element_ec_number" label="Número EC:" value={elementInfo.element_ec_number} />
-                <EditableField field="element_physical_state" label="Estado Físico:" value={elementInfo.element_physical_state} />
-                <EditableField field="element_validity" label="Validade:" value={elementInfo.element_validity} />
-                <EditableField field="element_admin_level" label="Nível de Administração:" value={elementInfo.element_admin_level} />
+                <EditableField
+                    field="element_quantity"
+                    label="Quantidade:"
+                    value={elementInfo.element_quantity}
+                />
+                <EditableField
+                    field="element_molar_mass"
+                    label="Massa Molar:"
+                    value={elementInfo.element_molar_mass}
+                />
+                <EditableField
+                    field="element_cas_number"
+                    label="Número CAS:"
+                    value={elementInfo.element_cas_number}
+                />
+                <EditableField
+                    field="element_ec_number"
+                    label="Número EC:"
+                    value={elementInfo.element_ec_number}
+                />
+                <EditableField
+                    field="element_physical_state"
+                    label="Estado Físico:"
+                    value={elementInfo.element_physical_state}
+                />
+
+                {(() => {
+                    const formatted = formatDateToDisplay(elementInfo.element_validity);
+                    return (
+                        <EditableField
+                            field="element_validity"
+                            label="Validade:"
+                            value={formatted.display}
+                        />
+                    );
+                })()}
+
+                <EditableField
+                    field="element_admin_level"
+                    label="Nível de Administração:"
+                    value={elementInfo.element_admin_level}
+                />
             </ScrollView>
 
-            {/* MODAL EDIÇÃO */}
             <Modal animationType="slide" transparent={true} visible={modalVisible}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
@@ -246,7 +402,10 @@ export default function ElementInfoScreen() {
                         <TextInput
                             style={styles.modalInput}
                             value={editValue}
-                            onChangeText={setEditValue}
+                            onChangeText={(txt) => {
+                                console.log("Digitado agora:", txt);
+                                setEditValue(txt);
+                            }}
                             placeholder={originalValue}
                         />
                         <View style={styles.modalButtonContainer}>
@@ -271,7 +430,6 @@ export default function ElementInfoScreen() {
                 </View>
             </Modal>
 
-            {/* MODAL EXCLUSÃO */}
             <Modal animationType="fade" transparent={true} visible={deleteModalVisible}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>

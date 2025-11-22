@@ -347,33 +347,37 @@ async function EditElementPhysicalState(element_id, element_physical_state) {
 // O=========================================================================================================O //
 
 // Função para editar a validade de um elemento:
-async function EditElementValidity(element_id, element_admin_level) {
-	const IP = await storage_getter("api_ip");
-	const token = await storage_getter("token");
+async function EditElementValidity(element_id, element_validity) {
+    const IP = await storage_getter("api_ip");
+    const token = await storage_getter("token");
 
-	const url = `https://api-flab-v2-0.vercel.app/elements/edit/validity`;
+    const url = `https://api-flab-v2-0.vercel.app/elements/edit/validity`;
 
-	const options = {
-		method: "PUT",
-		headers: {
-			"Content-Type": "application/json",
-			"x-access-token": token,
-		},
-		body: JSON.stringify({
-			element_id,
-			element_admin_level,
-		}),
-	};
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "x-access-token": token,
+        },
+        body: JSON.stringify({
+            element_id,
+            element_validity, 
+        }),
+		
+    };
 
-	try {
-		const response = await fetch(url, options);
-		const data = response.json();
+    try {
+        const response = await fetch(url, options);
+        const data = await response.json(); 
+        return data;
 
-		return data;
-	} catch (err) {
-		return { status: false, msg: "Erro ao conectar com o servidor:" + err };
-	}
+		
+    } catch (err) {
+        return { status: false, msg: "Erro ao conectar com o servidor: " + err };
+    }
+	
 }
+
 
 // O=========================================================================================================O //
 

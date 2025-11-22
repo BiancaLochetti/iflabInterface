@@ -147,38 +147,7 @@ export default function NewElementScreen() {
           placeholderTextColor={colors.input_text_gray}
         />
 
-        <TextInput
-          style={styles.newElementInput}
-          placeholder="* Massa molar"
-          value={molarMass}
-          onChangeText={setMolarMass}
-          placeholderTextColor={colors.input_text_gray}
-        />
-
-        <TextInput
-          style={styles.newElementInput}
-          placeholder="* Quantidade e Unidade (ex: 500ml)"
-          value={quantity}
-          onChangeText={setQuantity}
-          placeholderTextColor={colors.input_text_gray}
-        />
-
-        <TextInput
-          style={styles.newElementInput}
-          placeholder="* Número CAS"
-          value={cas}
-          onChangeText={setCas}
-          placeholderTextColor={colors.input_text_gray}
-        />
-
-        <TextInput
-          style={styles.newElementInput}
-          placeholder="* Número CE"
-          value={ec}
-          onChangeText={setEc}
-          placeholderTextColor={colors.input_text_gray}
-        />
-
+        
          {/* DROPDOWN */}
         <View style={{ zIndex: 1001, width: "100%" }}>
           <DropDownPicker
@@ -236,6 +205,38 @@ export default function NewElementScreen() {
           />
         </View>
 
+        <TextInput
+          style={styles.newElementInput}
+          placeholder="* Massa molar"
+          value={molarMass}
+          onChangeText={setMolarMass}
+          placeholderTextColor={colors.input_text_gray}
+        />
+
+        <TextInput
+          style={styles.newElementInput}
+          placeholder="* Quantidade e Unidade (ex: 500ml)"
+          value={quantity}
+          onChangeText={setQuantity}
+          placeholderTextColor={colors.input_text_gray}
+        />
+
+        <TextInput
+          style={styles.newElementInput}
+          placeholder="* Número CAS"
+          value={cas}
+          onChangeText={setCas}
+          placeholderTextColor={colors.input_text_gray}
+        />
+
+        <TextInput
+          style={styles.newElementInput}
+          placeholder="* Número CE"
+          value={ec}
+          onChangeText={setEc}
+          placeholderTextColor={colors.input_text_gray}
+        />
+
         {/* VALIDADE COM MÁSCARA YYYY-MM-DD */}
         <TextInput
           style={styles.newElementInput}
@@ -258,35 +259,33 @@ export default function NewElementScreen() {
 
       
       {/* DROPDOWN */}
-        <View style={{ zIndex: 10, width: "100%" }}>
+        <View style={{ zIndex: 1001, width: "100%" }}>
           <DropDownPicker
             open={openAdmin}
             value={admin}
-            items={adminItems}
+            items={[
+              { label: "Nível 1", value: "1" },
+              { label: "Nível 2", value: "2" },
+              { label: "Nível 3", value: "3" },
+            ]}
             setOpen={setOpenAdmin}
             setValue={setAdmin}
             setItems={setAdminItems}
             placeholder="* Nível de Administração"
 
-            containerStyle={{
-              backgroundColor: colors.white_medium, 
-              borderWidth: 0,
-              borderRadius: 12,
-              marginBottom: "0.8rem",
+            
+            style={{
+              ...styles.newElementInput,
+              borderWidth: 0,      
             }}
 
-            style={{
-              backgroundColor: colors.white_medium, 
-              borderWidth: 0,
+            
+            dropDownContainerStyle={{
+              backgroundColor: colors.white_full,
+              borderWidth: 0,      
               borderRadius: 12,
               paddingHorizontal: "1rem",
               paddingVertical: "0.9rem",
-            }}
-
-            dropDownContainerStyle={{
-              backgroundColor: colors.white_full, 
-              borderWidth: 0,
-              borderRadius: 12,
             }}
 
             placeholderStyle={{
@@ -297,15 +296,6 @@ export default function NewElementScreen() {
             listItemLabelStyle={{
               fontSize: 15,
               color: colors.primary_text_gray,
-            }}
-
-            selectedItemLabelStyle={{
-              fontSize: 15,
-              color: colors.primary_text_gray,
-            }}
-
-            selectedItemContainerStyle={{
-              backgroundColor: colors.white_full, 
             }}
           />
         </View>

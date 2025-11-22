@@ -19,7 +19,7 @@ export const styles = EStyleSheet.create({
 		backgroundColor: C.white_full,
 	},
 
-	// Header superior
+	// Header superior fixo
 	infoHeader: {
 		flexDirection: "row",
 		justifyContent: "space-between",
@@ -53,18 +53,26 @@ export const styles = EStyleSheet.create({
 
 	// Scroll da tela
 	infoScrollContainer: {
-		paddingTop: 200,
+		paddingTop: 120,
 		paddingHorizontal: 20,
 		paddingBottom: 40,
 		backgroundColor: C.white_full,
 	},
 
+	// ÁREA DA IMAGEM / CINZA
 	infoImageBackground: {
-		width: "100%",
-		height: 250,
-		position: "absolute",
-		top: 0,
-		resizeMode: "cover",
+		width: "82%",     // 🔥 ligeiramente menor (antes 85%)
+		height: 145,      // 🔥 ligeiramente menor (antes 155)
+		backgroundColor: "#E0E0E0",
+		borderRadius: 12,
+
+		justifyContent: "center",
+		alignItems: "center",
+		alignSelf: "center",
+
+		marginBottom: 20,
+		marginTop: -32,   // 🔥 pouquíssimo mais pra cima
+		overflow: "hidden",
 	},
 
 	// Campos editáveis
@@ -97,7 +105,7 @@ export const styles = EStyleSheet.create({
 		color: C.primary_text_gray,
 	},
 
-	// MODAL
+	// Modal
 	centeredView: {
 		flex: 1,
 		justifyContent: "center",
