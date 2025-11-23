@@ -35,8 +35,8 @@ const ElementListItem = ({ element, onPress }) => {
 				<Text style={styles.listItemDetail}>
 					Número EC: {element.ecNumber}
 				</Text>
-				
 			</View>
+
 			<View style={styles.listItemRightContent}>
 				<Text style={styles.listItemQuantity}>{element.quantity}</Text>
 				<Text style={styles.listItemValidity}>val. {formattedDate}</Text>
@@ -55,7 +55,6 @@ export default function InventoryScreen() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 
-	
 	useEffect(() => {
 		async function fetchData() {
 			const data = await ListLabElements(labId);
@@ -76,6 +75,16 @@ export default function InventoryScreen() {
 	const handleAddElementPress = () => {
 		navigation.navigate("addElement", { labId, labName });
 	};
+
+	// ✅ FUNÇÃO DE PESQUISA (ÚNICA COISA NOVA ADICIONADA)
+	const filteredElements = elements.filter((element) => {
+		const term = searchTerm.toLowerCase();
+		return (
+			element.name?.toLowerCase().includes(term) ||
+			element.casNumber?.toLowerCase().includes(term) ||
+			element.ecNumber?.toLowerCase().includes(term)
+		);
+	});
 
 	if (isLoading && elements.length === 0) {
 		return (
@@ -106,6 +115,7 @@ export default function InventoryScreen() {
 						resizeMode="contain"
 					/>
 				</TouchableOpacity>
+
 				<Text
 					style={{
 						textAlign: "center",
@@ -124,6 +134,7 @@ export default function InventoryScreen() {
 						size={24}
 						color={colors.primary_text_gray}
 					/>
+
 					<TextInput
 						style={styles.searchInput}
 						placeholder="Pesquisar um elemento"
@@ -143,8 +154,8 @@ export default function InventoryScreen() {
 			</View>
 
 			<ScrollView contentContainerStyle={styles.listContainer}>
-				{elements.length > 0 ? (
-					elements.map((element) => (
+				{filteredElements.length > 0 ? (
+					filteredElements.map((element) => (
 						<ElementListItem
 							key={element.chemicalId}
 							element={element}
@@ -153,7 +164,7 @@ export default function InventoryScreen() {
 					))
 				) : (
 					<Text style={styles.noElementsText}>
-						Nenhum elemento encontrado neste laboratório.
+						Nenhum elemento encontrado.
 					</Text>
 				)}
 			</ScrollView>
