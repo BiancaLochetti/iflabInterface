@@ -39,8 +39,8 @@ export const styles = EStyleSheet.create({
 	},
 
 	imagePlaceholder: {
-		width: 80,
-		height: 80,
+		width: "82%",
+		height: 145,
 		borderRadius: 12,
 		backgroundColor: C.white_medium,
 		justifyContent: 'center',

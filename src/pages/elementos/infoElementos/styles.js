@@ -61,8 +61,8 @@ export const styles = EStyleSheet.create({
 
 	// ÁREA DA IMAGEM / CINZA
 	infoImageBackground: {
-		width: "82%",     // 🔥 ligeiramente menor (antes 85%)
-		height: 145,      // 🔥 ligeiramente menor (antes 155)
+		width: "82%",     
+		height: 145,      
 		backgroundColor: "#E0E0E0",
 		borderRadius: 12,
 
@@ -71,7 +71,7 @@ export const styles = EStyleSheet.create({
 		alignSelf: "center",
 
 		marginBottom: 20,
-		marginTop: -32,   // 🔥 pouquíssimo mais pra cima
+		marginTop: -32,   
 		overflow: "hidden",
 	},
 

@@ -13,6 +13,7 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 import colors from "../../../colors";
 import { styles } from "./styles";
@@ -28,6 +29,7 @@ import {
     EditElementAdministration,
     EditElementMolarMass,
     DeleteElement,
+    EditElementImage,
 } from "../../../api/elementsRequests";
 
 function formatDateToDisplay(dateString) {
@@ -35,38 +37,29 @@ function formatDateToDisplay(dateString) {
         return { display: "Não informado", iso: null };
     }
 
-    console.log("Recebido para formatar:", dateString);
+    console.log("🔍 Formatando data recebida:", dateString);
 
-    // caso venha no formato YYYY-MM-DD
     if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
         const [year, month, day] = dateString.split("-");
-        const display = `${day}/${month}/${year}`;
-        const iso = `${year}-${month}-${day}`; 
-
-        return { display, iso };
+        return { display: `${day}/${month}/${year}`, iso: dateString };
     }
 
-    // caso venha outro formato
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) {
-        console.log("Data inválida recebida!", dateString);
-        return { display: dateString, iso: null };
-    }
+    if (isNaN(date.getTime())) return { display: dateString, iso: null };
 
     const day = String(date.getUTCDate()).padStart(2, "0");
     const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     const year = date.getUTCFullYear();
 
-    const display = `${day}/${month}/${year}`;
-    const iso = `${year}-${month}-${day}`; 
-
-    return { display, iso };
+    return { display: `${day}/${month}/${year}`, iso: `${year}-${month}-${day}` };
 }
 
 export default function ElementInfoScreen() {
     const navigation = useNavigation();
     const route = useRoute();
-    const { elementId } = route.params;
+
+    // ⭐ ADICIONADO — ESTAVA FALTANDO
+    const { elementId, labId, labName } = route.params;
 
     const [elementInfo, setElementInfo] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -79,11 +72,9 @@ export default function ElementInfoScreen() {
     const [originalValue, setOriginalValue] = useState("");
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
-    const isSaveDisabled = editValue === originalValue || editValue.trim() === "";
+    const [isUploadingImage, setIsUploadingImage] = useState(false);
 
-    console.log("\n====================");
-    console.log("Tela carregada. Element ID:", elementId);
-    console.log("====================\n");
+    const isSaveDisabled = editValue === originalValue || editValue.trim() === "";
 
     const apiEditFunctions = {
         element_name: EditElementName,
@@ -103,30 +94,28 @@ export default function ElementInfoScreen() {
     };
 
     const normalizeResponse = (res) => {
+        console.log("📩 Normalize Response:", res);
         if (!res) return null;
         return res?.data ?? res;
     };
 
     const fetchElementInfo = async () => {
-        console.log("\n=== BUSCANDO ELEMENTO ===");
+        console.log("🔄 Buscando informações do elemento:", elementId);
         setIsLoading(true);
         setError(null);
 
         try {
             const raw = await GetElementInfo(elementId);
-            console.log("Resposta crua GetElementInfo:", raw);
-
             const response = normalizeResponse(raw);
-            console.log("Resposta normalizada:", response);
 
             if (response?.status) {
-                console.log("Elemento recebido:", response.element);
+                console.log("✨ Elemento carregado:", response.element);
                 setElementInfo(response.element);
             } else {
                 setError(response?.msg || "Erro ao carregar.");
             }
         } catch (err) {
-            console.log("ERRO AO CHAMAR GetElementInfo:", err);
+            console.log("❌ ERRO AO CHAMAR GetElementInfo:", err);
             setError("Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
@@ -138,10 +127,7 @@ export default function ElementInfoScreen() {
     }, [elementId]);
 
     const openEditModal = (field, currentValue) => {
-        console.log("\n=== ABRINDO MODAL DE EDIÇÃO ===");
-        console.log("Campo:", field);
-        console.log("Valor atual:", currentValue);
-
+        console.log("✏️ Abrindo modal de edição para:", field, "Valor atual:", currentValue);
         setEditField(field);
         setOriginalValue(currentValue ?? "");
         setEditValue(currentValue ?? "");
@@ -152,9 +138,7 @@ export default function ElementInfoScreen() {
     const handleSaveEdit = async () => {
         if (isSaveDisabled) return;
 
-        console.log("\n=== SALVANDO EDIÇÃO ===");
-        console.log("Campo editado:", editField);
-        console.log("Valor digitado:", editValue);
+        console.log("💾 Salvando edição:", editField, "Novo valor:", editValue);
 
         setModalVisible(false);
         setIsLoading(true);
@@ -168,9 +152,8 @@ export default function ElementInfoScreen() {
 
         let parsedValue = editValue;
 
-        // Conversão específica para validade
         if (editField === "element_validity") {
-            console.log("Convertendo validade para YYYY-MM-DD...");
+            console.log("📅 Validando data:", editValue);
 
             if (/^\d{2}\/\d{2}\/\d{4}$/.test(editValue)) {
                 const [day, month, year] = editValue.split("/");
@@ -182,20 +165,15 @@ export default function ElementInfoScreen() {
                 setIsLoading(false);
                 return;
             }
-
-            console.log("Validade convertida:", parsedValue);
         }
 
         if (numericFields[editField]) {
-            console.log("Convertendo para número...");
+            parsedValue =
+                numericFields[editField] === "int"
+                    ? parseInt(editValue)
+                    : parseFloat(editValue);
 
-            if (numericFields[editField] === "int") {
-                parsedValue = parseInt(editValue);
-            } else if (numericFields[editField] === "float") {
-                parsedValue = parseFloat(editValue);
-            }
-
-            console.log("Valor após parse:", parsedValue);
+            console.log("🔢 Valor numérico convertido:", parsedValue);
 
             if (isNaN(parsedValue)) {
                 Alert.alert("Erro", "Digite um número válido.");
@@ -204,58 +182,102 @@ export default function ElementInfoScreen() {
             }
         }
 
-        console.log("Payload enviado:", parsedValue);
-
         try {
             const raw = await apiFunction(elementId, parsedValue);
-            console.log("Resposta crua da edição:", raw);
-
             const response = normalizeResponse(raw);
-            console.log("Resposta normalizada da edição:", response);
 
             if (response?.status) {
+                console.log("✅ Campo atualizado com sucesso!");
                 setElementInfo((prev) => ({
                     ...prev,
                     [editField]: parsedValue,
                 }));
-
                 Alert.alert("Sucesso", "Campo atualizado!");
             } else {
                 Alert.alert("Erro", response?.msg || "Falha ao atualizar.");
             }
         } catch (err) {
-            console.log("ERRO AO EDITAR:", err);
+            console.log("❌ ERRO AO EDITAR:", err);
             Alert.alert("Erro", "Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
         }
     };
 
+    // ⭐ CORRIGIDO — AGORA labId existe
     const handleDeleteElement = async () => {
-        console.log("\n=== DELETANDO ELEMENTO ===");
+        console.log("🗑️ Deletando elemento:", elementId);
 
-        setDeleteModalVisible(false);
         setIsLoading(true);
 
         try {
-            const raw = await DeleteElement(elementId);
-            console.log("Resposta crua delete:", raw);
-
+            const raw = await DeleteElement(elementId, labId);
             const response = normalizeResponse(raw);
-            console.log("Resposta normalizada delete:", response);
 
             if (response?.status) {
-                Alert.alert("Sucesso", "Elemento excluído.", [
-                    { text: "OK", onPress: () => navigation.goBack() },
-                ]);
+                setDeleteModalVisible(false);
+
+                Alert.alert("Sucesso", "Elemento excluído.");
+
+                navigation.navigate("Elements", { labId, labName });
             } else {
                 Alert.alert("Erro", response?.msg || "Falha ao excluir.");
             }
         } catch (err) {
-            console.log("ERRO AO DELETAR:", err);
+            console.log("❌ ERRO AO DELETAR:", err);
             Alert.alert("Erro", "Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handlePickAndUploadImage = async () => {
+        console.log("🖼️ Tentando escolher imagem...");
+
+        try {
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            if (status !== "granted") {
+                Alert.alert("Permissão necessária", "Autorize o acesso à galeria.");
+                return;
+            }
+
+            const result = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                base64: true,
+                allowsEditing: true,
+                aspect: [4, 3],
+                quality: 0.8,
+            });
+
+            if (result.canceled) return;
+
+            const asset = result.assets?.[0];
+            if (!asset) return;
+
+            const fullBase64 = `data:image/jpeg;base64,${asset.base64}`;
+
+            console.log("📤 Enviando imagem para API...");
+
+            setIsUploadingImage(true);
+
+            const raw = await EditElementImage(elementId, fullBase64);
+            const response = normalizeResponse(raw);
+
+            if (response?.status) {
+                console.log("✅ Imagem atualizada com sucesso!");
+                setElementInfo((prev) => ({
+                    ...prev,
+                    element_image: fullBase64,
+                }));
+                Alert.alert("Sucesso", "Imagem atualizada!");
+            } else {
+                Alert.alert("Erro", response?.msg || "Falha ao atualizar imagem.");
+            }
+        } catch (err) {
+            console.log("❌ ERRO AO ENVIAR IMAGEM:", err);
+            Alert.alert("Erro", "Falha ao enviar imagem ao servidor.");
+        } finally {
+            setIsUploadingImage(false);
         }
     };
 
@@ -290,7 +312,11 @@ export default function ElementInfoScreen() {
 
     const EditableField = ({ field, label, value, isTitle = false }) => {
         const valueStyle = isTitle
-            ? { fontSize: 24, fontWeight: "bold", color: colors.primary_text_gray }
+            ? {
+                  fontSize: 24,
+                  fontWeight: "bold",
+                  color: colors.primary_text_gray,
+              }
             : styles.infoValue;
 
         return isEditing ? (
@@ -312,18 +338,55 @@ export default function ElementInfoScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView contentContainerStyle={styles.infoScrollContainer}>
-                <Image
-                    source={{
-                        uri:
-                            elementInfo?.element_image ||
-                            "https://placehold.co/600x400?text=Sem+Imagem",
-                    }}
-                    style={styles.infoImageBackground}
-                />
+                {isEditing ? (
+                    <TouchableOpacity
+                        onPress={handlePickAndUploadImage}
+                        disabled={isUploadingImage}
+                    >
+                        <Image
+                            source={{
+                                uri:
+                                    elementInfo?.element_image ||
+                                    "https://placehold.co/600x400?text=Sem+Imagem",
+                            }}
+                            style={styles.infoImageBackground}
+                        />
+
+                        {isUploadingImage && (
+                            <View style={styles.imageUploadingOverlay}>
+                                <ActivityIndicator
+                                    size="large"
+                                    color={colors.primary_green_dark}
+                                />
+                                <Text
+                                    style={{
+                                        color: colors.primary_text_gray,
+                                        marginTop: 8,
+                                    }}
+                                >
+                                    Enviando imagem...
+                                </Text>
+                            </View>
+                        )}
+                    </TouchableOpacity>
+                ) : (
+                    <Image
+                        source={{
+                            uri:
+                                elementInfo?.element_image ||
+                                "https://placehold.co/600x400?text=Sem+Imagem",
+                        }}
+                        style={styles.infoImageBackground}
+                    />
+                )}
 
                 <View style={styles.infoHeader}>
                     <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <MaterialIcons name="arrow-back" size={24} color={colors.primary_text_gray} />
+                        <MaterialIcons
+                            name="arrow-back"
+                            size={24}
+                            color={colors.primary_text_gray}
+                        />
                     </TouchableOpacity>
 
                     <View style={{ flexDirection: "row", marginLeft: "auto" }}>
@@ -332,14 +395,30 @@ export default function ElementInfoScreen() {
                             style={styles.deleteButton}
                         >
                             <Text style={styles.deleteButtonText}>Excluir</Text>
-                            <MaterialIcons name="delete" size={24} color={colors.alert_red_btns} />
+                            <MaterialIcons
+                                name="delete"
+                                size={24}
+                                color={colors.alert_red_btns}
+                            />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => setIsEditing((prev) => !prev)}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                console.log(
+                                    "✏️ Alternando modo edição. Agora:",
+                                    !isEditing
+                                );
+                                setIsEditing((prev) => !prev);
+                            }}
+                        >
                             <MaterialIcons
                                 name={isEditing ? "check" : "edit"}
                                 size={24}
-                                color={isEditing ? colors.primary_green_dark : colors.primary_text_gray}
+                                color={
+                                    isEditing
+                                        ? colors.primary_green_dark
+                                        : colors.primary_text_gray
+                                }
                             />
                         </TouchableOpacity>
                     </View>
@@ -356,21 +435,25 @@ export default function ElementInfoScreen() {
                     label="Quantidade:"
                     value={elementInfo.element_quantity}
                 />
+
                 <EditableField
                     field="element_molar_mass"
                     label="Massa Molar:"
                     value={elementInfo.element_molar_mass}
                 />
+
                 <EditableField
                     field="element_cas_number"
                     label="Número CAS:"
                     value={elementInfo.element_cas_number}
                 />
+
                 <EditableField
                     field="element_ec_number"
                     label="Número EC:"
                     value={elementInfo.element_ec_number}
                 />
+
                 <EditableField
                     field="element_physical_state"
                     label="Estado Físico:"
@@ -378,7 +461,9 @@ export default function ElementInfoScreen() {
                 />
 
                 {(() => {
-                    const formatted = formatDateToDisplay(elementInfo.element_validity);
+                    const formatted = formatDateToDisplay(
+                        elementInfo.element_validity
+                    );
                     return (
                         <EditableField
                             field="element_validity"
@@ -395,6 +480,7 @@ export default function ElementInfoScreen() {
                 />
             </ScrollView>
 
+            {/* MODAL DE EDIÇÃO */}
             <Modal animationType="slide" transparent={true} visible={modalVisible}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
@@ -402,10 +488,7 @@ export default function ElementInfoScreen() {
                         <TextInput
                             style={styles.modalInput}
                             value={editValue}
-                            onChangeText={(txt) => {
-                                console.log("Digitado agora:", txt);
-                                setEditValue(txt);
-                            }}
+                            onChangeText={(txt) => setEditValue(txt)}
                             placeholder={originalValue}
                         />
                         <View style={styles.modalButtonContainer}>
@@ -415,6 +498,7 @@ export default function ElementInfoScreen() {
                             >
                                 <Text style={styles.modalCancelText}>Cancelar</Text>
                             </TouchableOpacity>
+
                             <TouchableOpacity
                                 disabled={isSaveDisabled}
                                 onPress={handleSaveEdit}
@@ -430,10 +514,18 @@ export default function ElementInfoScreen() {
                 </View>
             </Modal>
 
-            <Modal animationType="fade" transparent={true} visible={deleteModalVisible}>
+            {/* MODAL DE EXCLUSÃO */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={deleteModalVisible}
+            >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalTitle}>Deseja excluir este elemento?</Text>
+                        <Text style={styles.modalTitle}>
+                            Deseja excluir este elemento?
+                        </Text>
+
                         <View style={styles.modalButtonContainer}>
                             <TouchableOpacity
                                 onPress={() => setDeleteModalVisible(false)}
@@ -441,9 +533,13 @@ export default function ElementInfoScreen() {
                             >
                                 <Text style={styles.modalCancelText}>Cancelar</Text>
                             </TouchableOpacity>
+
                             <TouchableOpacity
                                 onPress={handleDeleteElement}
-                                style={[styles.modalSaveButton, { backgroundColor: colors.alert_red_btns }]}
+                                style={[
+                                    styles.modalSaveButton,
+                                    { backgroundColor: colors.alert_red_btns },
+                                ]}
                             >
                                 <Text style={styles.modalSaveText}>Excluir</Text>
                             </TouchableOpacity>

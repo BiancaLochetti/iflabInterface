@@ -70,7 +70,7 @@ export default function InventoryScreen() {
 	}, []);
 
 	const handleElementPress = (elementId) => {
-		navigation.navigate("infoElementos", { elementId });
+		navigation.navigate("infoElementos", { elementId, labId, labName });
 	};
 
 	const handleAddElementPress = () => {

@@ -7,10 +7,12 @@ import {
   ScrollView,
   Alert,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { MaterialIcons } from "@expo/vector-icons";
 import DropDownPicker from "react-native-dropdown-picker";
+import * as ImagePicker from "expo-image-picker";
 
 import { styles } from "./styles";
 import colors from "../../../colors";
@@ -31,11 +33,14 @@ export default function NewElementScreen() {
   const [validity, setValidity] = useState("");
   const [admin, setAdmin] = useState(null);
 
+  const [imageUri, setImageUri] = useState(null);
+  const [imageBase64, setImageBase64] = useState(null);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const [openPhysical, setOpenPhysical] = useState(false);
   const [physicalState, setPhysicalState] = useState(null);
- 
+
   const [openAdmin, setOpenAdmin] = useState(false);
   const [adminItems, setAdminItems] = useState([
     { label: "Nível 1", value: "1" },
@@ -49,9 +54,39 @@ export default function NewElementScreen() {
     quantity.trim() &&
     cas.trim() &&
     ec.trim() &&
-    physicalState.trim() &&
+    physicalState &&
     validity.trim() &&
     admin;
+
+  // Seleção da imagem + conversão para Base64
+  async function handlePickImage() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (status !== "granted") {
+      Alert.alert(
+        "Permissão necessária",
+        "Precisamos da permissão da sua galeria para selecionar uma imagem."
+      );
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      base64: true,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const selectedAsset = result.assets?.[0];
+      if (selectedAsset) {
+        setImageUri(selectedAsset.uri);
+        setImageBase64(selectedAsset.base64);
+        console.log("Base64 capturado:", selectedAsset.base64?.slice(0, 50));
+      }
+    }
+  }
 
   async function handleRegisterElement() {
     console.log("Botão pressionado");
@@ -68,10 +103,29 @@ export default function NewElementScreen() {
 
     setIsLoading(true);
 
+    const fullBase64 = imageBase64
+      ? `data:image/jpeg;base64,${imageBase64}`
+      : "";
+
+    console.log("Base64 final enviado:", fullBase64.slice(0, 80));
+
     try {
+      console.log("Enviando para API:", {
+        name,
+        element_image: fullBase64,
+        molarMass,
+        quantity,
+        cas,
+        ec,
+        admin,
+        validity,
+        physicalState,
+        labId,
+      });
+
       const response = await RegisterElement(
         name,
-        "",
+        fullBase64,
         parseFloat(molarMass),
         parseInt(quantity),
         cas,
@@ -91,12 +145,17 @@ export default function NewElementScreen() {
         setQuantity("");
         setCas("");
         setEc("");
-        setPhysicalState("");
+        setPhysicalState(null);
         setValidity("");
         setAdmin(null);
+        setImageUri(null);
+        setImageBase64(null);
         navigation.goBack();
       } else {
-        Alert.alert("Erro", response?.msg || "Não foi possível registrar o elemento.");
+        Alert.alert(
+          "Erro",
+          response?.msg || "Não foi possível registrar o elemento."
+        );
       }
     } catch (err) {
       console.log("Erro no registro:", err);
@@ -119,26 +178,46 @@ export default function NewElementScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Botão fechar */}
       <TouchableOpacity
         onPress={() => navigation.goBack()}
-        style={[styles.backButton, { position: "absolute", top: 50, left: 10, zIndex: 10 }]}
+        style={[
+          styles.backButton,
+          { position: "absolute", top: 50, left: 10, zIndex: 10 },
+        ]}
       >
         <MaterialIcons name="close" size={24} color={colors.primary_text_gray} />
       </TouchableOpacity>
 
-      {/* Conteúdo */}
       <ScrollView
         contentContainerStyle={styles.newElementScrollContainer}
         keyboardShouldPersistTaps="handled"
       >
         <View style={styles.newElementHeader}>
-          <Text style={styles.newElementTitle}>Novo elemento - {labName || "Laboratório"}</Text>
-          <View style={styles.imagePlaceholder}>
-            <MaterialIcons name="add-a-photo" size={40} color={colors.contrastant_gray} />
-          </View>
+          <Text style={styles.newElementTitle}>
+            Novo elemento - {labName || "Laboratório"}
+          </Text>
+
+          <TouchableOpacity
+            style={styles.imagePlaceholder}
+            onPress={handlePickImage}
+          >
+            {imageUri ? (
+              <Image
+                source={{ uri: imageUri }}
+                style={styles.imagePlaceholder}
+                resizeMode="cover"
+              />
+            ) : (
+              <MaterialIcons
+                name="add-a-photo"
+                size={40}
+                color={colors.contrastant_gray}
+              />
+            )}
+          </TouchableOpacity>
         </View>
 
+        {/* Campos do formulário */}
         <TextInput
           style={styles.newElementInput}
           placeholder="* Nome do elemento"
@@ -147,60 +226,44 @@ export default function NewElementScreen() {
           placeholderTextColor={colors.input_text_gray}
         />
 
-        
-         {/* DROPDOWN */}
+        {/* Dropdown estado físico */}
         <View style={{ zIndex: 1001, width: "100%" }}>
           <DropDownPicker
-           open={openPhysical}
+            open={openPhysical}
             value={physicalState}
             items={[
               { label: "Líquido", value: "Líquido" },
               { label: "Sólido", value: "Sólido" },
-              { label: "Gás", value: "Gás" },
+              { label: "Gasoso", value: "Gasoso" },
             ]}
             setOpen={setOpenPhysical}
             setValue={setPhysicalState}
-           
             placeholder="* Estado Físico"
-           
             containerStyle={{
-              backgroundColor: colors.white_medium, 
+              backgroundColor: colors.white_medium,
               borderWidth: 0,
               borderRadius: 12,
               marginBottom: "0.8rem",
             }}
-
             style={{
-              backgroundColor: colors.white_medium, 
+              backgroundColor: colors.white_medium,
               borderWidth: 0,
               borderRadius: 12,
               paddingHorizontal: "1rem",
               paddingVertical: "0.9rem",
             }}
-
             dropDownContainerStyle={{
-              backgroundColor: colors.white_full, 
+              backgroundColor: colors.white_full,
               borderWidth: 0,
               borderRadius: 12,
             }}
-
             placeholderStyle={{
               fontSize: 15,
               color: colors.input_text_gray,
             }}
-
             listItemLabelStyle={{
               fontSize: 15,
               color: colors.primary_text_gray,
-            }}
-
-            selectedItemLabelStyle={{
-              fontSize: 15,
-              color: colors.primary_text_gray,
-            }}
-
-            selectedItemContainerStyle={{
-              backgroundColor: colors.white_full, 
             }}
           />
         </View>
@@ -237,7 +300,7 @@ export default function NewElementScreen() {
           placeholderTextColor={colors.input_text_gray}
         />
 
-        {/* VALIDADE COM MÁSCARA YYYY-MM-DD */}
+        {/* Validade */}
         <TextInput
           style={styles.newElementInput}
           placeholder="* Validade (YYYY-MM-DD)"
@@ -248,7 +311,10 @@ export default function NewElementScreen() {
             if (cleaned.length > 4 && cleaned.length <= 6) {
               formatted = `${cleaned.slice(0, 4)}-${cleaned.slice(4)}`;
             } else if (cleaned.length > 6) {
-              formatted = `${cleaned.slice(0, 4)}-${cleaned.slice(4, 6)}-${cleaned.slice(6, 8)}`;
+              formatted = `${cleaned.slice(0, 4)}-${cleaned.slice(
+                4,
+                6
+              )}-${cleaned.slice(6, 8)}`;
             }
             setValidity(formatted);
           }}
@@ -257,8 +323,7 @@ export default function NewElementScreen() {
           placeholderTextColor={colors.input_text_gray}
         />
 
-      
-      {/* DROPDOWN */}
+        {/* Nível admin */}
         <View style={{ zIndex: 1001, width: "100%" }}>
           <DropDownPicker
             open={openAdmin}
@@ -272,27 +337,21 @@ export default function NewElementScreen() {
             setValue={setAdmin}
             setItems={setAdminItems}
             placeholder="* Nível de Administração"
-
-            
             style={{
               ...styles.newElementInput,
-              borderWidth: 0,      
+              borderWidth: 0,
             }}
-
-            
             dropDownContainerStyle={{
               backgroundColor: colors.white_full,
-              borderWidth: 0,      
+              borderWidth: 0,
               borderRadius: 12,
               paddingHorizontal: "1rem",
               paddingVertical: "0.9rem",
             }}
-
             placeholderStyle={{
               fontSize: 15,
               color: colors.input_text_gray,
             }}
-
             listItemLabelStyle={{
               fontSize: 15,
               color: colors.primary_text_gray,
@@ -301,16 +360,22 @@ export default function NewElementScreen() {
         </View>
       </ScrollView>
 
-      {/* Footer */}
       <View style={styles.newElementFooter}>
-        <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          style={styles.cancelButton}
+          onPress={() => navigation.goBack()}
+        >
           <Text style={styles.cancelButtonText}>Cancelar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={[
             styles.saveButton,
-            { backgroundColor: isSaveEnabled ? colors.primary_green_dark : colors.white_dark },
+            {
+              backgroundColor: isSaveEnabled
+                ? colors.primary_green_dark
+                : colors.white_dark,
+            },
           ]}
           onPress={handleRegisterElement}
           disabled={!isSaveEnabled}
@@ -318,7 +383,11 @@ export default function NewElementScreen() {
           <Text
             style={[
               styles.saveButtonText,
-              { color: isSaveEnabled ? colors.white_full : colors.contrastant_gray },
+              {
+                color: isSaveEnabled
+                  ? colors.white_full
+                  : colors.contrastant_gray,
+              },
             ]}
           >
             Salvar novo elemento
