@@ -65,7 +65,7 @@ export default function EquipmentInventoryScreen() {
     }, [labId]);
 
     const handleEquipmentPress = (equipmentId) => {
-        navigation.navigate("infoEquipamento", { equipmentId });
+        navigation.navigate("infoEquipamentos", { equipmentId, labId, labName });
     };
 
     const handleAddEquipmentPress = () => {
@@ -127,7 +127,7 @@ export default function EquipmentInventoryScreen() {
                     />
                     <TextInput
                         style={styles.searchInput}
-                        placeholder="Pesquisar um equipamento"
+                        placeholder="Pesquisar equipamento"
                         placeholderTextColor={colors.input_text_gray}
                         value={searchTerm}
                         onChangeText={setSearchTerm}

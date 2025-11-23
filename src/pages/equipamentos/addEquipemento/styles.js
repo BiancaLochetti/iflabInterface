@@ -39,8 +39,8 @@ export const styles = EStyleSheet.create({
     },
 
     imagePlaceholder: {
-        width: 80,
-        height: 80,
+        width: "82%",
+        height: 145,
         borderRadius: 12,
         backgroundColor: C.white_medium,
         justifyContent: 'center',
@@ -53,7 +53,7 @@ export const styles = EStyleSheet.create({
         paddingHorizontal: '1rem',
         paddingVertical: '0.9rem',
         fontSize: 15,
-       	color: "#0F0F0F",
+        color: "#0F0F0F",
         marginBottom: '0.8rem',
     },
 
@@ -82,16 +82,21 @@ export const styles = EStyleSheet.create({
         fontWeight: 'bold',
     },
 
+    /** BOTÃO SALVAR CORRIGIDO */
     saveButton: {
         flex: 1,
+        backgroundColor: C.primary_green_dark, // verde
         borderRadius: 12,
         paddingVertical: '0.9rem',
         alignItems: 'center',
+        justifyContent: 'center',
     },
 
     saveButtonText: {
+        color: C.white_full, // texto branco
         fontSize: 15,
         fontWeight: 'bold',
+        textAlign: 'center',
     },
 
     dropDownContainerStyle:{

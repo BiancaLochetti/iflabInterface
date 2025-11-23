@@ -1,7 +1,7 @@
 // O=========================================================================================================O //
 /*
   O============================O
-  |    Requests - Elementos    |
+  |  Requests - Equipamentos   |
   O============================O
 
   Lista de rotas:
@@ -71,7 +71,7 @@ async function RegisterEquipment(
 // O=========================================================================================================O //
 
 // Função para deletar equipamento:
-async function DeleteEquipment(equipment_id) {
+async function DeleteEquipment(equipment_id, lab_id) {
 	const IP = await storage_getter("api_ip");
 	const token = await storage_getter("token");
 
@@ -83,16 +83,19 @@ async function DeleteEquipment(equipment_id) {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
-		body: JSON.stringify({}),
+		body: JSON.stringify({
+			equipment_id: Number(equipment_id),
+			lab_id: Number(lab_id),
+		}),
 	};
 
 	try {
 		const response = await fetch(url, options);
-		const data = response.json();
-
+		const data = await response.json(); 
 		return data;
+
 	} catch (err) {
-		return { status: false, msg: "Erro ao conectar com o servidor:" + err };
+		return { status: false, msg: "Erro ao conectar com o servidor: " + err };
 	}
 }
 
@@ -165,12 +168,12 @@ async function GetEquipmentInfo(equipmentId) {
 			"Content-Type": "application/json",
 			"x-access-token": token,
 		},
-		body: JSON.stringify({}),
+		
 	};
 
 	try {
 		const response = await fetch(url, options);
-		const data = response.json();
+		const data = await response.json();
 
 		return data;
 	} catch (err) {

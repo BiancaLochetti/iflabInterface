@@ -137,7 +137,7 @@ export default function InventoryScreen() {
 
 					<TextInput
 						style={styles.searchInput}
-						placeholder="Pesquisar um elemento"
+						placeholder="Pesquisar elemento"
 						placeholderTextColor={colors.input_text_gray}
 						value={searchTerm}
 						onChangeText={setSearchTerm}

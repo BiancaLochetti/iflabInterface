@@ -5,6 +5,7 @@ import { AcessLab } from "../acessLab";
 import addElemento from "../elementos/addElemento";
 import addEquipemento from "../equipamentos/addEquipemento";
 import infoElementos from "../elementos/infoElementos";
+import infoEquipamentos from "../equipamentos/infoEquipamentos";
 import inventario from "../elementos/inventario";
 import inventarioEquipamentos  from "../equipamentos/inventarioEquipamentos";
 
@@ -21,6 +22,7 @@ export function HomeStack() {
 			<Stack.Screen name="addElement" component={addElemento} />
 			<Stack.Screen name="addEquipamento" component={addEquipemento} />
 			<Stack.Screen name="infoElementos" component={infoElementos} />
+			<Stack.Screen name="infoEquipamentos" component={infoEquipamentos} />
 
 		</Stack.Navigator>
 	);
