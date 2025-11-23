@@ -43,8 +43,6 @@ export default function NewEquipmentScreen() {
     { label: "Nível 1", value: "1" },
     { label: "Nível 2", value: "2" },
     { label: "Nível 3", value: "3" },
-    { label: "Nível 4", value: "4" },
-    { label: "Nível 5", value: "5" },
   ]);
 
   const isSaveEnabled = name.trim() && description.trim() && quantity.trim();
@@ -92,7 +90,6 @@ export default function NewEquipmentScreen() {
 
     setIsLoading(true);
 
-    // --- MESMO PADRÃO DO ELEMENTO: BASE64 COMPLETO ---
     const fullBase64 = imageBase64
       ? `data:image/jpeg;base64,${imageBase64}`
       : "";
@@ -161,7 +158,6 @@ export default function NewEquipmentScreen() {
             Novo equipamento - {labName || "Laboratório"}
           </Text>
 
-          {/* --- IMAGEM CLICÁVEL (igual elementos) --- */}
           <TouchableOpacity
             style={styles.imagePlaceholder}
             onPress={handlePickImage}

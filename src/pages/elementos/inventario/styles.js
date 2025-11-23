@@ -27,7 +27,6 @@ export const styles = EStyleSheet.create({
 		position: 'relative',
 	},
 
-	// 🔧 Campo de busca + botão lado a lado
 	searchRow: {
 		flexDirection: 'row',
 		alignItems: 'center',

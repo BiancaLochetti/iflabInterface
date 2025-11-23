@@ -37,7 +37,7 @@ function formatDateToDisplay(dateString) {
         return { display: "Não informado", iso: null };
     }
 
-    console.log("🔍 Formatando data recebida:", dateString);
+    console.log("Formatando data recebida:", dateString);
 
     if (/^\d{4}-\d{2}-\d{2}$/.test(dateString)) {
         const [year, month, day] = dateString.split("-");
@@ -58,7 +58,6 @@ export default function ElementInfoScreen() {
     const navigation = useNavigation();
     const route = useRoute();
 
-    // ⭐ ADICIONADO — ESTAVA FALTANDO
     const { elementId, labId, labName } = route.params;
 
     const [elementInfo, setElementInfo] = useState(null);
@@ -94,13 +93,13 @@ export default function ElementInfoScreen() {
     };
 
     const normalizeResponse = (res) => {
-        console.log("📩 Normalize Response:", res);
+        console.log("Normalize Response:", res);
         if (!res) return null;
         return res?.data ?? res;
     };
 
     const fetchElementInfo = async () => {
-        console.log("🔄 Buscando informações do elemento:", elementId);
+        console.log("Buscando informações do elemento:", elementId);
         setIsLoading(true);
         setError(null);
 
@@ -109,13 +108,13 @@ export default function ElementInfoScreen() {
             const response = normalizeResponse(raw);
 
             if (response?.status) {
-                console.log("✨ Elemento carregado:", response.element);
+                console.log("Elemento carregado:", response.element);
                 setElementInfo(response.element);
             } else {
                 setError(response?.msg || "Erro ao carregar.");
             }
         } catch (err) {
-            console.log("❌ ERRO AO CHAMAR GetElementInfo:", err);
+            console.log("ERRO AO CHAMAR GetElementInfo:", err);
             setError("Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
@@ -127,7 +126,7 @@ export default function ElementInfoScreen() {
     }, [elementId]);
 
     const openEditModal = (field, currentValue) => {
-        console.log("✏️ Abrindo modal de edição para:", field, "Valor atual:", currentValue);
+        console.log("Abrindo modal de edição para:", field, "Valor atual:", currentValue);
         setEditField(field);
         setOriginalValue(currentValue ?? "");
         setEditValue(currentValue ?? "");
@@ -138,7 +137,7 @@ export default function ElementInfoScreen() {
     const handleSaveEdit = async () => {
         if (isSaveDisabled) return;
 
-        console.log("💾 Salvando edição:", editField, "Novo valor:", editValue);
+        console.log("Salvando edição:", editField, "Novo valor:", editValue);
 
         setModalVisible(false);
         setIsLoading(true);
@@ -153,7 +152,7 @@ export default function ElementInfoScreen() {
         let parsedValue = editValue;
 
         if (editField === "element_validity") {
-            console.log("📅 Validando data:", editValue);
+            console.log("Validando data:", editValue);
 
             if (/^\d{2}\/\d{2}\/\d{4}$/.test(editValue)) {
                 const [day, month, year] = editValue.split("/");
@@ -173,7 +172,7 @@ export default function ElementInfoScreen() {
                     ? parseInt(editValue)
                     : parseFloat(editValue);
 
-            console.log("🔢 Valor numérico convertido:", parsedValue);
+            console.log("Valor numérico convertido:", parsedValue);
 
             if (isNaN(parsedValue)) {
                 Alert.alert("Erro", "Digite um número válido.");
@@ -187,7 +186,7 @@ export default function ElementInfoScreen() {
             const response = normalizeResponse(raw);
 
             if (response?.status) {
-                console.log("✅ Campo atualizado com sucesso!");
+                console.log("Campo atualizado com sucesso!");
                 setElementInfo((prev) => ({
                     ...prev,
                     [editField]: parsedValue,
@@ -197,16 +196,15 @@ export default function ElementInfoScreen() {
                 Alert.alert("Erro", response?.msg || "Falha ao atualizar.");
             }
         } catch (err) {
-            console.log("❌ ERRO AO EDITAR:", err);
+            console.log("ERRO AO EDITAR:", err);
             Alert.alert("Erro", "Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
         }
     };
 
-    // ⭐ CORRIGIDO — AGORA labId existe
     const handleDeleteElement = async () => {
-        console.log("🗑️ Deletando elemento:", elementId);
+        console.log("Deletando elemento:", elementId);
 
         setIsLoading(true);
 
@@ -224,7 +222,7 @@ export default function ElementInfoScreen() {
                 Alert.alert("Erro", response?.msg || "Falha ao excluir.");
             }
         } catch (err) {
-            console.log("❌ ERRO AO DELETAR:", err);
+            console.log("ERRO AO DELETAR:", err);
             Alert.alert("Erro", "Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
@@ -232,7 +230,7 @@ export default function ElementInfoScreen() {
     };
 
     const handlePickAndUploadImage = async () => {
-        console.log("🖼️ Tentando escolher imagem...");
+        console.log("Tentando escolher imagem...");
 
         try {
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -256,7 +254,7 @@ export default function ElementInfoScreen() {
 
             const fullBase64 = `data:image/jpeg;base64,${asset.base64}`;
 
-            console.log("📤 Enviando imagem para API...");
+            console.log("Enviando imagem para API...");
 
             setIsUploadingImage(true);
 
@@ -264,7 +262,7 @@ export default function ElementInfoScreen() {
             const response = normalizeResponse(raw);
 
             if (response?.status) {
-                console.log("✅ Imagem atualizada com sucesso!");
+                console.log("Imagem atualizada com sucesso!");
                 setElementInfo((prev) => ({
                     ...prev,
                     element_image: fullBase64,

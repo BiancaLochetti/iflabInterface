@@ -51,7 +51,7 @@ export const styles = EStyleSheet.create({
         fontSize: 14,
     },
 
-    // Scroll da tela
+    
     infoScrollContainer: {
         paddingTop: 120,
         paddingHorizontal: 20,
@@ -59,7 +59,7 @@ export const styles = EStyleSheet.create({
         backgroundColor: C.white_full,
     },
 
-    // ÁREA DA IMAGEM / CINZA
+    
     infoImageBackground: {
         width: "82%",     
         height: 145,      

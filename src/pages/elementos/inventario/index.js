@@ -76,7 +76,6 @@ export default function InventoryScreen() {
 		navigation.navigate("addElement", { labId, labName });
 	};
 
-	// ✅ FUNÇÃO DE PESQUISA (ÚNICA COISA NOVA ADICIONADA)
 	const filteredElements = elements.filter((element) => {
 		const term = searchTerm.toLowerCase();
 		return (

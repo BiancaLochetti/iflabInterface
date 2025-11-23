@@ -45,7 +45,7 @@ export default function EquipmentInfoScreen() {
         console.log("equipmentId:", equipmentId);
         console.log("labId:", labId);
         if (!equipmentId) {
-             console.error("⚠️ ERRO: equipmentId não está definido na rota.");
+             console.error("ERRO: equipmentId não está definido na rota.");
         }
     }, [equipmentId, labId]);
     // ------------------------------------
@@ -97,12 +97,12 @@ export default function EquipmentInfoScreen() {
             
             if (response?.status) {
                 setEquipmentInfo(response.equipment ?? response);
-                console.log("✅ Equipamento carregado com sucesso.");
+                console.log("Equipamento carregado com sucesso.");
             } else {
                 setError(response?.msg || "Erro ao carregar equipamento.");
             }
         } catch (err) {
-            console.error("❌ Erro no fetchEquipmentInfo:", err);
+            console.error("Erro no fetchEquipmentInfo:", err);
             setError("Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
@@ -139,7 +139,7 @@ export default function EquipmentInfoScreen() {
 
     const handleSaveEdit = async () => {
         if (isSaveDisabled) {
-            console.log("⚠️ Salvar desabilitado: valor não mudou ou está vazio.");
+            console.log("Salvar desabilitado: valor não mudou ou está vazio.");
             return;
         }
 
@@ -190,14 +190,14 @@ export default function EquipmentInfoScreen() {
                 }));
                 // Mensagem de sucesso da API, conforme solicitado
                 Alert.alert("Sucesso", response?.msg || `O campo ${editField} foi atualizado!`);
-                console.log("✅ Salvamento bem-sucedido.");
+                console.log("Salvamento bem-sucedido.");
             } else {
                 // Mensagem de erro da API
                 Alert.alert("Erro", response?.msg || "Falha ao atualizar.");
-                console.error("❌ Falha no salvamento:", response?.msg);
+                console.error("Falha no salvamento:", response?.msg);
             }
         } catch (err) {
-            console.error("❌ Erro ao editar equipamento (API Call):", err);
+            console.error("Erro ao editar equipamento (API Call):", err);
             Alert.alert("Erro", "Falha ao comunicar com API.");
         } finally {
             setIsLoading(false);
@@ -227,13 +227,11 @@ export default function EquipmentInfoScreen() {
 
             if (response?.status) {
 
-                // FECHA MODAL DE EXCLUSÃO
                 setDeleteModalVisible(false);
-
-                // ALERTA IGUAL AO DE ELEMENTOS
+ 
                 Alert.alert("Sucesso", "Equipamento excluído.");
 
-                console.log("✅ Exclusão bem-sucedida. Navegando...");
+                console.log("Exclusão bem-sucedida. Navegando...");
 
                 // VOLTA PARA A LISTA DE EQUIPAMENTOS (IGUAL VOCÊ QUER)
                 navigation.navigate("Equipaments", {
@@ -257,7 +255,6 @@ export default function EquipmentInfoScreen() {
         // Log de Upload
         console.log("--- Tentativa de Upload de Imagem ---");
         try {
-             // ... restante da lógica de permissão e seleção (mantida) ...
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
             if (status !== "granted") {
                 Alert.alert("Permissão necessária", "Autorize o acesso à galeria.");
@@ -340,11 +337,11 @@ export default function EquipmentInfoScreen() {
                 <TouchableOpacity
                     style={[
                         styles.infoField, 
-                        // Aplicar styles.infoFieldEditable SOMENTE se isEditing for true
+                      
                         isEditing && styles.infoFieldEditable, 
                         { flexDirection: "row", alignItems: 'center', justifyContent: 'center' } 
                     ]}
-                    disabled={!isEditing} // A borda verde indica que é clicável no modo de edição
+                    disabled={!isEditing} 
                     onPress={() => openEditModal(field, value)}
                 >
                     <View style={{ flexDirection: "row" }}>
@@ -447,7 +444,6 @@ export default function EquipmentInfoScreen() {
                     </View>
                 </View>
 
-                {/* Campos de Informação na Ordem Correta */}
                 <EditableField field="equipment_name" value={equipmentInfo.equipment_name} isTitle />
                 <EditableField
                     field="equipment_description"

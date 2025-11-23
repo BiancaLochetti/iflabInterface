@@ -82,10 +82,9 @@ export const styles = EStyleSheet.create({
         fontWeight: 'bold',
     },
 
-    /** BOTÃO SALVAR CORRIGIDO */
     saveButton: {
         flex: 1,
-        backgroundColor: C.primary_green_dark, // verde
+        backgroundColor: C.primary_green_dark, 
         borderRadius: 12,
         paddingVertical: '0.9rem',
         alignItems: 'center',
@@ -93,7 +92,7 @@ export const styles = EStyleSheet.create({
     },
 
     saveButtonText: {
-        color: C.white_full, // texto branco
+        color: C.white_full, 
         fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
