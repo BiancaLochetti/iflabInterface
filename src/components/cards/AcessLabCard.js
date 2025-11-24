@@ -51,7 +51,7 @@ const AcessLabCard = ({ name, email, acess, image }) => {
 					>
 						Email de usuário
 					</Text>
-					<Text style={{ fontSize: 12 }}> {email} </Text>
+					<Text style={{ fontSize: 16 }}> {email} </Text>
 				</View>
 
 				<View>
